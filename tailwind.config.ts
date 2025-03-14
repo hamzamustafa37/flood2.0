@@ -1,0 +1,67 @@
+import type { Config } from "tailwindcss";
+
+const config: Config = {
+  content: [
+    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+  ],
+  theme: {
+    extend: {
+      boxShadow: {
+        custom: "0px 0px 6px 0px #41414124",
+        shadowLight:
+          "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px",
+      },
+      fontFamily: {
+        nunito: ["var( --Nunito Sans)"],
+      },
+      colors: {
+        alert: "#FFDADA",
+        transparent: "transparent",
+        current: "currentColor",
+        white: "#ffffff",
+        whiteLight: "#FFFFFFCC",
+        black: "#333333",
+        darakBlack: "#1D1D1D",
+        dark: "#121212",
+        primary: "#2F3B82",
+        secondary: "#0A0A38",
+        secondaryLight: "#2F3B82",
+        danger: "#FF3030",
+        primaryLight: "#E5EFFF",
+        lightOrange: "#FAF6F3",
+        light: "#989898",
+        bgLight: "#F9F9FB",
+        success: "#55C753",
+        borderLight: "#E3E3E3",
+        borderSecondary: "#ADABAB",
+        gray: "#4C4C4C",
+        textGray: "#828282",
+        bgGray: "#F9FAFB",
+        bgSidebar: "#EEF2F7",
+        linkBorder: "#E8E8E8",
+        primaryGray: "#4C4C4C",
+        grayLight: "#FBFBFB",
+        textPrimary: "#E1891F",
+        dangerBorder: "#DA1E28",
+        hoverBg: "#FEA83F26",
+        bgInput: "#F6F7FA",
+        bgHero: "#F4F6FB",
+        textLink: "#BFBFBF",
+        lightRed: "#FD6F62",
+        blackLight: "#2A2A2A",
+        lightPrimary: "#4657BC",
+        primaryBlue: "#3874FF",
+        bgPricing: "#EEF2F6",
+        lightGray: "#4f4f4f",
+        graylight: "#CCD3E0",
+        darkBlue: "#101828",
+        grayText: "#475467",
+        textBlue: "#344054",
+      },
+    },
+  },
+  plugins: [],
+};
+export default config;
