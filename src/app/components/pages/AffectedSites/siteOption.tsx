@@ -1,29 +1,31 @@
+import { JobData } from "@/lib/features/job";
 import React from "react";
+import { useSelector } from "react-redux";
 const floors = ["Basement", "First Floor"];
 
 interface ISiteOption {
   selectedFloor: string;
   setSelectedFloor: (floor: string) => void;
 }
-
 const SiteOption = ({ selectedFloor, setSelectedFloor }: ISiteOption) => {
+  const _jobs = useSelector(JobData);
+
+  console.log(_jobs);
   return (
     <div>
-      <div className="title border-b border-[#CBD0DD]">
+      <div className="title">
         <h3 className="text-lg font-semibold">Sites</h3>
       </div>
       <div className="mt-2 space-y-2 text-gray-700">
-        {floors.map((floor) => (
+        {_jobs.site.map((site, index) => (
           <div
-            key={floor}
+            key={index}
             className={`border-b border-[#CBD0DD] py-3 cursor-pointer pl-2 font-medium transition ${
-              selectedFloor === floor
-                ? " text-blue-600"
-                : "border-transparent hover:border-gray-400"
+              selectedFloor === site && "text-blue-600"
             }`}
-            onClick={() => setSelectedFloor(floor)}
+            onClick={() => setSelectedFloor(site)}
           >
-            {floor}
+            {site}
           </div>
         ))}
       </div>

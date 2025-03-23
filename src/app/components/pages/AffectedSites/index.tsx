@@ -3,7 +3,7 @@ import AffectedRooms from "./affectedRoomUI";
 
 export const AffectedSites = () => {
   return (
-    <div>
+    <div className="affected-site-wrapper">
       <AffectedRooms />
     </div>
   );

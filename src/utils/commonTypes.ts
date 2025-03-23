@@ -385,11 +385,14 @@ export interface IBooking {
 }
 
 export interface IAffectedArea {
+  siteType: string;
   roomType: string;
   damagePart: string;
   materials: string[];
+  images: File[];
 }
 export interface IJob {
+  site: string[];
   floor: string[];
   roomType: string[];
   affectedAreas: Array<IAffectedArea>;

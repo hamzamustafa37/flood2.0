@@ -1,0 +1,20 @@
+.affected-site-wrapper {
+  height: 100%;
+  background-image: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 39px,
+      rgba(0, 0, 0, 0.1) 40px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 39px,
+      rgba(0, 0, 0, 0.1) 40px
+    ),
+    radial-gradient(circle, rgba(0, 0, 0, 0.15) 2px, transparent 2px);
+  background-position:
+    0 0,
+    0 0,
+    0 0;
+}

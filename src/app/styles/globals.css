@@ -3,6 +3,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import "./affectedSite.css";
 
 .tooltip {
   @apply invisible absolute;
@@ -352,6 +353,21 @@ body {
   color: #3b82f6 !important;
 }
 
+.affected-site-tab {
+  .ant-tabs-nav-list {
+    display: flex !important;
+    width: 100%;
+  }
+
+  .ant-tabs-tab {
+    flex: 1 1 0 !important;
+    justify-content: center !important;
+    text-align: center !important;
+  }
+  .ant-tabs-nav-operation {
+    display: none;
+  }
+}
 .payment-modal .ant-radio-group {
   width: 100%;
   display: flex;

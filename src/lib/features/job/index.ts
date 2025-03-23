@@ -7,6 +7,7 @@ export interface IJobSlice {
 
 const initialState: IJobSlice = {
   job: {
+    site: [],
     floor: [],
     roomType: [],
     affectedAreas: [],
@@ -17,57 +18,198 @@ export const jobSlice = createSlice({
   name: "jobs",
   initialState,
   reducers: {
-    addRooms: (state, action: PayloadAction<Array<string>>) => {
-      state.job.roomType = [...action.payload];
+    addSites: (state, action: PayloadAction<Array<string>>) => {
+      state.job.site = action.payload;
+      action.payload.forEach((site) => {
+        const existingIndex = state.job.affectedAreas.findIndex(
+          (area) => area.siteType === site
+        );
+
+        if (existingIndex === -1) {
+          state.job.affectedAreas.push({
+            siteType: site,
+            roomType: "",
+            damagePart: "",
+            images: [],
+            materials: [],
+          });
+        }
+      });
+      state.job.affectedAreas = state.job.affectedAreas.filter((area) =>
+        state.job.site.includes(area.siteType)
+      );
     },
-    addAffectedAreas: (state, action: PayloadAction<IAffectedArea>) => {
+    addRooms: (
+      state,
+      action: PayloadAction<{ siteType: string; room: string }>
+    ) => {
+      const { siteType, room } = action.payload;
       const existingIndex = state.job.affectedAreas.findIndex(
-        (area) =>
-          area.roomType === action.payload.roomType &&
-          area.damagePart === action.payload.damagePart
+        (area) => area.siteType === siteType && area.roomType === room
       );
 
-      if (existingIndex === -1) {
-        state.job.affectedAreas.push(action.payload);
-      } else {
+      if (existingIndex !== -1) {
         state.job.affectedAreas.splice(existingIndex, 1);
+      } else {
+        const emptyRoomIndex = state.job.affectedAreas.findIndex(
+          (area) => area.siteType === siteType && area.roomType === ""
+        );
+
+        if (emptyRoomIndex !== -1) {
+          state.job.affectedAreas[emptyRoomIndex].roomType = room;
+        } else {
+          state.job.affectedAreas.push({
+            siteType,
+            roomType: room,
+            damagePart: "",
+            materials: [],
+            images: [],
+          });
+        }
       }
     },
+
+    addAffectedAreas: (state, action: PayloadAction<IAffectedArea>) => {
+      const { siteType, roomType, damagePart } = action.payload;
+
+      const existingDamageIndex = state.job.affectedAreas.findIndex(
+        (area) =>
+          area.siteType === siteType &&
+          area.roomType === roomType &&
+          area.damagePart === damagePart
+      );
+
+      if (existingDamageIndex !== -1) {
+        state.job.affectedAreas.splice(existingDamageIndex, 1);
+      } else {
+        const emptyEntryIndex = state.job.affectedAreas.findIndex(
+          (area) =>
+            area.siteType === siteType &&
+            area.roomType === roomType &&
+            area.damagePart === ""
+        );
+
+        if (emptyEntryIndex !== -1) {
+          state.job.affectedAreas[emptyEntryIndex].damagePart = damagePart;
+        } else {
+          state.job.affectedAreas.push(action.payload);
+        }
+      }
+    },
+
     addMaterials: (
       state,
       action: PayloadAction<{
+        siteType: string;
         roomType: string;
         damagePart: string;
         material: string;
       }>
     ) => {
-      const { roomType, damagePart, material } = action.payload;
-      const areaIndex = state.job.affectedAreas.findIndex(
-        (area) => area.roomType === roomType && area.damagePart === damagePart
+      const { siteType, roomType, damagePart, material } = action.payload;
+      const exactIndex = state.job.affectedAreas.findIndex(
+        (area) =>
+          area.siteType === siteType &&
+          area.roomType === roomType &&
+          area.damagePart === damagePart
       );
-
-      if (areaIndex !== -1) {
-        const materials = state.job.affectedAreas[areaIndex].materials;
+      const emptyDamageIndex = state.job.affectedAreas.findIndex(
+        (area) =>
+          area.siteType === siteType &&
+          area.roomType === roomType &&
+          area.damagePart === ""
+      );
+      if (exactIndex !== -1) {
+        const materials = state.job.affectedAreas[exactIndex].materials;
         if (materials.includes(material)) {
-          state.job.affectedAreas[areaIndex].materials = materials.filter(
+          state.job.affectedAreas[exactIndex].materials = materials.filter(
             (m) => m !== material
           );
         } else {
-          state.job.affectedAreas[areaIndex].materials.push(material);
+          state.job.affectedAreas[exactIndex].materials.push(material);
         }
+      } else if (emptyDamageIndex !== -1) {
+        state.job.affectedAreas[emptyDamageIndex].damagePart = damagePart;
+        state.job.affectedAreas[emptyDamageIndex].materials = [material];
       } else {
         state.job.affectedAreas.push({
+          siteType,
           roomType,
           damagePart,
           materials: [material],
+          images: [],
         });
+      }
+    },
+
+    addAffectedAreaImages: (
+      state,
+      action: PayloadAction<{
+        siteType: string;
+        roomType: string;
+        damagePart: string;
+        image: File;
+        index: number;
+      }>
+    ) => {
+      const { siteType, roomType, damagePart, image, index } = action.payload;
+      const foundIndex = state.job.affectedAreas.findIndex(
+        (area) =>
+          area.siteType === siteType &&
+          area.roomType === roomType &&
+          area.damagePart === damagePart
+      );
+      if (foundIndex !== -1) {
+        const imagesArray = state.job.affectedAreas[foundIndex].images;
+        // Set image at the exact index
+        imagesArray[index] = image;
+      } else {
+        const newImagesArray: Array<File> = [];
+        newImagesArray[index] = image;
+        state.job.affectedAreas.push({
+          siteType,
+          roomType,
+          damagePart,
+          images: newImagesArray,
+          materials: [],
+        });
+      }
+    },
+
+    removeAffectedAreaImage: (
+      state,
+      action: PayloadAction<{
+        siteType: string;
+        roomType: string;
+        damagePart: string;
+        index: number;
+      }>
+    ) => {
+      const { siteType, roomType, damagePart, index } = action.payload;
+      const foundIndex = state.job.affectedAreas.findIndex(
+        (area) =>
+          area.siteType === siteType &&
+          area.roomType === roomType &&
+          area.damagePart === damagePart
+      );
+      if (foundIndex !== -1) {
+        state.job.affectedAreas[foundIndex].images.splice(index, 1);
       }
     },
   },
   selectors: {
     createdJob: (store) => store.job,
+    JobData: (job) => job.job,
   },
 });
-export const { createdJob } = jobSlice.selectors;
-export const { addRooms, addAffectedAreas, addMaterials } = jobSlice.actions;
+
+export const { createdJob, JobData } = jobSlice.selectors;
+export const {
+  addSites,
+  addRooms,
+  addAffectedAreas,
+  addMaterials,
+  addAffectedAreaImages,
+  removeAffectedAreaImage,
+} = jobSlice.actions;
 export default jobSlice.reducer;

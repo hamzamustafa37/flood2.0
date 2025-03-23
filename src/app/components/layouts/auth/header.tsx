@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { imagesPath } from "@/utils/constants";
-import { Input } from "antd";
+import { Input, Badge } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 
 export const PrivateHeader: React.FC = () => {
@@ -25,58 +25,72 @@ export const PrivateHeader: React.FC = () => {
 
   return (
     <header className="fixed top-0 w-full z-50 bg-[var(--color-background)] shadow-md">
-      <div className="flex items-center justify-between p-2">
-        <div className="flex items-center text-center lg:flex ms-2 pb-0">
+      <div className="flex items-center justify-between p-3 md:p-4">
+        {/* Logo and Title */}
+        <div className="flex items-center space-x-3">
           <h1
-            className="text-center mt-3 text-2xl"
+            className="text-xl md:text-2xl font-bold"
             style={{ color: "var(--color-text)" }}
           >
             Flood Team
           </h1>
         </div>
 
-        <div className="items-center lg:flex">
+        {/* Search - hidden on small devices */}
+        <div className="hidden md:flex items-center flex-1 justify-center px-4">
           <Input
             placeholder="Search"
-            className="rounded-full w-[400px] bg-[var(--color-background)] text-[var(--color-text)]"
+            className="rounded-full w-full max-w-md bg-[var(--color-background)] text-[var(--color-text)]"
             prefix={<SearchOutlined style={{ color: "var(--color-text)" }} />}
           />
         </div>
 
         {/* Icons */}
-        <div className="items-center lg:flex">
-          <div className="flex">
-            <Image
-              src={imagesPath.darkNLights}
-              alt="logo"
-              width={40}
-              height={40}
-              className="mx-2"
-              onClick={changeTheme}
-            />
+        <div className="flex items-center space-x-3">
+          <Image
+            src={imagesPath.darkNLights}
+            alt="toggle-theme"
+            width={36}
+            height={36}
+            className="cursor-pointer"
+            onClick={changeTheme}
+          />
+          <Badge count={3} size="small">
             <Image
               src={imagesPath.alertIcon}
-              alt="alert"
-              width={25}
-              height={25}
-              className="mx-2"
+              alt="alerts"
+              width={24}
+              height={24}
+              className="cursor-pointer"
             />
+          </Badge>
+          {/* Show menu toggle only on mobile */}
+          <div className="md:hidden">
             <Image
               src={imagesPath.menuToggle}
               alt="menu"
-              width={25}
-              height={25}
-              className="mx-2"
-            />
-            <Image
-              src={imagesPath.avatar}
-              alt="avatar"
-              width={40}
-              height={40}
-              className="mx-2 rounded-full border-2 border-[var(--color-primary)]"
+              width={28}
+              height={28}
+              className="cursor-pointer"
             />
           </div>
+          <Image
+            src={imagesPath.avatar}
+            alt="avatar"
+            width={36}
+            height={36}
+            className="rounded-full border-2 border-[var(--color-primary)] cursor-pointer"
+          />
         </div>
+      </div>
+
+      {/* Optional: Add mobile search below the header */}
+      <div className="px-3 pb-2 md:hidden">
+        <Input
+          placeholder="Search"
+          className="rounded-full w-full bg-[var(--color-background)] text-[var(--color-text)]"
+          prefix={<SearchOutlined style={{ color: "var(--color-text)" }} />}
+        />
       </div>
     </header>
   );

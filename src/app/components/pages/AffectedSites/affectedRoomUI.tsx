@@ -5,99 +5,126 @@ import SiteOption from "./siteOption";
 import Rooms from "./roomsUI";
 import DamageAreaSelection from "./damageArea";
 import { IAffectedArea, IJob } from "@/utils";
-import { useAppDispatch } from "@/lib/hooks";
-import { addRooms, addAffectedAreas } from "@/lib/features/job";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { addRooms, JobData } from "@/lib/features/job";
 import SpecifyDamage from "./specifyDamage";
 import RoomImageUploader from "./roomImageUploader";
+import EquipmentDetails from "./equimentDetails";
+import SelectSite from "./selectSite";
 
 export default function AffectedRooms() {
   const dispatch = useAppDispatch();
   const [selectedFloor, setSelectedFloor] = useState("Basement");
-  const [selectedRooms, setSelectedRooms] = useState<Array<string>>([]);
   const [specifyArea, setSelectedArea] = useState<IJob>({
+    site: [],
     floor: [],
     roomType: [],
     affectedAreas: [],
   });
   const [step, setStep] = useState(0);
+  const _jobs = useAppSelector(JobData);
 
-  const toggleRoomSelection = (room: string) => {
-    setSelectedRooms((prev) => {
-      const updatedRooms = prev.includes(room)
-        ? prev.filter((r) => r !== room)
-        : [...prev, room];
+  const selectedRooms = specifyArea.affectedAreas
+    .filter((area) => area.roomType)
+    .map((area) => area.roomType);
 
-      setSelectedArea((prev) => ({
+  const toggleRoomSelection = (site: string, room: string) => {
+    setSelectedArea((prev) => {
+      const exists = prev.affectedAreas.some(
+        (area) => area.siteType === site && area.roomType === room
+      );
+
+      let updatedAreas: Array<IAffectedArea>;
+      if (exists) {
+        updatedAreas = prev.affectedAreas.filter(
+          (area) => !(area.siteType === site && area.roomType === room)
+        );
+      } else {
+        updatedAreas = [
+          ...prev.affectedAreas,
+          {
+            siteType: site,
+            roomType: room,
+            damagePart: "",
+            materials: [],
+            images: [],
+          },
+        ];
+        dispatch(addRooms({ siteType: site, room }));
+      }
+
+      return {
         ...prev,
-        roomType: updatedRooms,
-      }));
-
-      dispatch(addRooms(updatedRooms));
-
-      return updatedRooms;
+        affectedAreas: updatedAreas,
+      };
     });
   };
 
-  const moveNext = (move: number) => {
-    setStep((prev) => (move < prev && move !== 0 ? prev - 1 : prev + 1));
+  const moveNext = (nextStep: number) => {
+    console.log(nextStep);
+    setStep(nextStep);
   };
-  console.log(specifyArea, "The area");
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-12 gap-6 p-6 bg-gray-100">
-      <div className="md:col-span-3 col-span-12 rounded-lg bg-white p-4 shadow h-auto md:h-fit">
+      <div className="lg:col-span-3 col-span-12 rounded-lg bg-white p-4 shadow h-auto md:h-fit">
         <SiteOption
           setSelectedFloor={setSelectedFloor}
           selectedFloor={selectedFloor}
         />
       </div>
 
-      <div className="md:col-span-9 col-span-12 flex justify-center">
-        <div className="md:w-[50%] w-full rounded-lg bg-white p-6 shadow-lg ">
-          <div className="h-[600px] overflow-y-auto">
+      <div className="lg:col-span-9 col-span-12 flex justify-center">
+        <div className="lg:w-[50%] w-full rounded-lg bg-white p-6 shadow-lg ">
+          <div className="h-auto overflow-y-auto">
             {step === 0 && (
+              <SelectSite
+                specifyArea={specifyArea}
+                setSelectedArea={setSelectedArea}
+                moveNext={() => moveNext(1)}
+              />
+            )}
+
+            {step === 1 && (
               <Rooms
-                selectedFloor={selectedFloor}
-                selectedRooms={selectedRooms}
                 toggleRoomSelection={toggleRoomSelection}
                 step={step}
-                moveNext={moveNext}
-              />
-            )}
-            {step === 1 && (
-              <DamageAreaSelection
-                selectedRooms={selectedRooms}
-                selectedFloor={selectedFloor}
-                specifyArea={specifyArea}
-                setSelectedArea={setSelectedArea}
-                moveNext={moveNext}
-              />
-            )}
-            {step === 2 && (
-              <SpecifyDamage
                 specifyArea={specifyArea}
                 moveNext={moveNext}
-                selectedRooms={selectedRooms}
-                selectedFloor={selectedFloor}
-                setSelectedArea={setSelectedArea}
               />
             )}
+
+            {step === 2 && <DamageAreaSelection moveNext={moveNext} />}
+
             {step === 3 && (
-              <RoomImageUploader
-                specifyArea={specifyArea}
+              <SpecifyDamage
                 moveNext={moveNext}
-                selectedRooms={selectedRooms}
                 selectedFloor={selectedFloor}
                 setSelectedArea={setSelectedArea}
+                selectedRooms={selectedRooms}
+              />
+            )}
+            {step === 4 && <RoomImageUploader moveNext={moveNext} />}
+
+            {step === 5 && (
+              <EquipmentDetails
+                specifyArea={specifyArea}
+                moveNext={() => moveNext(6)}
+                selectedFloor={selectedFloor}
+                setSelectedArea={setSelectedArea}
+                selectedRooms={selectedRooms}
               />
             )}
           </div>
-          {selectedFloor === "Basement" && (
-            <div className="mt-6 w-full rounded-lg border border-[#CBD0DD] p-4 text-gray-400">
-              <p>Main Floor</p>
-            </div>
-          )}
-          <div className="mt-6 w-full flex justify-end p-4 text-gray-400">
-            <Button className="mt-2 rounded-lg bg-gray-300 px-4 py-2" disabled>
+
+          <div className="mt-6 w-full flex justify-end p-4">
+            <Button
+              className={`mt-2 rounded-lg px-4 py-2 ${
+                step < 5 ? "bg-blue-500 text-white" : "bg-gray-300"
+              }`}
+              disabled={step >= 5}
+              onClick={() => moveNext(step + 1)}
+            >
               Continue
             </Button>
           </div>
