@@ -12,7 +12,7 @@ export const imagesPath = {
   logo: "/images/logo.svg",
   hero: "/images/hero.svg",
   home: "icons/icons=home.svg",
-  atmosphere: "/icons/icons=droplet.svg",
+  atmosphere: "/icons/droplet.svg",
   arrow: "/images/arrow-down.svg",
   darkNLights: "/icons/dark-toggle.svg",
   avatar: "/icons/icons=avaters.svg",
