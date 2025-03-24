@@ -9,15 +9,17 @@ import { sideBarMenu } from "@/utils/helpers/sidebarOption";
 import { FiMenu, FiX } from "react-icons/fi";
 
 interface ISidebar {
-  readonly isToggled: boolean;
-  collapsed: boolean;
+  readonly collapsed: boolean;
   setCollapsed: React.Dispatch<React.SetStateAction<boolean>>;
+  mobileSidebarOpen: boolean;
+  setMobileSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const Sidebar: React.FC<ISidebar> = ({
-  isToggled,
   collapsed,
   setCollapsed,
+  mobileSidebarOpen,
+  setMobileSidebarOpen,
 }) => {
   const { currentUser } = useCurrentUser();
   const pathname = usePathname();
@@ -33,64 +35,82 @@ export const Sidebar: React.FC<ISidebar> = ({
     }
   }, [currentUser?.imgUrl]);
 
+  // Close sidebar on mobile route change
+  React.useEffect(() => {
+    setMobileSidebarOpen(false);
+  }, [pathname]);
+
+  React.useEffect(() => {
+    if (mobileSidebarOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  }, [mobileSidebarOpen]);
   return (
-    <aside
-      className={`fixed left-0 top-[70px] bg-[var(--color-background)] ${
-        collapsed ? "w-[80px]" : "w-[268px]"
-      } h-[calc(100vh-70px)] z-20 py-6 px-4 border-r border-[#d9d9d9] transition-all duration-300 ${
-        isToggled ? "block" : "hidden md:block"
-      }`}
-    >
-      {collapsed ? (
-        <div className="flex justify-center mb-4">
+    <>
+      {/* Mobile Backdrop */}
+      {mobileSidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-20 md:hidden"
+          onClick={() => setMobileSidebarOpen(false)}
+        />
+      )}
+
+      <aside
+        className={`fixed top-0 left-0  bg-[var(--color-background)] ${
+          collapsed ? "w-[80px]" : "w-[268px]"
+        } h-full z-30 py-6 px-4 border-r border-[#d9d9d9] transition-transform duration-300
+  transform ${
+    mobileSidebarOpen ? "translate-x-0" : "-translate-x-full"
+  } md:translate-x-0 md:static md:block`}
+      >
+        {/* Collapse toggle (only md+) */}
+        <div
+          className={`"hidden  flex justify-center ${!collapsed && "md:justify-end"} mb-4"`}
+        >
           <button
             onClick={() => setCollapsed(!collapsed)}
             className="bg-gray-200 p-1 rounded"
           >
-            <FiMenu size={20} />
+            {collapsed ? <FiMenu size={20} /> : <FiX size={20} />}
           </button>
         </div>
-      ) : (
-        <button
-          onClick={() => setCollapsed(!collapsed)}
-          className="bg-gray-200 p-1 rounded"
-        >
-          <FiX size={20} />
-        </button>
-      )}
-      <div className="h-full overflow-y-auto">
-        <ul className="space-y-2">
-          {sideBarMenu.map((menu) => (
-            <div key={menu.group}>
-              {!collapsed && (
-                <p className="text-xs text-[var(--color-text)] uppercase mt-4 px-2">
-                  {menu.group}
-                </p>
-              )}
-              {menu.option.map((item) => (
-                <li key={item.title}>
-                  <Link
-                    className={`flex items-center text-[var(--color-text)] text-sm rounded-lg px-2 py-2 m-2 transition-colors ${
-                      pathname === item.link
-                        ? "bg-lightGray text-white"
-                        : "hover:bg-lightGray hover:text-white"
-                    }`}
-                    href={item.link}
-                  >
-                    <Image
-                      src={item.icon}
-                      alt={item.title}
-                      width={25}
-                      height={25}
-                    />
-                    {!collapsed && <span className="ms-3">{item.title}</span>}
-                  </Link>
-                </li>
-              ))}
-            </div>
-          ))}
-        </ul>
-      </div>
-    </aside>
+
+        <div className="h-full overflow-y-auto">
+          <ul className="space-y-2">
+            {sideBarMenu.map((menu) => (
+              <div key={menu.group}>
+                {!collapsed && (
+                  <p className="text-xs text-[var(--color-text)] uppercase mt-4 px-2">
+                    {menu.group}
+                  </p>
+                )}
+                {menu.option.map((item) => (
+                  <li key={item.title}>
+                    <Link
+                      className={`flex items-center text-[var(--color-text)] text-sm rounded-lg px-2 py-2 m-2 transition-colors ${
+                        pathname === item.link
+                          ? "bg-lightGray text-white"
+                          : "hover:bg-lightGray hover:text-white"
+                      }`}
+                      href={item.link}
+                    >
+                      <Image
+                        src={item.icon}
+                        alt={item.title}
+                        width={25}
+                        height={25}
+                      />
+                      {!collapsed && <span className="ms-3">{item.title}</span>}
+                    </Link>
+                  </li>
+                ))}
+              </div>
+            ))}
+          </ul>
+        </div>
+      </aside>
+    </>
   );
 };

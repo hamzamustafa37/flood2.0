@@ -5,8 +5,13 @@ import Image from "next/image";
 import { imagesPath } from "@/utils/constants";
 import { Input, Badge } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
+import { FiMenu } from "react-icons/fi";
 
-export const PrivateHeader: React.FC = () => {
+interface IPrivateHeaderProps {
+  onToggle: () => void;
+  onMobileToggle: () => void;
+}
+export const PrivateHeader: React.FC<IPrivateHeaderProps> = ({ onToggle }) => {
   const [themeName, setThemeName] = useState("companyA");
 
   useEffect(() => {
@@ -26,7 +31,13 @@ export const PrivateHeader: React.FC = () => {
   return (
     <header className="fixed top-0 w-full z-50 bg-[var(--color-background)] shadow-md">
       <div className="flex items-center justify-between p-3 md:p-4">
-        {/* Logo and Title */}
+        {/* Hamburger icon visible on small screens */}
+        <div className="md:hidden">
+          <button onClick={onToggle} className="p-1">
+            <FiMenu size={28} />
+          </button>
+        </div>
+
         <div className="flex items-center space-x-3">
           <h1
             className="text-xl md:text-2xl font-bold"
@@ -36,7 +47,6 @@ export const PrivateHeader: React.FC = () => {
           </h1>
         </div>
 
-        {/* Search - hidden on small devices */}
         <div className="hidden md:flex items-center flex-1 justify-center px-4">
           <Input
             placeholder="Search"
@@ -45,7 +55,6 @@ export const PrivateHeader: React.FC = () => {
           />
         </div>
 
-        {/* Icons */}
         <div className="flex items-center space-x-3">
           <Image
             src={imagesPath.darkNLights}
@@ -64,16 +73,6 @@ export const PrivateHeader: React.FC = () => {
               className="cursor-pointer"
             />
           </Badge>
-          {/* Show menu toggle only on mobile */}
-          <div className="md:hidden">
-            <Image
-              src={imagesPath.menuToggle}
-              alt="menu"
-              width={28}
-              height={28}
-              className="cursor-pointer"
-            />
-          </div>
           <Image
             src={imagesPath.avatar}
             alt="avatar"
@@ -84,7 +83,6 @@ export const PrivateHeader: React.FC = () => {
         </div>
       </div>
 
-      {/* Optional: Add mobile search below the header */}
       <div className="px-3 pb-2 md:hidden">
         <Input
           placeholder="Search"
