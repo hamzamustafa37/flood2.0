@@ -3,19 +3,22 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { useSelector } from "react-redux";
-import { appRoute } from "@/utils/constants";
 import { useCurrentUser } from "@/app/hooks";
-import { loading } from "@/lib/features/global";
 import { getBaseUrl } from "@/utils";
 import { sideBarMenu } from "@/utils/helpers/sidebarOption";
+import { FiMenu, FiX } from "react-icons/fi";
 
 interface ISidebar {
   readonly isToggled: boolean;
+  collapsed: boolean;
+  setCollapsed: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const Sidebar: React.FC<ISidebar> = ({ isToggled }) => {
-  // const _loading = useSelector(loading);
+export const Sidebar: React.FC<ISidebar> = ({
+  isToggled,
+  collapsed,
+  setCollapsed,
+}) => {
   const { currentUser } = useCurrentUser();
   const pathname = usePathname();
   const [profileImage, setProfileImage] = React.useState<string>("");
@@ -32,34 +35,55 @@ export const Sidebar: React.FC<ISidebar> = ({ isToggled }) => {
 
   return (
     <aside
-      className={`fixed left-0 top-[70px] bg-[var(--color-background)] w-[268px] h-[calc(100vh-70px)] z-20 py-6 px-6 border-r border-[#d9d9d9] transition-all ${
+      className={`fixed left-0 top-[70px] bg-[var(--color-background)] ${
+        collapsed ? "w-[80px]" : "w-[268px]"
+      } h-[calc(100vh-70px)] z-20 py-6 px-4 border-r border-[#d9d9d9] transition-all duration-300 ${
         isToggled ? "block" : "hidden md:block"
       }`}
     >
-      <div className="h-full overflow-y-auto ">
+      {collapsed ? (
+        <div className="flex justify-center mb-4">
+          <button
+            onClick={() => setCollapsed(!collapsed)}
+            className="bg-gray-200 p-1 rounded"
+          >
+            <FiMenu size={20} />
+          </button>
+        </div>
+      ) : (
+        <button
+          onClick={() => setCollapsed(!collapsed)}
+          className="bg-gray-200 p-1 rounded"
+        >
+          <FiX size={20} />
+        </button>
+      )}
+      <div className="h-full overflow-y-auto">
         <ul className="space-y-2">
           {sideBarMenu.map((menu) => (
             <div key={menu.group}>
-              <p className="text-xs text-[var(--color-text)] hover:text-gray-400-500 uppercase mt-4">
-                {menu.group}
-              </p>
+              {!collapsed && (
+                <p className="text-xs text-[var(--color-text)] uppercase mt-4 px-2">
+                  {menu.group}
+                </p>
+              )}
               {menu.option.map((item) => (
                 <li key={item.title}>
                   <Link
-                    className={`flex items-center text-[var(--color-text)] hover:text-gray-400 text-sm rounded-lg px-2 py-2 m-2 ${
+                    className={`flex items-center text-[var(--color-text)] text-sm rounded-lg px-2 py-2 m-2 transition-colors ${
                       pathname === item.link
-                        ? "bg-white border-linkBorder"
-                        : "border-bgSidebar"
+                        ? "bg-lightGray text-white"
+                        : "hover:bg-lightGray hover:text-white"
                     }`}
                     href={item.link}
                   >
                     <Image
                       src={item.icon}
                       alt={item.title}
-                      width={15}
-                      height={18}
+                      width={25}
+                      height={25}
                     />
-                    <span className="ms-3">{item.title}</span>
+                    {!collapsed && <span className="ms-3">{item.title}</span>}
                   </Link>
                 </li>
               ))}

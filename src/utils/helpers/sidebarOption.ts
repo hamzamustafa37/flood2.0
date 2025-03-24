@@ -6,7 +6,7 @@ export const sideBarMenu = [
     option: [
       {
         title: "Dashboard",
-        icon: imagesPath.alertIcon,
+        icon: imagesPath.home,
 
         link: "/dashboard",
       },
@@ -23,19 +23,17 @@ export const sideBarMenu = [
 
       {
         title: "Atmospheric Readings",
-        icon: imagesPath.alertIcon,
-
-        link: "/dashboard",
+        icon: imagesPath.atmosphere,
+        link: "/atmospheric-readings",
       },
       {
         title: "Exhaust Readings",
-        icon: imagesPath.alertIcon,
-
+        icon: imagesPath.exhaustloader,
         link: "/dashboard",
       },
       {
         title: "MC Readings",
-        icon: imagesPath.alertIcon,
+        icon: imagesPath.framer,
 
         link: "/dashboard",
       },
@@ -46,30 +44,27 @@ export const sideBarMenu = [
     option: [
       {
         title: "Appointments",
-        icon: imagesPath.alertIcon,
-
+        icon: imagesPath.appointment,
         link: "/profile",
       },
       {
         title: "Schedules",
-        icon: imagesPath.alertIcon,
-
+        icon: imagesPath.calender,
         link: "/security",
       },
       {
         title: "Jobs",
-        icon: imagesPath.alertIcon,
-
-        link: "/payment-methods",
+        icon: imagesPath.briefcase,
+        link: "/affected-site",
       },
       {
         title: "Locations",
-        icon: imagesPath.alertIcon,
+        icon: imagesPath.location,
         link: "/notifications",
       },
       {
         title: "Logs",
-        icon: imagesPath.alertIcon,
+        icon: imagesPath.disc,
         link: "/help",
       },
     ],
@@ -79,12 +74,12 @@ export const sideBarMenu = [
     option: [
       {
         title: "Companies",
-        icon: imagesPath.alertIcon,
+        icon: imagesPath.archive,
         link: "/payment-methods",
       },
       {
         title: "Contracts",
-        icon: imagesPath.alertIcon,
+        icon: imagesPath.folder,
         link: "/notifications",
       },
       {
@@ -94,27 +89,27 @@ export const sideBarMenu = [
       },
       {
         title: "Payables",
-        icon: imagesPath.alertIcon,
+        icon: imagesPath.send,
         link: "/notifications",
       },
       {
         title: "Payments",
-        icon: imagesPath.alertIcon,
+        icon: imagesPath.dollar,
         link: "/notifications",
       },
       {
         title: "Reports",
-        icon: imagesPath.alertIcon,
+        icon: imagesPath.bookOpen,
         link: "/payment-methods",
       },
       {
         title: "Roles",
-        icon: imagesPath.alertIcon,
+        icon: imagesPath.userCheck,
         link: "/notifications",
       },
       {
         title: "Users",
-        icon: imagesPath.alertIcon,
+        icon: imagesPath.users,
         link: "/notifications",
       },
     ],
@@ -124,7 +119,7 @@ export const sideBarMenu = [
     option: [
       {
         title: "Inventory",
-        icon: imagesPath.alertIcon,
+        icon: imagesPath.textFile,
         link: "/payment-methods",
       },
       {
@@ -134,17 +129,17 @@ export const sideBarMenu = [
       },
       {
         title: "Materials",
-        icon: imagesPath.alertIcon,
+        icon: imagesPath.material,
         link: "/payment-methods",
       },
       {
         title: "Packages",
-        icon: imagesPath.alertIcon,
+        icon: imagesPath.box,
         link: "/payment-methods",
       },
       {
         title: "Vehicles",
-        icon: imagesPath.alertIcon,
+        icon: imagesPath.truck,
         link: "/payment-methods",
       },
     ],
@@ -154,12 +149,12 @@ export const sideBarMenu = [
     option: [
       {
         title: "Services",
-        icon: imagesPath.alertIcon,
+        icon: imagesPath.award,
         link: "/payment-methods",
       },
       {
         title: "Campaigns",
-        icon: imagesPath.alertIcon,
+        icon: imagesPath.octagon,
         link: "/payment-methods",
       },
     ],

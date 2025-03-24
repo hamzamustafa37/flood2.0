@@ -55,6 +55,7 @@ const config: Config = {
         primaryBlue: "#3874FF",
         bgPricing: "#EEF2F6",
         lightGray: "#4f4f4f",
+        textMuted: "#525B75",
         graylight: "#CCD3E0",
         darkBlue: "#101828",
         grayText: "#475467",
