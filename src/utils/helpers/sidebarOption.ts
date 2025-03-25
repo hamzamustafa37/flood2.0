@@ -7,7 +7,6 @@ export const sideBarMenu = [
       {
         title: "Dashboard",
         icon: imagesPath.home,
-
         link: "/dashboard",
       },
       {
@@ -29,12 +28,11 @@ export const sideBarMenu = [
       {
         title: "Exhaust Readings",
         icon: imagesPath.exhaustloader,
-        link: "/dashboard",
+        link: "/exhaust-readings",
       },
       {
         title: "MC Readings",
         icon: imagesPath.framer,
-
         link: "/dashboard",
       },
     ],
@@ -60,12 +58,12 @@ export const sideBarMenu = [
       {
         title: "Locations",
         icon: imagesPath.location,
-        link: "/notifications",
+        link: "/location-management",
       },
       {
         title: "Logs",
         icon: imagesPath.disc,
-        link: "/help",
+        link: "/dot",
       },
     ],
   },
@@ -75,12 +73,12 @@ export const sideBarMenu = [
       {
         title: "Companies",
         icon: imagesPath.archive,
-        link: "/payment-methods",
+        link: "/companies",
       },
       {
         title: "Contracts",
         icon: imagesPath.folder,
-        link: "/notifications",
+        link: "/contracts",
       },
       {
         title: "Pay Models",
@@ -120,7 +118,7 @@ export const sideBarMenu = [
       {
         title: "Inventory",
         icon: imagesPath.textFile,
-        link: "/payment-methods",
+        link: "/inventory-methods",
       },
       {
         title: "Equipment",
@@ -155,7 +153,7 @@ export const sideBarMenu = [
       {
         title: "Campaigns",
         icon: imagesPath.octagon,
-        link: "/payment-methods",
+        link: "/campaigns",
       },
     ],
   },

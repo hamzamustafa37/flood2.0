@@ -35,7 +35,6 @@ export const Sidebar: React.FC<ISidebar> = ({
     }
   }, [currentUser?.imgUrl]);
 
-  // Close sidebar on mobile route change
   React.useEffect(() => {
     setMobileSidebarOpen(false);
   }, [pathname]);
@@ -87,7 +86,7 @@ export const Sidebar: React.FC<ISidebar> = ({
                 {menu.option.map((item) => (
                   <li key={item.title}>
                     <Link
-                      className={`flex items-center text-[var(--color-text)] text-sm rounded-lg px-2 py-2 m-2 transition-colors ${
+                      className={`flex items-center text-center text-[var(--color-text)] text-sm rounded-lg px-2 py-2 transition-colors ${
                         pathname === item.link
                           ? "bg-lightGray text-white"
                           : "hover:bg-lightGray hover:text-white"
@@ -100,7 +99,9 @@ export const Sidebar: React.FC<ISidebar> = ({
                         width={25}
                         height={25}
                       />
-                      {!collapsed && <span className="ms-3">{item.title}</span>}
+                      {!collapsed && (
+                        <span className=" text-center ms-3">{item.title}</span>
+                      )}
                     </Link>
                   </li>
                 ))}

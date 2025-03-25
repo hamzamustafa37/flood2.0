@@ -4,7 +4,7 @@
 @tailwind components;
 @tailwind utilities;
 @import "./affectedSite.css";
-
+@import "./table.css";
 .tooltip {
   @apply invisible absolute;
 }
