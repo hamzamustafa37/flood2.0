@@ -1,20 +1,20 @@
 import { imagesPath } from "@/utils";
 import Image from "next/image";
 import React from "react";
-import CompaniesTable from "./CompaniesTable";
+import CampaignsTable from "./CampaignsTable";
 import TablePageHeader from "../../common/TablePage/TablePageHeader";
 
-const AllCompanies = () => {
+const AllExhaustReadings = () => {
   return (
     <div className="p-4">
       <TablePageHeader
-        heading="Companies"
+        heading="Campaigns"
         strapLine=" Manage and track your marketing campaigns effortlessly. View
-            campaign details, performance, and settings at a glance."
+                        campaign details, performance, and settings at a glance."
       />
 
-      <CompaniesTable />
+      <CampaignsTable />
     </div>
   );
 };
-export default AllCompanies;
+export default AllExhaustReadings;

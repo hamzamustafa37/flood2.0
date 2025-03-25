@@ -1,8 +1,8 @@
 import React from "react";
 import type { Metadata, NextPage } from "next";
-import AllCampaigns from "@/app/components/pages/AllCampaigns";
+import AllExhaustReadings from "@/app/components/pages/AllExhaustReadings";
 
-const ExhaustReadings: NextPage = () => <AllCampaigns />;
+const ExhaustReadings: NextPage = () => <AllExhaustReadings />;
 
 export const metadata: Metadata = {
   title: "Flood - Contracts",

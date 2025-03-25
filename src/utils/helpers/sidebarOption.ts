@@ -63,7 +63,7 @@ export const sideBarMenu = [
       {
         title: "Logs",
         icon: imagesPath.disc,
-        link: "/dot",
+        link: "/dots",
       },
     ],
   },
@@ -118,7 +118,7 @@ export const sideBarMenu = [
       {
         title: "Inventory",
         icon: imagesPath.textFile,
-        link: "/inventory-methods",
+        link: "/inventory-modules",
       },
       {
         title: "Equipment",

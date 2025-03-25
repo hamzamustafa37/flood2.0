@@ -1,8 +1,8 @@
 import React from "react";
 import type { Metadata, NextPage } from "next";
-import AllCampaigns from "@/app/components/pages/AllCampaigns";
+import AllDots from "@/app/components/pages/AllDots";
 
-const Dots: NextPage = () => <AllCampaigns />;
+const Dots: NextPage = () => <AllDots />;
 
 export const metadata: Metadata = {
   title: "Flood - Causes",

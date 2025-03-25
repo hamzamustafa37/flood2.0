@@ -1,8 +1,8 @@
 import React from "react";
 import type { Metadata, NextPage } from "next";
-import AllCampaigns from "@/app/components/pages/AllCampaigns";
+import AllInventories from "@/app/components/pages/AllInventories";
 
-const InventoryModules: NextPage = () => <AllCampaigns />;
+const InventoryModules: NextPage = () => <AllInventories />;
 
 export const metadata: Metadata = {
   title: "Flood - Inventory Modules",

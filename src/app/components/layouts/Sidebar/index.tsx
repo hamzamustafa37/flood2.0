@@ -56,7 +56,7 @@ export const Sidebar: React.FC<ISidebar> = ({
         />
       )}
       <aside
-        className={`fixed top-0 left-0 bg-[var(--color-background)] h-full z-30 pb-6 px-4 border-r border-[#d9d9d9]
+        className={`fixed top-0 left-0 bg-[var(--color-background)] h-screen z-30 pb-6 px-4 border-r border-[#d9d9d9]
     overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]
     ${collapsed ? "w-[80px]" : "w-[268px]"}
     ${mobileSidebarOpen ? "translate-x-0" : "-translate-x-full"} 
