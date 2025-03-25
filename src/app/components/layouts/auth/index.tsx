@@ -6,6 +6,7 @@ import { PrivateHeader } from "./header";
 interface IAuthLayout {
   readonly children: React.ReactNode;
 }
+
 export const AuthLayout = ({ children }: IAuthLayout): React.ReactElement => {
   const [collapsed, setCollapsed] = React.useState(false);
   const [mobileSidebarOpen, setMobileSidebarOpen] = React.useState(false);
@@ -14,13 +15,19 @@ export const AuthLayout = ({ children }: IAuthLayout): React.ReactElement => {
     console.log("toggle");
     setMobileSidebarOpen((prev) => !prev);
   };
+
   return (
     <main className="bg-[var(--color-background)] min-h-screen flex flex-col">
       <PrivateHeader
         onToggle={handleToggle}
         onMobileToggle={() => setMobileSidebarOpen((prev) => !prev)}
       />
-      <div className="flex flex-1 pt-[100px]">
+      <div
+        className={`
+          flex flex-1 pt-[100px]
+          transition-[margin] duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]
+        `}
+      >
         <Sidebar
           collapsed={collapsed}
           setCollapsed={setCollapsed}
@@ -28,9 +35,17 @@ export const AuthLayout = ({ children }: IAuthLayout): React.ReactElement => {
           setMobileSidebarOpen={setMobileSidebarOpen}
         />
         <section
-          className={`flex-1 pb-6 px-4 md:px-6 overflow-y-scroll bg-[var(--color-background)] h-screen transition-all duration-300 ${
-            collapsed ? "md:pl-[100px]" : "md:pl-[290px]"
-          }`}
+          className={`
+            flex-1 
+            pb-6 
+            overflow-y-scroll 
+            bg-[var(--color-background)] 
+            h-screen 
+            transition-[padding,background-color,transform,margin] 
+            duration-700 
+            ease-[cubic-bezier(0.4,0,0.2,1)] 
+            scroll-smooth
+          `}
         >
           {children}
         </section>

@@ -56,14 +56,12 @@ export const Sidebar: React.FC<ISidebar> = ({
           onClick={() => setMobileSidebarOpen(false)}
         />
       )}
-
       <aside
-        className={`fixed top-0 left-0  bg-[var(--color-background)] ${
-          collapsed ? "w-[80px]" : "w-[268px]"
-        } h-full z-30 py-6 px-4 border-r border-[#d9d9d9] transition-transform duration-300
-  transform ${
-    mobileSidebarOpen ? "translate-x-0" : "-translate-x-full"
-  } md:translate-x-0 md:static md:block`}
+        className={`fixed top-0 left-0 bg-[var(--color-background)] h-full z-30 pb-6 px-4 border-r border-[#d9d9d9]
+    overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]
+    ${collapsed ? "w-[80px]" : "w-[268px]"}
+    ${mobileSidebarOpen ? "translate-x-0" : "-translate-x-full"} 
+    md:translate-x-0 md:static md:block`}
       >
         {/* Collapse toggle (only md+) */}
         <div
