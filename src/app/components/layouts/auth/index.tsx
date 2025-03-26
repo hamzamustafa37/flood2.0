@@ -24,7 +24,7 @@ export const AuthLayout = ({ children }: IAuthLayout): React.ReactElement => {
       />
       <div
         className={`
-          flex flex-1 pt-[100px]
+          flex flex-1 pt-[79px]
           transition-[margin] duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]
         `}
       >
@@ -39,7 +39,7 @@ export const AuthLayout = ({ children }: IAuthLayout): React.ReactElement => {
             flex-1 
             pb-6 
             overflow-y-scroll 
-            bg-[var(--color-background)] 
+            bg-[var(--color-bgComponent)] 
             h-screen 
             transition-[padding,background-color,transform,margin] 
             duration-700 

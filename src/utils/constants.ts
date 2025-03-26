@@ -69,6 +69,10 @@ export const imagesPath = {
   cloudRainIcon: "/icons/cloud-rain.svg",
   positionIcon: "/icons/position.svg",
   plusIcon: "/images/blue-plus.svg",
+  totalJobs: "/icons/collection-icons/totalJobs.svg",
+  totalBills: "/icons/collection-icons/totalBills.svg",
+  totalCollected: "/icons/collection-icons/totalCollected.svg",
+  totalOutstanding: "/icons/collection-icons/totalOutstanding.svg",
 };
 
 export const MAX_FILE_SIZE = 5 * 1024 * 1024;

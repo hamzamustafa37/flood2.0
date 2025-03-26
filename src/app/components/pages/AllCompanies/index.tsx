@@ -12,8 +12,9 @@ const AllCompanies = () => {
         strapLine=" Manage and track your marketing campaigns effortlessly. View
             campaign details, performance, and settings at a glance."
       />
-
-      <CompaniesTable />
+      <div className="p-4">
+        <CompaniesTable />
+      </div>
     </div>
   );
 };

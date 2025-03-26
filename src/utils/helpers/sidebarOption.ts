@@ -1,3 +1,4 @@
+import { tree } from "next/dist/build/templates/app-page";
 import { imagesPath } from "../constants";
 
 export const sideBarMenu = [
@@ -24,11 +25,13 @@ export const sideBarMenu = [
         title: "Atmospheric Readings",
         icon: imagesPath.atmosphere,
         link: "/atmospheric-readings",
+        active: true,
       },
       {
         title: "Exhaust Readings",
         icon: imagesPath.exhaustloader,
         link: "/exhaust-readings",
+        active: true,
       },
       {
         title: "MC Readings",
@@ -53,12 +56,14 @@ export const sideBarMenu = [
       {
         title: "Jobs",
         icon: imagesPath.briefcase,
-        link: "/affected-site",
+        link: "/jobs",
+        active: true,
       },
       {
         title: "Locations",
         icon: imagesPath.location,
         link: "/location-management",
+        active: true,
       },
       {
         title: "Logs",
@@ -74,21 +79,25 @@ export const sideBarMenu = [
         title: "Companies",
         icon: imagesPath.archive,
         link: "/companies",
+        active: true,
       },
       {
         title: "Contracts",
         icon: imagesPath.folder,
         link: "/contracts",
+        active: true,
       },
       {
         title: "Pay Models",
         icon: imagesPath.alertIcon,
-        link: "/payment-methods",
+        link: "/pay-models",
+        active: true,
       },
       {
         title: "Payables",
         icon: imagesPath.send,
-        link: "/notifications",
+        link: "/payables",
+        active: true,
       },
       {
         title: "Payments",
@@ -119,6 +128,7 @@ export const sideBarMenu = [
         title: "Inventory",
         icon: imagesPath.textFile,
         link: "/inventory-modules",
+        active: true,
       },
       {
         title: "Equipment",
@@ -128,7 +138,8 @@ export const sideBarMenu = [
       {
         title: "Materials",
         icon: imagesPath.material,
-        link: "/payment-methods",
+        link: "/material-management",
+        active: true,
       },
       {
         title: "Packages",
@@ -139,6 +150,35 @@ export const sideBarMenu = [
         title: "Vehicles",
         icon: imagesPath.truck,
         link: "/payment-methods",
+      },
+    ],
+  },
+  {
+    group: "Extras",
+    option: [
+      {
+        title: "Affected Sites",
+        icon: imagesPath.octagon,
+        link: "/affected-site",
+        active: true,
+      },
+      {
+        title: "Causes",
+        icon: imagesPath.octagon,
+        link: "/causes",
+        active: true,
+      },
+      {
+        title: "Dots",
+        icon: imagesPath.octagon,
+        link: "/dots",
+        active: true,
+      },
+      {
+        title: "Collections",
+        icon: imagesPath.octagon,
+        link: "/collections",
+        active: true,
       },
     ],
   },
@@ -154,6 +194,7 @@ export const sideBarMenu = [
         title: "Campaigns",
         icon: imagesPath.octagon,
         link: "/campaigns",
+        active: true,
       },
     ],
   },

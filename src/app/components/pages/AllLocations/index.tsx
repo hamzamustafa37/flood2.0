@@ -13,7 +13,10 @@ const AllLocations = () => {
                         campaign details, performance, and settings at a glance."
       />
 
-      <CampaignsTable />
+      <div className="pt-4">
+        {" "}
+        <CampaignsTable />
+      </div>
     </div>
   );
 };

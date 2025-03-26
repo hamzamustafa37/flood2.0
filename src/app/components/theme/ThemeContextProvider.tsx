@@ -32,6 +32,14 @@ export default function ThemeProvider({ children }: ThemeProviderProps) {
       theme.background
     );
     document.documentElement.style.setProperty("--color-border", theme.border);
+    document.documentElement.style.setProperty(
+      "--color-bgComponent",
+      theme.componentBackground
+    );
+    document.documentElement.style.setProperty(
+      "--color-tilesColor",
+      theme.tilesColor
+    );
     document.documentElement.style.setProperty("--color-text", theme.text);
     document.documentElement.style.setProperty("--font-body", theme.fontFamily);
   };

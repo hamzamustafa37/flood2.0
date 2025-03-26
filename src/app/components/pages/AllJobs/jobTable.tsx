@@ -64,42 +64,44 @@ const data: Array<DataType> = [
 ];
 
 const JobTable: React.FC = () => (
-  <Table<DataType>
-    dataSource={data}
-    style={{ backgroundColor: "transparent" }}
-    rowKey="key"
-    components={{
-      header: {
-        row: (props: any) => (
-          <tr {...props} style={{ backgroundColor: "transparent" }} />
-        ),
-        cell: (props: any) => (
-          <th
-            {...props}
-            style={{
-              backgroundColor: "transparent",
-              borderBottom: "none",
-              text: "13px",
-              color: "#6c757d",
-            }}
-          />
-        ),
-      },
-    }}
-  >
-    <Column
-      title="JOB TITLE"
-      dataIndex="jobTitle"
-      key="jobTitle"
-      sorter={(a, b) => a.jobTitle.localeCompare(b.jobTitle)}
-      render={(text) => <a className="text-primaryBlue">{text}</a>}
-    />
+  <div className="overflow-x-auto">
+    <Table<DataType>
+      dataSource={data}
+      rowKey="key"
+      scroll={{ x: "max-content" }}
+      pagination={{ responsive: true }}
+      style={{ backgroundColor: "transparent" }}
+      components={{
+        header: {
+          row: (props: any) => (
+            <tr {...props} style={{ backgroundColor: "transparent" }} />
+          ),
+          cell: (props: any) => (
+            <th
+              {...props}
+              style={{
+                backgroundColor: "transparent",
+                borderBottom: "none",
+                fontSize: "13px",
+                color: "#6c757d",
+              }}
+            />
+          ),
+        },
+      }}
+    >
+      <Column
+        title="JOB TITLE"
+        dataIndex="jobTitle"
+        key="jobTitle"
+        sorter={(a, b) => a.jobTitle.localeCompare(b.jobTitle)}
+        render={(text) => <a className="text-primaryBlue">{text}</a>}
+      />
 
-    <Column
-      title="ASSIGNEES"
-      key="assignees"
-      render={(_, record: DataType) => (
-        <>
+      <Column
+        title="ASSIGNEES"
+        key="assignees"
+        render={(_, record: DataType) => (
           <Avatar.Group>
             {record.assignees.map((assignee, index) => (
               <Tooltip key={index} title={assignee.name} placement="top">
@@ -114,45 +116,39 @@ const JobTable: React.FC = () => (
               </Tooltip>
             ))}
           </Avatar.Group>
-        </>
-      )}
-    />
+        )}
+      />
 
-    <Column
-      title="DATE CREATED"
-      dataIndex="dateCreated"
-      key="dateCreated"
-      sorter={(a, b) => a.dateCreated - b.dateCreated}
-      render={(date) =>
-        new Intl.DateTimeFormat("en-US", {
-          year: "numeric",
-          month: "2-digit",
-          day: "2-digit",
-        }).format(new Date(date))
-      }
-    />
+      <Column
+        title="DATE CREATED"
+        dataIndex="dateCreated"
+        key="dateCreated"
+        sorter={(a, b) => a.dateCreated - b.dateCreated}
+        render={(date) =>
+          new Intl.DateTimeFormat("en-US", {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+          }).format(new Date(date))
+        }
+      />
 
-    <Column title="SERVICES" dataIndex="services" key="services" />
+      <Column title="SERVICES" dataIndex="services" key="services" />
 
-    <Column
-      title="PROGRESS"
-      dataIndex="progress"
-      key="progress"
-      sorter={(a, b) => a.progress.localeCompare(b.progress)}
-      render={(progress) => (
-        <>
-          <ProgressBar percent={progress} />
-        </>
-      )}
-    />
+      <Column
+        title="PROGRESS"
+        dataIndex="progress"
+        key="progress"
+        sorter={(a, b) => a.progress - b.progress}
+        render={(progress) => <ProgressBar percent={progress} />}
+      />
 
-    <Column
-      title="STATUS"
-      dataIndex="status"
-      key="status"
-      render={(status: string[]) => (
-        <>
-          {status.map((tag) => (
+      <Column
+        title="STATUS"
+        dataIndex="status"
+        key="status"
+        render={(status: string[]) =>
+          status.map((tag) => (
             <Tag
               color={
                 tag === "Active"
@@ -165,28 +161,28 @@ const JobTable: React.FC = () => (
             >
               {tag.toUpperCase()}
             </Tag>
-          ))}
-        </>
-      )}
-    />
+          ))
+        }
+      />
 
-    <Column
-      title="AMOUNT"
-      dataIndex="amount"
-      key="amount"
-      sorter={(a, b) => a.amount - b.amount}
-    />
+      <Column
+        title="AMOUNT"
+        dataIndex="amount"
+        key="amount"
+        sorter={(a, b) => a.amount - b.amount}
+      />
 
-    <Column
-      title="ACTION"
-      key="action"
-      render={() => (
-        <Space size="middle">
-          <a>...</a>
-        </Space>
-      )}
-    />
-  </Table>
+      <Column
+        title="ACTION"
+        key="action"
+        render={() => (
+          <Space size="middle">
+            <a>...</a>
+          </Space>
+        )}
+      />
+    </Table>
+  </div>
 );
 
 export default JobTable;

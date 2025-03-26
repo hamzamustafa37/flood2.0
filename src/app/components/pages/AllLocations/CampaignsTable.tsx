@@ -1,5 +1,5 @@
 "use client";
-import { Table, Badge, Dropdown, Button } from "antd";
+import { Table, Badge, Dropdown, Button, Tag } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import React from "react";
 import { EllipsisOutlined } from "@ant-design/icons";
@@ -73,13 +73,9 @@ const columns: ColumnsType<CampaignData> = [
     title: "STATUS",
     dataIndex: "status",
     render: (status: "ACTIVE" | "PAUSED") => (
-      <span
-        className={`px-3 py-1 rounded-full text-white text-xs font-semibold ${
-          status === "ACTIVE" ? "bg-green-500" : "bg-red-500"
-        }`}
-      >
+      <Tag color={status?.toUpperCase() === "ACTIVE" ? "green" : "red"}>
         {status}
-      </span>
+      </Tag>
     ),
   },
 

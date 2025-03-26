@@ -212,7 +212,7 @@ const CompaniesTable: React.FC = () => {
 
   return (
     <div>
-      <div className="flex justify-between items-center mb-4">
+      <div className="flex justify-between items-center">
         <Tabs
           activeKey={activeTab}
           onChange={(key) => setActiveTab(key)}

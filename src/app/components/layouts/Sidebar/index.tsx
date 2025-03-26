@@ -62,7 +62,6 @@ export const Sidebar: React.FC<ISidebar> = ({
     ${mobileSidebarOpen ? "translate-x-0" : "-translate-x-full"} 
     md:translate-x-0 md:static md:block`}
       >
-        {/* Collapse toggle (only md+) */}
         <div
           className={`"hidden  flex justify-center ${!collapsed && "md:justify-end"} mb-4"`}
         >
@@ -79,30 +78,53 @@ export const Sidebar: React.FC<ISidebar> = ({
             {sideBarMenu.map((menu) => (
               <div key={menu.group}>
                 {!collapsed && (
-                  <p className="text-xs text-[var(--color-text)] uppercase mt-4 px-2">
+                  <p className="text-xs text-[var(--color-text)] uppercase mt-4 pt-4">
                     {menu.group}
                   </p>
                 )}
                 {menu.option.map((item) => (
-                  <li key={item.title}>
-                    <Link
-                      className={`flex items-center text-center text-[var(--color-text)] text-sm rounded-lg px-2 py-2 transition-colors ${
-                        pathname === item.link
-                          ? "bg-lightGray text-white"
-                          : "hover:bg-lightGray hover:text-white"
-                      }`}
-                      href={item.link}
-                    >
-                      <Image
-                        src={item.icon}
-                        alt={item.title}
-                        width={25}
-                        height={25}
-                      />
-                      {!collapsed && (
-                        <span className=" text-center ms-3">{item.title}</span>
-                      )}
-                    </Link>
+                  <li key={item.title} className="mb-1">
+                    {item.active ? (
+                      <Link
+                        className={`flex items-center text-center text-[var(--color-text)] text-sm rounded-lg px-2 py-3 transition-colors ${
+                          pathname === item.link
+                            ? "bg-lightGray text-white"
+                            : "hover:bg-lightGray hover:text-white"
+                        }`}
+                        href={item.link}
+                      >
+                        <Image
+                          src={item.icon}
+                          alt={item.title}
+                          width={25}
+                          height={25}
+                          style={{ opacity: item.active ? 1 : 0.4 }}
+                        />
+                        {!collapsed && (
+                          <span className=" text-center ms-3">
+                            {item.title}
+                          </span>
+                        )}
+                      </Link>
+                    ) : (
+                      <div
+                        className="flex items-center text-center text-gray-400 text-sm rounded-lg px-2 py-2 cursor-not-allowed opacity-50"
+                        title="Disabled"
+                      >
+                        <Image
+                          src={item.icon}
+                          alt={item.title}
+                          width={25}
+                          height={25}
+                          style={{ opacity: 0.4 }}
+                        />
+                        {!collapsed && (
+                          <span className=" text-center ms-3">
+                            {item.title}
+                          </span>
+                        )}
+                      </div>
+                    )}
                   </li>
                 ))}
               </div>
