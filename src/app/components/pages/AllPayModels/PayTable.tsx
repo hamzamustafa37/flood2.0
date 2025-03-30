@@ -144,7 +144,7 @@ const PayModelsTable: React.FC = () => {
 
   return (
     <div className="p-4">
-      <div className="flex gap-4 mb-4">
+      <div className="flex flex-wrap gap-4 mb-4">
         <Input
           size="large"
           placeholder="Search Pay Model"

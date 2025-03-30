@@ -5,11 +5,17 @@ import React from "react";
 interface ITablePageHeaderProps {
   heading: string;
   strapLine: string;
+  isOpen?: boolean;
+  enableModal: boolean;
+  setIsOpen?: (isOpen: boolean) => void;
 }
 
 export default function TablePageHeader({
   heading,
   strapLine,
+  setIsOpen,
+  isOpen,
+  enableModal,
 }: ITablePageHeaderProps) {
   return (
     <div className="pt-4 md:pt-0">
@@ -23,15 +29,21 @@ export default function TablePageHeader({
           </h4>
           <p className="text-md text-textMuted mb-1">{strapLine}</p>
         </div>
-        <div className="flex items-center justify-center sm:justify-end w-full sm:w-auto">
-          <Image
-            src={imagesPath.plusIcon}
-            height={40}
-            width={40}
-            alt={"add icon"}
-            className="cursor-pointer"
-          />
-        </div>
+
+        {enableModal && (
+          <div className="flex items-center justify-center sm:justify-end w-full sm:w-auto">
+            <Image
+              src={imagesPath.plusIcon}
+              height={40}
+              width={40}
+              alt={"add icon"}
+              className="cursor-pointer"
+              onClick={() => {
+                setIsOpen && setIsOpen(!isOpen);
+              }}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

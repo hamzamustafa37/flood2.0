@@ -173,7 +173,7 @@ const columns = [
   },
 ];
 
-const CompaniesTable: React.FC = () => {
+const ContractTable: React.FC = () => {
   const [search, setSearch] = useState("");
   const [activeTab, setActiveTab] = useState("all");
 
@@ -212,7 +212,7 @@ const CompaniesTable: React.FC = () => {
 
   return (
     <div>
-      <div className="flex justify-between items-center">
+      <div className="flex flex-wrap justify-between items-center">
         <Tabs
           activeKey={activeTab}
           onChange={(key) => setActiveTab(key)}
@@ -222,6 +222,7 @@ const CompaniesTable: React.FC = () => {
           placeholder="Search project"
           onChange={(e) => setSearch(e.target.value)}
           style={{ width: 250 }}
+          className="h-[45px]"
         />
       </div>
       <Table
@@ -229,10 +230,11 @@ const CompaniesTable: React.FC = () => {
         dataSource={filteredData}
         pagination={false}
         rowKey="key"
+        scroll={{ x: true }}
         className="companies-table"
       />
     </div>
   );
 };
 
-export default CompaniesTable;
+export default ContractTable;

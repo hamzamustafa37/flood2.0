@@ -157,12 +157,6 @@ export const sideBarMenu = [
     group: "Extras",
     option: [
       {
-        title: "Affected Sites",
-        icon: imagesPath.octagon,
-        link: "/affected-site",
-        active: true,
-      },
-      {
         title: "Causes",
         icon: imagesPath.octagon,
         link: "/causes",
@@ -189,11 +183,18 @@ export const sideBarMenu = [
         title: "Services",
         icon: imagesPath.award,
         link: "/payment-methods",
+        active: false,
       },
       {
         title: "Campaigns",
         icon: imagesPath.octagon,
         link: "/campaigns",
+        active: true,
+      },
+      {
+        title: "Equipment",
+        icon: imagesPath.home,
+        link: "/equipment",
         active: true,
       },
     ],

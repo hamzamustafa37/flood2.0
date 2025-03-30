@@ -100,7 +100,7 @@ const columns: ColumnsType<CampaignData> = [
   },
 ];
 
-const CampaignsTable: React.FC = () => {
+const ExhaustReading: React.FC = () => {
   return (
     <Table
       dataSource={dataSource}
@@ -113,4 +113,4 @@ const CampaignsTable: React.FC = () => {
   );
 };
 
-export default CampaignsTable;
+export default ExhaustReading;

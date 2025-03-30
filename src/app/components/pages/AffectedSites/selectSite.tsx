@@ -68,7 +68,6 @@ const SelectSite = ({
           </ul>
         </div>
       )}
-
       <div>
         <span className="font-semibold mb-2 inline-block">Add More Floors</span>
         <div className="space-y-2">

@@ -1,8 +1,10 @@
+"use client";
 import React from "react";
-import CompaniesTable from "./CompaniesTable";
 import TablePageHeader from "@/app/components/common/TablePage/TablePageHeader";
+import ContractTable from "./ContractTable";
 
 const AllContracts = () => {
+  const [open, setOpen] = React.useState(false);
   return (
     <div className="p-4">
       <TablePageHeader
@@ -10,9 +12,12 @@ const AllContracts = () => {
         strapLine={
           "Manage and track your marketing campaigns effortlessly. View campaign details, performance, and settings at a glance."
         }
+        isOpen={open}
+        setIsOpen={setOpen}
+        enableModal={true}
       />
       <div className="p-4">
-        <CompaniesTable />
+        <ContractTable />
       </div>
     </div>
   );

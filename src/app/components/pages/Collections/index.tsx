@@ -2,6 +2,8 @@ import { NextPage } from "next";
 import React from "react";
 import TablePageHeader from "../../common/TablePage/TablePageHeader";
 import CollectionInfoTabs from "./collectionInfoTabs";
+import CollectionChart from "./collectionChart";
+import JobTable from "./collectionsJobsData";
 
 const CollectionData: NextPage = () => {
   return (
@@ -12,6 +14,8 @@ const CollectionData: NextPage = () => {
       />
       <div className="p-5">
         <CollectionInfoTabs />
+        <CollectionChart />
+        <JobTable />
       </div>
     </div>
   );
