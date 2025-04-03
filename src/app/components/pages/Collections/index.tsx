@@ -11,6 +11,7 @@ const CollectionData: NextPage = () => {
       <TablePageHeader
         heading="Collection"
         strapLine="Track and manage your payments, outstanding balances, and collected revenue in one place"
+        enableModal={false}
       />
       <div className="p-5">
         <CollectionInfoTabs />

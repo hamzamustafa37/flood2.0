@@ -33,6 +33,7 @@ export const AllJobs: React.FC = () => {
       <TablePageHeader
         heading="Jobs Overview"
         strapLine="Manage and track all your scheduled, in-progress, and completed jobs in one place."
+        enableModal={false}
       />
 
       <div className="p-4">

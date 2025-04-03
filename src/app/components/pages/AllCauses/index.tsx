@@ -11,6 +11,7 @@ const AllCauses = () => {
         heading="Causes Management"
         strapLine=" Manage and track your marketing campaigns effortlessly. View
                   campaign details, performance, and settings at a glance."
+        enableModal={false}
       />
       <div className="p-4">
         <CausesTable />

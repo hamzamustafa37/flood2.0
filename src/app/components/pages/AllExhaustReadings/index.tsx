@@ -13,6 +13,7 @@ const AllExhaustReadings = () => {
         strapLine={
           "Manage and track your marketing campaigns effortlessly. View campaign details, performance, and settings at a glance."
         }
+        enableModal={true}
         isOpen={open}
         setIsOpen={setOpen}
       />

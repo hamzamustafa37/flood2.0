@@ -11,6 +11,7 @@ const AllDots = () => {
         heading="Dots"
         strapLine=" Manage and track your marketing campaigns effortlessly. View
                         campaign details, performance, and settings at a glance."
+        enableModal={false}
       />
       <div className="p-4 mt-4">
         <CampaignsTable />
