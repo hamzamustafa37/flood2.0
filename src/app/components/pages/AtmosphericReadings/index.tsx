@@ -1,6 +1,4 @@
 "use client";
-import { imagesPath } from "@/utils";
-import Image from "next/image";
 import React, { useState } from "react";
 import AtmosphereTable from "./atmospherTable";
 import TablePageHeader from "../../common/TablePage/TablePageHeader";

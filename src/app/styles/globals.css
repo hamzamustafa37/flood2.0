@@ -5,6 +5,7 @@
 @tailwind utilities;
 @import "./affectedSite.css";
 @import "./table.css";
+@import "./calender.css";
 .tooltip {
   @apply invisible absolute;
 }

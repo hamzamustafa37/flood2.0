@@ -1,4 +1,3 @@
-import { tree } from "next/dist/build/templates/app-page";
 import { imagesPath } from "../constants";
 
 export const sideBarMenu = [
@@ -46,7 +45,9 @@ export const sideBarMenu = [
       {
         title: "Appointments",
         icon: imagesPath.appointment,
-        link: "/profile",
+        link: "/weekly-appointment",
+        active: true,
+        tag: "New",
       },
       {
         title: "Schedules",
@@ -64,6 +65,7 @@ export const sideBarMenu = [
         icon: imagesPath.location,
         link: "/location-management",
         active: true,
+        tag: "New",
       },
       {
         title: "Logs",

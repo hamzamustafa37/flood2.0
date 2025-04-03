@@ -7,6 +7,7 @@ import { useCurrentUser } from "@/app/hooks";
 import { getBaseUrl } from "@/utils";
 import { sideBarMenu } from "@/utils/helpers/sidebarOption";
 import { FiMenu, FiX } from "react-icons/fi";
+import { Tag } from "antd";
 
 interface ISidebar {
   readonly collapsed: boolean;
@@ -104,6 +105,11 @@ export const Sidebar: React.FC<ISidebar> = ({
                           <span className=" text-center ms-3">
                             {item.title}
                           </span>
+                        )}
+                        {item?.tag && (
+                          <Tag className="mx-3" color="volcano">
+                            {item?.tag}
+                          </Tag>
                         )}
                       </Link>
                     ) : (
