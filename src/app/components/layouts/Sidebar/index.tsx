@@ -42,11 +42,12 @@ export const Sidebar: React.FC<ISidebar> = ({
 
   React.useEffect(() => {
     if (mobileSidebarOpen) {
-      document.body.style.overflow = "hidden";
+      document.body.style.overflow = "hidden"; // Prevent scroll
     } else {
-      document.body.style.overflow = "auto";
+      document.body.style.overflow = "auto"; // Enable scroll
     }
   }, [mobileSidebarOpen]);
+
   return (
     <>
       {/* Mobile Backdrop */}
@@ -56,15 +57,18 @@ export const Sidebar: React.FC<ISidebar> = ({
           onClick={() => setMobileSidebarOpen(false)}
         />
       )}
+
+      {/* Sidebar */}
       <aside
-        className={`fixed top-0 left-0 bg-[var(--color-background)] h-screen z-30 pb-6 px-4 border-r border-[#d9d9d9]
-    overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]
-    ${collapsed ? "w-[80px]" : "w-[268px]"}
-    ${mobileSidebarOpen ? "translate-x-0" : "-translate-x-full"} 
-    md:translate-x-0 md:static md:block`}
+        className={`h-screen overflow-y-scroll fixed top-0 left-0 bg-[var(--color-background)] z-30 pb-6 pl-4 border-r border-[#d9d9d9]
+          transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]
+          ${collapsed ? "w-[80px]" : "w-[268px]"}
+          ${mobileSidebarOpen ? "translate-x-0" : "-translate-x-full"} 
+          md:translate-x-0 md:static md:block min-h-screen`} // Ensure sidebar takes full height
       >
+        {/* Toggle Button */}
         <div
-          className={`"hidden  flex justify-center ${!collapsed && "md:justify-end"} mb-4"`}
+          className={`hidden flex justify-center ${!collapsed && "md:justify-end"} mb-4`}
         >
           <button
             onClick={() => setCollapsed(!collapsed)}
@@ -74,7 +78,8 @@ export const Sidebar: React.FC<ISidebar> = ({
           </button>
         </div>
 
-        <div className="h-full overflow-y-auto">
+        {/* Sidebar Menu */}
+        <div className="">
           <ul className="space-y-2">
             {sideBarMenu.map((menu) => (
               <div key={menu.group}>
@@ -84,7 +89,7 @@ export const Sidebar: React.FC<ISidebar> = ({
                   </p>
                 )}
                 {menu.option.map((item) => (
-                  <li key={item.title} className="mb-1">
+                  <li key={item.title} className="mb-1 mr-2">
                     {item.active ? (
                       <Link
                         className={`flex items-center text-center text-[var(--color-text)] text-sm rounded-lg px-2 py-3 transition-colors ${
@@ -106,8 +111,8 @@ export const Sidebar: React.FC<ISidebar> = ({
                             {item.title}
                           </span>
                         )}
-                        {item?.tag && (
-                          <Tag className="mx-3" color="volcano">
+                        {item?.tag && !collapsed && (
+                          <Tag className="m-3" color="volcano">
                             {item?.tag}
                           </Tag>
                         )}

@@ -1,28 +1,27 @@
 "use client";
-
 import { useEffect } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import NProgress from "nprogress";
+import "nprogress/nprogress.css";
 
-NProgress.configure({ showSpinner: false });
-
-const RouteProgress = () => {
+export default function NProgressWrapper() {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   useEffect(() => {
-    NProgress.start();
-    const timer = setTimeout(() => NProgress.done(), 500);
-    return () => clearTimeout(timer);
-  }, [pathname]);
+    NProgress.configure({ showSpinner: false });
 
-  return (
-    <div className="fixed top-0 left-0 w-full h-1 z-50">
-      <div
-        className="h-full bg-blue-600 transition-all ease-in-out duration-500"
-        id="progress-bar"
-      />
-    </div>
-  );
-};
+    const handleStart = () => NProgress.start();
+    const handleDone = () => NProgress.done();
 
-export default RouteProgress;
+    handleStart();
+    const timer = setTimeout(handleDone, 500);
+
+    return () => {
+      clearTimeout(timer);
+      handleDone();
+    };
+  }, [pathname, searchParams]);
+
+  return null;
+}
