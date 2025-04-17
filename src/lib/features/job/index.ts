@@ -1,8 +1,14 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import { IAffectedArea, IJob } from "@/utils";
+import { ApiActions, IAffectedArea, IJob, JobType } from "@/utils";
+import { AppThunk } from "@/lib/store";
+import { endLoading, startLoading } from "../global";
+import { getJobs } from "./jobApi";
+import { AxiosError } from "axios";
+import { errorPopup } from "@/app/components/common";
 
 export interface IJobSlice {
   job: IJob;
+  allJobs: Array<JobType>;
 }
 
 const initialState: IJobSlice = {
@@ -12,6 +18,7 @@ const initialState: IJobSlice = {
     roomType: [],
     affectedAreas: [],
   },
+  allJobs: [],
 };
 
 export const jobSlice = createSlice({
@@ -196,14 +203,18 @@ export const jobSlice = createSlice({
         state.job.affectedAreas[foundIndex].images.splice(index, 1);
       }
     },
+    setAllJobs: (state, action: PayloadAction<JobType[]>) => {
+      state.allJobs = action.payload;
+    },
   },
   selectors: {
     createdJob: (store) => store.job,
     JobData: (job) => job.job,
+    allJobsData: (job) => job.allJobs,
   },
 });
 
-export const { createdJob, JobData } = jobSlice.selectors;
+export const { createdJob, JobData, allJobsData } = jobSlice.selectors;
 export const {
   addSites,
   addRooms,
@@ -211,5 +222,23 @@ export const {
   addMaterials,
   addAffectedAreaImages,
   removeAffectedAreaImage,
+  setAllJobs,
 } = jobSlice.actions;
 export default jobSlice.reducer;
+
+export const _getJobs =
+  (page: number = 1, limit: number = 10): AppThunk =>
+  (dispatch) => {
+    dispatch(startLoading({ key: ApiActions.GET_JOBS }));
+    getJobs(page, limit)
+      .then((response) => {
+        console.log(response, "The response");
+        dispatch(setAllJobs(response.data));
+        dispatch(endLoading({ key: ApiActions.GET_JOBS }));
+      })
+      .catch((err) => {
+        const error = err as AxiosError;
+        dispatch(endLoading({ key: ApiActions.GET_JOBS }));
+        errorPopup(error.message);
+      });
+  };

@@ -33,6 +33,5 @@
     "build/types/**/*.ts",
     "src/app/api/auth/[...nextauth]/route.ts"
   ],
-  "exclude": ["node_modules"],
-  "typeRoots": ["./types", "./node_modules/@types"]
+  "exclude": ["node_modules"]
 }

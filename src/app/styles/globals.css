@@ -4,8 +4,8 @@
 @tailwind components;
 @tailwind utilities;
 @import "./affectedSite.css";
-@import "./table.css";
-@import "./calender.css";
+@import "./scrollbar.css";
+
 .tooltip {
   @apply invisible absolute;
 }
@@ -29,11 +29,9 @@ body {
   margin: 0;
   box-sizing: border-box;
   font-family: "Poppins", sans-serif !important;
-  overflow: hidden;
+  overflow-y: scroll;
 }
-#nprogress .bar {
-  display: none !important;
-}
+
 .header-top h1 {
   padding: 0 !important;
 }

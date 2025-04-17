@@ -2,75 +2,31 @@ import React from "react";
 import { Avatar, Space, Table, Tag, Tooltip } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { ProgressBar } from "../../common";
+import { useSelector } from "react-redux";
+import { allJobsData } from "@/lib/features/job";
+import { JobType } from "@/utils";
 
 const { Column } = Table;
 
-interface Assignee {
-  name: string;
-  avatar?: string;
-}
+const JobTable: React.FC = () => {
+  const _allJobs = useSelector(allJobsData);
 
-interface DataType {
-  key: React.Key;
-  jobTitle: string;
-  assignees: Array<Assignee>;
-  dateCreated: number;
-  services: string;
-  progress: number;
-  status: string[];
-  amount: number;
-}
+  const dataSource = _allJobs?.map((job: JobType, index: number) => ({
+    key: job.id || index,
+    jobTitle: job.title,
+    assignees: job.userIds || [],
+    dateCreated: job.createdAt,
+    services: job.primaryServiceType,
+    progress: job.progressPercent,
+    status: [job.status], // Making it an array for tags
+    amount: job.amountBilled,
+  }));
 
-const data: Array<DataType> = [
-  {
-    key: "1",
-    jobTitle: "Software Engineer",
-    assignees: [
-      {
-        name: "John Doe",
-        avatar: "https://api.dicebear.com/7.x/miniavs/svg?seed=John",
-      },
-      {
-        name: "Jane Smith",
-        avatar: "https://api.dicebear.com/7.x/miniavs/svg?seed=Jane",
-      },
-      { name: "Ant User" },
-    ],
-    dateCreated: 1709059200000,
-    services: "Web Development",
-    progress: 20,
-    status: ["Active"],
-    amount: 2500,
-  },
-  {
-    key: "2",
-    jobTitle: "UI/UX Designer",
-    assignees: [
-      {
-        name: "Alice Brown",
-        avatar: "https://api.dicebear.com/7.x/miniavs/svg?seed=Alice",
-      },
-      {
-        name: "Bob Martin",
-        avatar: "https://api.dicebear.com/7.x/miniavs/svg?seed=Bob",
-      },
-    ],
-    dateCreated: 1709059300000,
-    services: "UI/UX Design",
-    progress: 70,
-    status: ["Completed"],
-    amount: 1800,
-  },
-];
-
-const JobTable: React.FC = () => (
-  <div className="overflow-x-auto">
-    <Table<DataType>
-      dataSource={data}
-      rowKey="key"
-      scroll={{ x: "max-content" }}
-      pagination={{ responsive: true }}
+  return (
+    <Table
+      dataSource={dataSource}
       style={{ backgroundColor: "transparent" }}
+      rowKey="key"
       components={{
         header: {
           row: (props: any) => (
@@ -101,9 +57,9 @@ const JobTable: React.FC = () => (
       <Column
         title="ASSIGNEES"
         key="assignees"
-        render={(_, record: DataType) => (
+        render={(_, record) => (
           <Avatar.Group>
-            {record.assignees.map((assignee, index) => (
+            {record.assignees.map((assignee: any, index: number) => (
               <Tooltip key={index} title={assignee.name} placement="top">
                 {assignee.avatar ? (
                   <Avatar src={assignee.avatar} />
@@ -123,7 +79,9 @@ const JobTable: React.FC = () => (
         title="DATE CREATED"
         dataIndex="dateCreated"
         key="dateCreated"
-        sorter={(a, b) => a.dateCreated - b.dateCreated}
+        sorter={(a, b) =>
+          new Date(a.dateCreated).getTime() - new Date(b.dateCreated).getTime()
+        }
         render={(date) =>
           new Intl.DateTimeFormat("en-US", {
             year: "numeric",
@@ -147,22 +105,24 @@ const JobTable: React.FC = () => (
         title="STATUS"
         dataIndex="status"
         key="status"
-        render={(status: string[]) =>
-          status.map((tag) => (
-            <Tag
-              color={
-                tag === "Active"
-                  ? "green"
-                  : tag === "Completed"
-                    ? "blue"
-                    : "volcano"
-              }
-              key={tag}
-            >
-              {tag.toUpperCase()}
-            </Tag>
-          ))
-        }
+        render={(status: string[]) => (
+          <>
+            {status.map((tag) => (
+              <Tag
+                color={
+                  tag === "Active"
+                    ? "green"
+                    : tag === "Completed"
+                      ? "blue"
+                      : "volcano"
+                }
+                key={tag}
+              >
+                {tag.toUpperCase()}
+              </Tag>
+            ))}
+          </>
+        )}
       />
 
       <Column
@@ -170,6 +130,7 @@ const JobTable: React.FC = () => (
         dataIndex="amount"
         key="amount"
         sorter={(a, b) => a.amount - b.amount}
+        render={(value) => `$${value.toFixed(2)}`}
       />
 
       <Column
@@ -182,7 +143,7 @@ const JobTable: React.FC = () => (
         )}
       />
     </Table>
-  </div>
-);
+  );
+};
 
 export default JobTable;

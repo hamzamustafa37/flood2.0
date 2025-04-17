@@ -1,5 +1,5 @@
 import React from "react";
-import { AuthLayout } from "../components/layouts/auth";
+import { AuthLayout } from "../components/layouts";
 
 interface IPublicLayout {
   readonly children: React.ReactNode;

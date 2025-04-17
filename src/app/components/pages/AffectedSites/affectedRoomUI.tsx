@@ -74,9 +74,9 @@ export default function AffectedRooms() {
         />
       </div>
 
-      <div className="lg:col-span-9 col-span-12 flex justify-center  ">
+      <div className="lg:col-span-9 col-span-12 flex justify-center">
         <div className="lg:w-[50%] w-full rounded-lg bg-white p-6 shadow-lg ">
-          <div className="h-[500px] overflow-y-auto">
+          <div className="h-auto overflow-y-auto">
             {step === 0 && (
               <SelectSite
                 specifyArea={specifyArea}
@@ -116,6 +116,7 @@ export default function AffectedRooms() {
               />
             )}
           </div>
+
           <div className="mt-6 w-full flex justify-end p-4">
             <Button
               className={`mt-2 rounded-lg px-4 py-2 ${
