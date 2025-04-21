@@ -1,12 +1,9 @@
 import { AxiosError, type AxiosResponse } from "axios";
 import { apiRoutes } from "@/utils/api.route";
-import {
-  // type IRebuttal,
-  type IResponse,
-} from "@/utils/commonTypes";
+
 import { api } from "@/utils/axios";
 import { IGetAllJobsResponse } from "@/utils/types/responseInterface";
-// import { msgResponse } from "@/utils/messagesType";
+import { errorMessages, msgResponse } from "@/utils";
 
 export const getJobs = async (
   page: number = 1,
@@ -15,7 +12,7 @@ export const getJobs = async (
   try {
     const response = await api.request({
       method: "get",
-      url: `${apiRoutes.jobs.name}${apiRoutes.jobs.read}`,
+      url: `${apiRoutes.jobs.name}${apiRoutes.jobs.readWithUsers}?withUsers=true`,
       params: {
         page,
         limit,
@@ -26,7 +23,25 @@ export const getJobs = async (
     if (error instanceof AxiosError) {
       throw new Error(error.message);
     } else {
-      throw new Error("An unknown error occurred");
+      throw new Error(errorMessages.errorOccurred);
+    }
+  }
+};
+
+export const getJobDetails = async (
+  id: string
+): Promise<IGetAllJobsResponse> => {
+  try {
+    const response = await api.request({
+      method: "get",
+      url: `${apiRoutes.jobs.name}${apiRoutes.jobs.read}/${id}`,
+    });
+    return response.data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      throw new Error(error.message);
+    } else {
+      throw new Error(errorMessages.errorOccurred);
     }
   }
 };

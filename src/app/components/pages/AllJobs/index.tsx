@@ -6,12 +6,14 @@ import JobTable from "./jobTable";
 import { useAppDispatch } from "@/lib/hooks";
 import { _getJobs, allJobsData } from "@/lib/features/job";
 import { useSelector } from "react-redux";
+import { loading } from "@/lib/features/global";
+import { Spin } from "antd";
 
 export const AllJobs: React.FC = () => {
   const dispatch = useAppDispatch();
   const [activeOption, setActiveOption] = React.useState("All");
 
-  const _allJobs = useSelector(allJobsData);
+  const _loading = useSelector(loading);
 
   enum IOptions {
     All = "All",
@@ -35,7 +37,6 @@ export const AllJobs: React.FC = () => {
     dispatch(_getJobs(1, 10));
   }, []);
 
-  console.log(_allJobs, "The all jobs data");
   return (
     <div className="p-4">
       <div className="border-b-2 border-borderLight p-4">
@@ -46,34 +47,43 @@ export const AllJobs: React.FC = () => {
         </p>
       </div>
 
-      <div className="border-b border-borderLight grid grid-cols-2 items-center mt-5 cursor-pointer">
-        <div className="mt-3">
-          <ul className="flex space-x-4 m-0 p-0">
-            {Object.values(IOptions).map((option) => (
-              <li
-                key={option}
-                onClick={() => handleOption(option)}
-                className={
-                  activeOption === option
-                    ? "text-primaryBlue text-sm"
-                    : "text-grayText text-sm"
-                }
-              >
-                {option}{" "}
-                <span className="text-grayText">({_allJobs[option]})</span>
-              </li>
-            ))}
-          </ul>
+      {_loading?.GET_JOBS ? (
+        <div className="mt-5 flex justify-center items-center">
+          <Spin />
         </div>
-        <div className="flex justify-end mt-3">
-          <Input
-            className="w-[70%] mb-2"
-            type={InputType.Text}
-            placeholder="Search"
-          />
-        </div>
-      </div>
-      <JobTable />
+      ) : (
+        <>
+          {" "}
+          <div className="border-b border-borderLight grid grid-cols-2 items-center mt-5 cursor-pointer">
+            <div className="mt-3">
+              <ul className="flex space-x-4 m-0 p-0">
+                {Object.values(IOptions).map((option) => (
+                  <li
+                    key={option}
+                    onClick={() => handleOption(option)}
+                    className={
+                      activeOption === option
+                        ? "text-primaryBlue text-sm"
+                        : "text-grayText text-sm"
+                    }
+                  >
+                    {option}{" "}
+                    <span className="text-grayText">({jobCounts[option]})</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="flex justify-end mt-3">
+              <Input
+                className="w-[70%] mb-2"
+                type={InputType.Text}
+                placeholder="Search"
+              />
+            </div>
+          </div>
+          <JobTable />
+        </>
+      )}
     </div>
   );
 };

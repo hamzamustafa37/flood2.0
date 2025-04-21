@@ -7,7 +7,6 @@ export const sideBarMenu = [
       {
         title: "Dashboard",
         icon: imagesPath.home,
-
         link: "/dashboard",
       },
       {
@@ -25,16 +24,17 @@ export const sideBarMenu = [
         title: "Atmospheric Readings",
         icon: imagesPath.atmosphere,
         link: "/atmospheric-readings",
+        active: true,
       },
       {
         title: "Exhaust Readings",
         icon: imagesPath.exhaustloader,
-        link: "/dashboard",
+        link: "/exhaust-readings",
+        active: true,
       },
       {
         title: "MC Readings",
         icon: imagesPath.framer,
-
         link: "/dashboard",
       },
     ],
@@ -45,7 +45,9 @@ export const sideBarMenu = [
       {
         title: "Appointments",
         icon: imagesPath.appointment,
-        link: "/profile",
+        link: "/weekly-appointment",
+        active: true,
+        tag: "New",
       },
       {
         title: "Schedules",
@@ -55,17 +57,20 @@ export const sideBarMenu = [
       {
         title: "Jobs",
         icon: imagesPath.briefcase,
-        link: "/affected-site",
+        link: "/jobs",
+        active: true,
       },
       {
         title: "Locations",
         icon: imagesPath.location,
-        link: "/notifications",
+        link: "/location-management",
+        active: true,
+        tag: "New",
       },
       {
         title: "Logs",
         icon: imagesPath.disc,
-        link: "/help",
+        link: "/dots",
       },
     ],
   },
@@ -75,22 +80,26 @@ export const sideBarMenu = [
       {
         title: "Companies",
         icon: imagesPath.archive,
-        link: "/payment-methods",
+        link: "/companies",
+        active: true,
       },
       {
         title: "Contracts",
         icon: imagesPath.folder,
-        link: "/notifications",
+        link: "/contracts",
+        active: true,
       },
       {
         title: "Pay Models",
         icon: imagesPath.alertIcon,
-        link: "/payment-methods",
+        link: "/pay-models",
+        active: true,
       },
       {
         title: "Payables",
         icon: imagesPath.send,
-        link: "/notifications",
+        link: "/payables",
+        active: true,
       },
       {
         title: "Payments",
@@ -120,7 +129,8 @@ export const sideBarMenu = [
       {
         title: "Inventory",
         icon: imagesPath.textFile,
-        link: "/payment-methods",
+        link: "/inventory-modules",
+        active: true,
       },
       {
         title: "Equipment",
@@ -130,7 +140,8 @@ export const sideBarMenu = [
       {
         title: "Materials",
         icon: imagesPath.material,
-        link: "/payment-methods",
+        link: "/material-management",
+        active: true,
       },
       {
         title: "Packages",
@@ -145,17 +156,48 @@ export const sideBarMenu = [
     ],
   },
   {
+    group: "Extras",
+    option: [
+      {
+        title: "Causes",
+        icon: imagesPath.octagon,
+        link: "/causes",
+        active: true,
+      },
+      {
+        title: "Dots",
+        icon: imagesPath.octagon,
+        link: "/dots",
+        active: true,
+      },
+      {
+        title: "Collections",
+        icon: imagesPath.octagon,
+        link: "/collections",
+        active: true,
+      },
+    ],
+  },
+  {
     group: "Services & Customer Management",
     option: [
       {
         title: "Services",
         icon: imagesPath.award,
         link: "/payment-methods",
+        active: false,
       },
       {
         title: "Campaigns",
         icon: imagesPath.octagon,
-        link: "/payment-methods",
+        link: "/campaigns",
+        active: true,
+      },
+      {
+        title: "Equipment",
+        icon: imagesPath.home,
+        link: "/equipment",
+        active: true,
       },
     ],
   },

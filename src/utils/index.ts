@@ -8,4 +8,5 @@ export * from "./commonTypes";
 export * from "./axios";
 export * from "./helpers/maskEmail";
 export * from "./showError";
-export * from "./types/JobsInterface";
+export * from "./types/jobs.types";
+export * from "./api.routes1";

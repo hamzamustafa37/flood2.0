@@ -5,5 +5,6 @@ export const apiRoutes = {
   jobs: {
     name: "/",
     read: "jobs",
+    readWithUsers: "jobs?withUsers=true",
   },
 };

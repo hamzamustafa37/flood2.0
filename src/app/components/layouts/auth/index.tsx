@@ -12,28 +12,24 @@ export const AuthLayout = ({ children }: IAuthLayout): React.ReactElement => {
   const [mobileSidebarOpen, setMobileSidebarOpen] = React.useState(false);
 
   const handleToggle = () => {
-    console.log("toggle");
     setMobileSidebarOpen((prev) => !prev);
   };
 
   return (
-    <main className="bg-[var(--color-background)] min-h-screen flex flex-col">
+    <main className="bg-[var(--color-background)] min-h-screen flex flex-col overflow-hidden">
       <PrivateHeader
         onToggle={handleToggle}
         onMobileToggle={() => setMobileSidebarOpen((prev) => !prev)}
       />
-      <div
-        className={`
-          flex flex-1 pt-[100px]
-          transition-[margin] duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]
-        `}
-      >
+      <div className="flex flex-1 overflow-hidden pt-[79px]">
+        {/* Sidebar */}
         <Sidebar
           collapsed={collapsed}
           setCollapsed={setCollapsed}
           mobileSidebarOpen={mobileSidebarOpen}
           setMobileSidebarOpen={setMobileSidebarOpen}
         />
+        {/* Content */}
         <section
           className={`
             flex-1 

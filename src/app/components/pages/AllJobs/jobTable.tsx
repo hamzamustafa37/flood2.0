@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import { Avatar, Space, Table, Tag, Tooltip } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { ProgressBar } from "../../common";
@@ -13,12 +14,13 @@ const JobTable: React.FC = () => {
 
   const dataSource = _allJobs?.map((job: JobType, index: number) => ({
     key: job.id || index,
+    id: job.id,
     jobTitle: job.title,
     assignees: job.userIds || [],
     dateCreated: job.createdAt,
     services: job.primaryServiceType,
     progress: job.progressPercent,
-    status: [job.status], // Making it an array for tags
+    status: [job.status],
     amount: job.amountBilled,
   }));
 
@@ -51,7 +53,11 @@ const JobTable: React.FC = () => {
         dataIndex="jobTitle"
         key="jobTitle"
         sorter={(a, b) => a.jobTitle.localeCompare(b.jobTitle)}
-        render={(text) => <a className="text-primaryBlue">{text}</a>}
+        render={(text, record) => (
+          <Link href={`/jobs/${record.id}`}>
+            <span className="text-primaryBlue">{text}</span>
+          </Link>
+        )}
       />
 
       <Column

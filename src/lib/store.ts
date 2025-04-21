@@ -5,20 +5,18 @@ import {
   type ThunkAction,
 } from "@reduxjs/toolkit";
 import { floodApiSlice } from "./features/flood/flood.Rtk";
-import { authSlice } from "./features/auth";
-import { cardSlice } from "./features/card";
+// import { authSlice } from "./features/auth";
+
 import { globalSlice } from "./features/global";
-import { bookingSlice } from "./features/book";
 import { jobSlice } from "./features/job";
 
 // `combineSlices` automatically combines the reducers using
 // their `reducerPath`s, therefore we no longer need to call `combineReducers`.
 const rootReducer = combineSlices(
   floodApiSlice,
-  authSlice,
-  cardSlice,
+  // authSlice,
   globalSlice,
-  bookingSlice,
+
   jobSlice
 );
 // Infer the `RootState` type from the root reducer

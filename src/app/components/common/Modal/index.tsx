@@ -1,17 +1,34 @@
 import React from "react";
 import { Modal } from "antd";
 
-interface IModal {
-  isModalOpen: boolean;
-  handleCancel: () => void;
+interface CustomModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  title: string;
+  children: React.ReactNode;
+  actions?: React.ReactNode;
 }
-const ModalBox = ({ isModalOpen, handleCancel }: IModal) => {
+
+const CustomModal: React.FC<CustomModalProps> = ({
+  isOpen,
+  onClose,
+  title,
+  children,
+  actions,
+}) => {
   return (
-    <Modal title="Basic Modal" open={isModalOpen} onCancel={handleCancel}>
-      <p>Some contents...</p>
-      <p>Some contents...</p>
-      <p>Some contents...</p>
+    <Modal
+      open={isOpen}
+      onCancel={onClose}
+      title={title}
+      footer={actions || null}
+      centered
+      destroyOnClose
+    >
+      <hr className="text-[#d9d9d9]" />
+      <div className="pt-2">{children}</div>
     </Modal>
   );
 };
-export default ModalBox;
+
+export default CustomModal;

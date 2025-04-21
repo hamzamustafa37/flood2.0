@@ -397,3 +397,7 @@ export interface IJob {
   roomType: string[];
   affectedAreas: Array<IAffectedArea>;
 }
+export interface ModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+}

@@ -1,5 +1,4 @@
-import { ICommonResponse } from "../commonTypes";
-import { JobType } from "./JobsInterface";
+import { JobType } from "./jobs.types";
 
 export interface IGetAllJobsResponse {
   data: JobType[];

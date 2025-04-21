@@ -2,7 +2,7 @@ import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import { ApiActions, IAffectedArea, IJob, JobType } from "@/utils";
 import { AppThunk } from "@/lib/store";
 import { endLoading, startLoading } from "../global";
-import { getJobs } from "./jobApi";
+import { getJobDetails, getJobs } from "./jobApi";
 import { AxiosError } from "axios";
 import { errorPopup } from "@/app/components/common";
 
@@ -232,13 +232,30 @@ export const _getJobs =
     dispatch(startLoading({ key: ApiActions.GET_JOBS }));
     getJobs(page, limit)
       .then((response) => {
-        console.log(response, "The response");
+        console.log(response, "Yje");
         dispatch(setAllJobs(response.data));
         dispatch(endLoading({ key: ApiActions.GET_JOBS }));
       })
       .catch((err) => {
         const error = err as AxiosError;
         dispatch(endLoading({ key: ApiActions.GET_JOBS }));
+        errorPopup(error.message);
+      });
+  };
+
+export const _getJobDetails =
+  (id: string): AppThunk =>
+  (dispatch) => {
+    dispatch(startLoading({ key: ApiActions.GET_JOB_DETAILS }));
+    getJobDetails(id)
+      .then((response) => {
+        console.log(response, "The response");
+        dispatch(setAllJobs(response.data));
+        dispatch(endLoading({ key: ApiActions.GET_JOB_DETAILS }));
+      })
+      .catch((err) => {
+        const error = err as AxiosError;
+        dispatch(endLoading({ key: ApiActions.GET_JOB_DETAILS }));
         errorPopup(error.message);
       });
   };

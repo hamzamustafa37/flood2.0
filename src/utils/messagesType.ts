@@ -45,3 +45,7 @@ export const passwordValidtionsError = {
   mustBeNewPassword: "New password cannot be the same as the old password",
   confirmPasswordsMust: "New Password and Confirm Password must match",
 };
+
+export const errorMessages = {
+  errorOccurred: "An error occurred. Please try again later.",
+};
