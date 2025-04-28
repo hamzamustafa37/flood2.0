@@ -9,6 +9,9 @@ import { floodApiSlice } from "./features/flood/flood.Rtk";
 
 import { globalSlice } from "./features/global";
 import { jobSlice } from "./features/job";
+import { companySlice } from "./features/companies";
+import { appointmentSlice } from "./features/appointments";
+import { userSlice } from "./features/users";
 
 // `combineSlices` automatically combines the reducers using
 // their `reducerPath`s, therefore we no longer need to call `combineReducers`.
@@ -16,8 +19,10 @@ const rootReducer = combineSlices(
   floodApiSlice,
   // authSlice,
   globalSlice,
-
-  jobSlice
+  companySlice,
+  appointmentSlice,
+  jobSlice,
+  userSlice
 );
 // Infer the `RootState` type from the root reducer
 export type RootState = ReturnType<typeof rootReducer>;

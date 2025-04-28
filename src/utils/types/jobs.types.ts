@@ -75,9 +75,12 @@ export interface Location {
   name: string;
   updatedAt: string;
 }
-
+export interface Floor {
+  photo: string;
+  label: string;
+}
 export interface Floors {
-  [key: string]: {};
+  [key: string]: Floor;
 }
 
 export interface JobType {

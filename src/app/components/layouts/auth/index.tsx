@@ -29,17 +29,18 @@ export const AuthLayout = ({ children }: IAuthLayout): React.ReactElement => {
           mobileSidebarOpen={mobileSidebarOpen}
           setMobileSidebarOpen={setMobileSidebarOpen}
         />
-        {/* Content */}
         <section
           className={`
+            overflow-y-scroll
             flex-1 
-            pb-6 
             bg-[var(--color-background)] 
             h-screen 
             transition-[padding,background-color,transform,margin] 
             duration-700 
             ease-[cubic-bezier(0.4,0,0.2,1)] 
             scroll-smooth
+            mb-20
+            pb-[60px]
           `}
         >
           {children}

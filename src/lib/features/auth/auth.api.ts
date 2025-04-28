@@ -163,7 +163,7 @@ export const getCurrentUser = async (): Promise<IUser> =>
     const config = {
       method: "get",
       maxBodyLength: Infinity,
-      url: `${apiRoutes.user.name}${apiRoutes.auth.me}`,
+      url: `${apiRoutes.person.name}${apiRoutes.auth.me}`,
     };
     api
       .request(config)
@@ -181,7 +181,7 @@ export const updateUserInfo = async (
   try {
     const response: AxiosResponse<IUserResponse> = await api.request({
       method: "patch",
-      url: `${apiRoutes.user.name}${apiRoutes.user.update}`,
+      url: `${apiRoutes.person.name}${apiRoutes.person.update}`,
       headers: {
         accept: "application/json",
         "Content-Type": "application/json",
@@ -205,7 +205,7 @@ export const updateProfilePicture = async (
     const response: AxiosResponse<IUserResponse> = await api.request({
       method: "patch",
       maxBodyLength: Infinity,
-      url: `${apiRoutes.user.name}${apiRoutes.user.updateProfilePicture}`,
+      url: `${apiRoutes.person.name}${apiRoutes.person.updateProfilePicture}`,
       headers: {
         accept: "multipart/form-data",
         "Content-Type": "multipart/form-data",
@@ -259,7 +259,7 @@ export const updatePassword = async (
   await api
     .request({
       method: "post",
-      url: `${apiRoutes.user.name}${apiRoutes.user.updatePassword}`,
+      url: `${apiRoutes.person.name}${apiRoutes.person.updatePassword}`,
       headers: {
         accept: "application/json",
         "Content-Type": "application/json",
@@ -284,7 +284,7 @@ export const deactivateUser = async (): Promise<IUserResponse> => {
   try {
     const response: AxiosResponse<IUserResponse> = await api.request({
       method: "delete",
-      url: `${apiRoutes.user.name}${apiRoutes.user.delete}`,
+      url: `${apiRoutes.person.name}${apiRoutes.person.delete}`,
       headers: {
         accept: "application/json",
         "Content-Type": "application/json",

@@ -12,7 +12,7 @@ import { Spin } from "antd";
 export const AllJobs: React.FC = () => {
   const dispatch = useAppDispatch();
   const [activeOption, setActiveOption] = React.useState("All");
-
+  const _allJobs = useSelector(allJobsData);
   const _loading = useSelector(loading);
 
   enum IOptions {
@@ -34,6 +34,7 @@ export const AllJobs: React.FC = () => {
     [IOptions.Billing]: 2,
   };
   React.useEffect(() => {
+    if (_allJobs.length > 0) return;
     dispatch(_getJobs(1, 10));
   }, []);
 

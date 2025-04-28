@@ -1,26 +1,26 @@
 "use client";
 import React from "react";
 import CompaniesTable from "./CompaniesTable";
-import TablePageHeader from "../../common/TablePage/TablePageHeader";
-import AddCompanyModal from "./addCompany";
+import CompaniesWrapper from "./companiesWrapper";
+import { loading } from "@/lib/features/global";
+import { useAppSelector } from "@/lib/hooks";
+import { Spin } from "antd";
 
 const AllCompanies = () => {
-  const [open, setIsOpen] = React.useState(false);
+  const _loading = useAppSelector(loading);
+
   return (
     <div className="p-4">
-      <TablePageHeader
-        heading={"Companies"}
-        strapLine={
-          " Manage and track your marketing campaigns effortlessly. View campaign details, performance, and settings at a glance."
-        }
-        isOpen={open}
-        setIsOpen={setIsOpen}
-        enableModal={true}
-      />
+      <CompaniesWrapper />
       <div className="p-4">
-        <CompaniesTable />
+        {_loading.GET_COMPANIES ? (
+          <div className="p-4 flex justify-center items-center">
+            <Spin />
+          </div>
+        ) : (
+          <CompaniesTable />
+        )}
       </div>
-      <AddCompanyModal isOpen={open} onClose={() => setIsOpen(false)} />
     </div>
   );
 };

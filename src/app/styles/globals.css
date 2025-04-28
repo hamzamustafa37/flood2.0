@@ -5,6 +5,8 @@
 @tailwind utilities;
 @import "./affectedSite.css";
 @import "./scrollbar.css";
+@import "./table.css";
+@import "./calender.css";
 
 .tooltip {
   @apply invisible absolute;
@@ -36,24 +38,6 @@ body {
 }
 .header-top h1 {
   padding: 0 !important;
-}
-
-.scroll-v {
-  overflow-y: auto;
-}
-
-.scroll-v::-webkit-scrollbar-track {
-  background-color: #f5f5f5;
-}
-
-.scroll-v::-webkit-scrollbar {
-  width: 5px;
-  background-color: #f5f5f5;
-}
-
-.scroll-v::-webkit-scrollbar-thumb {
-  background-color: #121212;
-  border-radius: 6px;
 }
 
 .Toastify__toast--info::before {

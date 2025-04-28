@@ -24,7 +24,7 @@ export const Sidebar: React.FC<ISidebar> = ({
 }) => {
   // const { currentUser } = useCurrentUser();
   const pathname = usePathname();
-  const [profileImage, setProfileImage] = React.useState<string>("");
+  // const [profileImage, setProfileImage] = React.useState<string>("");
 
   // React.useEffect(() => {
   //   if (!currentUser?.imgUrl) {
@@ -44,7 +44,7 @@ export const Sidebar: React.FC<ISidebar> = ({
     if (mobileSidebarOpen) {
       document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = "auto";
+      document.body.style.overflow = "hidden";
     }
   }, [mobileSidebarOpen]);
 
@@ -64,7 +64,7 @@ export const Sidebar: React.FC<ISidebar> = ({
           transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]
           ${collapsed ? "w-[80px]" : "w-[268px]"}
           ${mobileSidebarOpen ? "translate-x-0" : "-translate-x-full"} 
-          md:translate-x-0 md:static md:block min-h-screen`} // Ensure sidebar takes full height
+          md:translate-x-0 md:static md:block min-h-screen`}
       >
         {/* Toggle Button */}
         <div

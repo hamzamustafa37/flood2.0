@@ -11,7 +11,7 @@ export const apiRoutes = {
     delete: "/:id",
   },
 
-  user: {
+  person: {
     name: "/user",
     profile: "/",
     update: "/",

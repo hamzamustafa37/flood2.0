@@ -32,6 +32,8 @@ export const Button: React.FC<IButton> = ({
         return "text-gray hover:text-primary bg-white border border-borderLight hover:border-primary";
       case ButtonVariant.Danger:
         return "bg-danger hover:bg-dangerDark text-white";
+      case ButtonVariant.OutlineDanger:
+        return "text-danger border border-danger hover:bg-danger hover:text-white";
       case ButtonVariant.Outline:
         return "text-primary border border-primary hover:bg-primary hover:text-white";
       case ButtonVariant.OutlineSecondary:

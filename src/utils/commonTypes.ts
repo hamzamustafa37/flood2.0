@@ -72,6 +72,8 @@ export enum ButtonVariant {
   Danger = "danger",
   Outline = "outline",
   OutlineSecondary = "outline-secondary",
+  Filled = "filled",
+  OutlineDanger = "outline-danger",
 }
 export interface IResendOtpMeta {
   status: number;

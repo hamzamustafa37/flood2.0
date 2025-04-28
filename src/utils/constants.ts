@@ -8,6 +8,7 @@ export const protectedRoutes = [""];
 export const unProtectedRoutes = [appRoute.default, appRoute.book];
 
 export const imagesPath = {
+  loginSideImage: "/backgrounds/flood-login-img.svg",
   lock: "/images/lock.svg",
   logo: "/images/logo.svg",
   hero: "/images/hero.svg",
@@ -55,7 +56,7 @@ export const imagesPath = {
   checkSecondary: "/images/check-secondary.svg",
   checkSuccess: "/images/check-success.svg",
   generatedRebuttal: "/images/generated-rebuttal.svg",
-  archive: "icons/archive.svg",
+  archive: "/icons/archive.svg",
   secure: "/images/secure.svg",
   view: "/images/view.svg",
   file: "/images/file.svg",
@@ -75,7 +76,12 @@ export const imagesPath = {
   totalOutstanding: "/icons/collection-icons/totalOutstanding.svg",
   colorPlate: "/icons/color-plate.svg",
   imageUploader: "/icons/Image-Icon.svg",
-  equipmentIcon: "/icons/eq-icon.svg",
+  equipmentIcon: "/icons/eq-icons.svg",
+  userLocation: "icons/user-icons/userPrimaryLocation.svg",
+  user: "/icons/user-icons/user.svg",
+  userBuilding: "/icons/user-icons/userBuilding.svg",
+  userAlert: "/icons/user-icons/userAlert.svg",
+  userGroup: "/icons/user-icons/userGroup.svg",
 };
 
 export const MAX_FILE_SIZE = 5 * 1024 * 1024;

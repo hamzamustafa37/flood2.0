@@ -1,11 +1,14 @@
 "use client";
+
+import React from "react";
 import { ButtonVariant } from "@/utils";
 import { Input } from "antd";
-import React, { useState } from "react";
 import { Button } from "../../common";
+import { useRouter } from "next/navigation";
 
-export default function LoginPage() {
-  const [showPhoneInput, setShowPhoneInput] = useState(false);
+export default function CreateAccount() {
+  const [showPhoneInput, setShowPhoneInput] = React.useState(false);
+  const router = useRouter();
 
   return (
     <>
@@ -17,9 +20,7 @@ export default function LoginPage() {
             className="w-full px-4 py-5 border border-gray-300 rounded"
           />
           <Button
-            onClick={() =>
-              (window.location.href = "/api/auth/signin?provider=text")
-            }
+            onClick={() => router.push("/api/auth/signin")}
             className="w-full py-4"
             variant={ButtonVariant.Outline}
           >
@@ -36,30 +37,19 @@ export default function LoginPage() {
       ) : (
         <div className="w-full max-w-[400px] flex flex-col gap-3 mt-4">
           <Button
-            onClick={() =>
-              (window.location.href = "/api/auth/signin?provider=google")
-            }
+            onClick={() => router.push("/api/auth/signin?provider=google")}
             className="w-full py-4"
             variant={ButtonVariant.OutlineDanger}
           >
-            SignIn with Google
+            Signup with Google
           </Button>
 
-          {/* <Button
-            onClick={() => setShowPhoneInput(true)}
-            className="btn btn-dark w-full py-4"
-          >
-            Login with Text Message
-          </Button> */}
-
           <Button
-            onClick={() => {
-              setShowPhoneInput(true);
-            }}
+            onClick={() => setShowPhoneInput(true)}
             className="bg-[#f5f7fa] text-black px-4 py-4 rounded w-full"
             variant={ButtonVariant.Outline}
           >
-            SignIn with Email
+            Signup with Email
           </Button>
         </div>
       )}
