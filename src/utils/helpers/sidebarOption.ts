@@ -119,7 +119,8 @@ export const sideBarMenu = [
       {
         title: "Users",
         icon: imagesPath.users,
-        link: "/notifications",
+        link: "/user",
+        active: true,
       },
     ],
   },

@@ -11,9 +11,7 @@ const columns: ColumnsType<IUser> = [
   {
     title: "NAME",
     key: "name",
-    render: (record) => (
-      <span>{`${record.firstName || ""} ${record.lastName || ""}`.trim()}</span>
-    ),
+    render: (record) => <span>{`${record.firstName}`}</span>,
     sorter: (a, b) => {
       const aName = `${a.firstName || ""} ${a.lastName || ""}`.trim();
       const bName = `${b.firstName || ""} ${b.lastName || ""}`.trim();
@@ -21,10 +19,14 @@ const columns: ColumnsType<IUser> = [
     },
   },
   {
-    title: "ROLE",
-    dataIndex: "roleId",
-    key: "roleId",
-    sorter: (a, b) => (a.roleId || "").localeCompare(b.roleId || ""),
+    title: "Email",
+    dataIndex: "email",
+    key: "email",
+    render: (text) => (
+      <a href="#" style={{ color: "#722ed1" }}>
+        {text}
+      </a>
+    ),
   },
   {
     title: "TYPE",
