@@ -119,8 +119,7 @@ export const sideBarMenu = [
       {
         title: "Users",
         icon: imagesPath.users,
-        link: "/user",
-        active: true,
+        link: "/notifications",
       },
     ],
   },
@@ -130,7 +129,7 @@ export const sideBarMenu = [
       {
         title: "Inventory",
         icon: imagesPath.textFile,
-        link: "/inventory-modules",
+        link: "/Inventory-modules",
         active: true,
       },
       {

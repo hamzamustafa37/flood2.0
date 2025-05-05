@@ -7,6 +7,7 @@
 @import "./scrollbar.css";
 @import "./table.css";
 @import "./calender.css";
+@import "./publicLayout.css";
 
 .tooltip {
   @apply invisible absolute;

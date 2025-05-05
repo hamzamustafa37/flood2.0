@@ -15,7 +15,7 @@ const validationSchema = Yup.object().shape({
   status: Yup.string().required("Status is required"),
 });
 
-const RecordExhaustReadingModal = ({ isOpen, onClose }: ModalProps) => {
+const InventoryModal = ({ isOpen, onClose }: ModalProps) => {
   return (
     <Formik
       initialValues={{
@@ -210,4 +210,4 @@ const RecordExhaustReadingModal = ({ isOpen, onClose }: ModalProps) => {
   );
 };
 
-export default RecordExhaustReadingModal;
+export default InventoryModal;

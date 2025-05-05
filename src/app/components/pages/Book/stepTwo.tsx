@@ -52,9 +52,9 @@ const StepTwo: React.FC<StepTwoProps> = ({
           <div className="flex flex-col gap-2 ">
             <div className="bg-[#EFF2F6] p-3 border border-[#EFF2F6] rounded-lg">
               <Radio value="urgent" className="my-2">
-                <strong>
+                <Title level={5} className="text-sm">
                   I need help ASAP! (Emergency response: 1-3 hours)
-                </strong>
+                </Title>
                 <p className="text-xs text-gray-500">
                   *Additional fees may apply
                 </p>
@@ -62,10 +62,10 @@ const StepTwo: React.FC<StepTwoProps> = ({
             </div>
             <div className="bg-[#EFF2F6] p-3 border border-[#EFF2F6] rounded-lg">
               <Radio value="scheduled" className="my-2 ">
-                <strong>
+                <Title level={5} className="text-sm">
                   I can wait for a scheduled visit (Free evaluation during
                   business hours: 9 AM - 5 PM)
-                </strong>
+                </Title>
               </Radio>
             </div>
           </div>

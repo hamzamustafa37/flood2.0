@@ -11,7 +11,7 @@ interface JobDetailsPageProps {
 const JobDetailsPage: React.FC<JobDetailsPageProps> = ({ id }) => {
   const _allJobs = useAppSelector(allJobsData);
 
-  const jobData = Array.isArray(_allJobs)
+  const jobData: any = Array.isArray(_allJobs)
     ? _allJobs.find((job: any) => job.id === id)
     : null;
 
@@ -109,8 +109,8 @@ const JobDetailsPage: React.FC<JobDetailsPageProps> = ({ id }) => {
         <div className="bg-white shadow rounded-lg p-4">
           <h2 className="text-lg font-semibold mb-2">Floor Details</h2>
           <div className="space-y-3">
-            {Object.entries(jobData.floors).map(
-              ([key, floor]: [string, Floor], index: number) => (
+            {(Object.entries(jobData.floors) as [string, Floor][]).map(
+              ([key, floor], index) => (
                 <div
                   key={key}
                   className="border border-gray-200 rounded-md p-3 bg-gray-50"
@@ -118,7 +118,13 @@ const JobDetailsPage: React.FC<JobDetailsPageProps> = ({ id }) => {
                   <h3 className="font-semibold text-md mb-1">
                     Floor {floor.label || key}
                   </h3>
-                  <img src={floor.photo} />
+                  {floor.photo && (
+                    <img
+                      src={floor.photo}
+                      alt={`Floor ${floor.label}`}
+                      className="w-full h-auto rounded"
+                    />
+                  )}
                 </div>
               )
             )}

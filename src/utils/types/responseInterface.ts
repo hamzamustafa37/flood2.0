@@ -1,4 +1,4 @@
-import { IUser } from "../types";
+import { ICompanyLocation, IInventory, IUser } from "../types";
 import { IAppointment } from "./appointment.types";
 import { JobType } from "./jobs.types";
 
@@ -19,5 +19,13 @@ export interface IGetAllAppointments {
 
 export interface IGetAllUsers {
   data: { users: IUser[] };
+  success: boolean;
+}
+export interface IGetCompaniesLocations {
+  data: ICompanyLocation[];
+  success: boolean;
+}
+export interface IGetAllInventories {
+  data: IInventory[];
   success: boolean;
 }

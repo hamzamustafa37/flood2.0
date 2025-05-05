@@ -27,7 +27,7 @@ export default function TablePageHeader({
           >
             {heading}
           </h4>
-          <p className="text-md text-textMuted mb-1">{strapLine}</p>
+          <p className="text-md text-textMuted my-2">{strapLine}</p>
         </div>
 
         {enableModal && (

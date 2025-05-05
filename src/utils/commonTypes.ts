@@ -1,3 +1,5 @@
+import { IExpense } from "./types/expense.types";
+
 export interface IUserToBeRegister {
   fullName: string;
   email: string;
@@ -74,6 +76,7 @@ export enum ButtonVariant {
   OutlineSecondary = "outline-secondary",
   Filled = "filled",
   OutlineDanger = "outline-danger",
+  ThemeColor = "theme-color",
 }
 export interface IResendOtpMeta {
   status: number;
@@ -111,7 +114,7 @@ export interface ICard {
   isSelected?: boolean;
 }
 
-export interface IUser {
+export interface IUserOld {
   imgUrl: string;
   fullName: string;
   email: string;
@@ -137,7 +140,7 @@ export interface IUserSignIn {
 export interface ISignInResponseData {
   accessToken: string;
   refreshToken: string;
-  user: IUser;
+  user: IUserOld;
 }
 
 export interface ISignResponseMeta {
@@ -342,10 +345,10 @@ export interface IRebuttalResponse extends ICommonResponse {
   data: IRebuttal;
 }
 export interface IUpdatePasswordResponse extends ICommonResponse {
-  data: IUser;
+  data: IUserOld;
 }
 export interface IUserResponse extends ICommonResponse {
-  data: IUser;
+  data: IUserOld;
 }
 export interface ICardResponse extends ICommonResponse {
   data: ICard;
@@ -403,3 +406,76 @@ export interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
+export type ICoordinates = {
+  __typename?: "Coordinates";
+  x?: number | null;
+  y?: number | null;
+};
+export type Package = {
+  __typename?: "Package";
+  createdAt?: string | null;
+  createdBy?: User | null;
+  description?: string | null;
+  id?: string | null;
+  invoiceTypes?: Array<string | null> | null;
+  name?: string | null;
+  photo?: string | null;
+  prices?: Record<string, any> | null;
+  serviceIds?: Array<string | null> | null;
+  updatedAt?: string | null;
+  updatedBy?: User | null;
+};
+
+export type IService = {
+  __typename?: "Service";
+  active?: boolean | null;
+  allowCustomPricing?: boolean | null;
+  appliesTo?: Array<string | null> | null;
+  autoApply?: boolean | null;
+  autofill?: Record<string, any> | null;
+  basePrice?: number | null;
+  category?: string | null;
+  code?: string | null;
+  costs?: Record<string, any> | null;
+  createdAt?: string | null;
+  createdBy?: User | null;
+  description?: string | null;
+  group?: string | null;
+  id?: string | null;
+  materialIds?: Array<string | null> | null;
+  minPrice?: number | null;
+  name?: string | null;
+  notes?: string | null;
+  packages?: Array<Package | null> | null;
+  photo?: string | null;
+  priceAdjustments?: Record<string, any> | null;
+  prices?: Record<string, any> | null;
+  referencePage?: string | null;
+  rental?: string | null;
+  requiresDocumentation?: boolean | null;
+  smartScoping?: Record<string, any> | null;
+  tab?: string | null;
+  types?: string | null;
+  unit?: string | null;
+  updatedAt?: string | null;
+  updatedBy?: User | null;
+  video?: string | null;
+};
+
+export type ScopeService = {
+  __typename?: "ScopeService";
+  amount?: number | null;
+  coordinates?: ICoordinates | null;
+  createdAt?: string | null;
+  createdBy?: User | null;
+  expenses?: Array<IExpense | null> | null;
+  id?: string | null;
+  level?: string | null;
+  notes?: string | null;
+  price?: number | null;
+  quantity?: number | null;
+  service?: IService | null;
+  total?: number | null;
+  updatedAt?: string | null;
+  updatedBy?: User | null;
+};

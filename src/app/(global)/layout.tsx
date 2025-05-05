@@ -1,12 +1,12 @@
-import React from 'react';
-import { GlobalLayout } from '../components/layouts/global';
+import React from "react";
+import { GlobalLayout } from "../components/layouts/global";
 
 interface IPublicLayout {
-    readonly children: React.ReactNode;
+  readonly children: React.ReactNode;
 }
 
 export default function GlobalLayoutMain({
-    children,
+  children,
 }: IPublicLayout): React.ReactElement {
-    return <GlobalLayout> {children} </GlobalLayout>;
+  return <GlobalLayout> {children} </GlobalLayout>;
 }

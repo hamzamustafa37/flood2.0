@@ -1,27 +1,25 @@
 "use client";
 import React from "react";
-import CampaignsTable from "./CampaignsTable";
-import TablePageHeader from "../../common/TablePage/TablePageHeader";
-import LocationModal from "./locationModal";
+import LocationHeaderWrapper from "./LocationHeaderWrapper";
+import LocationTable from "./LocationTable";
+import { useAppSelector } from "@/lib/hooks";
+import { loading } from "@/lib/features/global";
+import { Spin } from "antd";
 
 const AllLocations = () => {
-  const [open, setOpen] = React.useState(false);
+  const _loading = useAppSelector(loading);
   return (
     <div className="p-4">
-      <TablePageHeader
-        heading="Location Management"
-        strapLine=" Manage and track your marketing campaigns effortlessly. View
-                        campaign details, performance, and settings at a glance."
-        isOpen={open}
-        setIsOpen={setOpen}
-        enableModal={true}
-      />
-
+      <LocationHeaderWrapper />
       <div className="pt-4">
-        {" "}
-        <CampaignsTable />
+        {_loading.GET_LOCATIONS ? (
+          <LocationTable />
+        ) : (
+          <div className="flex justify-center items-center h-screen">
+            <Spin />
+          </div>
+        )}
       </div>
-      <LocationModal isOpen={open} onClose={() => setOpen(false)} />
     </div>
   );
 };

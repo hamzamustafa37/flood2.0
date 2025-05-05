@@ -12,6 +12,8 @@ import { jobSlice } from "./features/job";
 import { companySlice } from "./features/companies";
 import { appointmentSlice } from "./features/appointments";
 import { userSlice } from "./features/users";
+import { locationSlice } from "./features/location";
+import { InventoriesSlice } from "./features/inventory";
 
 // `combineSlices` automatically combines the reducers using
 // their `reducerPath`s, therefore we no longer need to call `combineReducers`.
@@ -22,7 +24,9 @@ const rootReducer = combineSlices(
   companySlice,
   appointmentSlice,
   jobSlice,
-  userSlice
+  userSlice,
+  locationSlice,
+  InventoriesSlice
 );
 // Infer the `RootState` type from the root reducer
 export type RootState = ReturnType<typeof rootReducer>;

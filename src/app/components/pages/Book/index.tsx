@@ -1,4 +1,5 @@
 "use client";
+
 import { Card } from "antd";
 import { ProgressBar } from "../../common";
 import React from "react";
@@ -7,6 +8,7 @@ import StepTwo from "./stepTwo";
 import StepThree from "./stepThree";
 import StepFour from "./stepFour";
 import StepFive from "./stepeFive";
+
 export const Book: React.FC = () => {
   const [currentStep, setCurrentStep] = React.useState(0);
   const [formData, setFormData] = React.useState({
@@ -87,10 +89,24 @@ export const Book: React.FC = () => {
   ];
 
   const progressPercentage = ((currentStep + 1) / steps.length) * 100;
+
   return (
-    <Card className="w-full max-w-2xl mx-auto mt-10 p-6 shadow-lg">
-      <ProgressBar percent={progressPercentage} />
-      <div className="mt-6">{steps[currentStep].content}</div>
-    </Card>
+    <div className="max-w-screen-lg mx-auto px-4 py-10">
+      <div className="p-2 text-center">
+        <h1 className="text-black text-4xl font-semibold">
+          Book Water Damage Help in Minutes
+        </h1>
+        <p className="text-black text-lg mt-2">
+          Answer a few quick questions so we can connect you with the
+          best-certified team near you — fast, reliable, and ready when you need
+          them.
+        </p>
+      </div>
+
+      <Card className="w-full max-w-2xl mx-auto mt-10 p-6 shadow-lg">
+        <ProgressBar percent={progressPercentage} />
+        <div className="mt-6">{steps[currentStep].content}</div>
+      </Card>
+    </div>
   );
 };

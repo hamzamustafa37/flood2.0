@@ -60,6 +60,7 @@ const config: Config = {
         darkBlue: "#101828",
         grayText: "#475467",
         textBlue: "#344054",
+        blueThemeColor: "#1E3955",
       },
     },
   },

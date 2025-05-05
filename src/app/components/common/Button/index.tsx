@@ -38,6 +38,8 @@ export const Button: React.FC<IButton> = ({
         return "text-primary border border-primary hover:bg-primary hover:text-white";
       case ButtonVariant.OutlineSecondary:
         return "text-borderSecondary border border-borderSecondary hover:bg-borderSecondary hover:text-white";
+      case ButtonVariant.ThemeColor:
+        return "bg-blueThemeColor text-white border border-borderSecondary hover:bg- hover:text-white";
       default:
         return "bg-secondary hover:bg-primary text-white";
     }

@@ -1,28 +1,26 @@
 "use client";
-import { imagesPath } from "@/utils";
-import Image from "next/image";
 import React from "react";
-import CampaignsTable from "./CampaignsTable";
-import TablePageHeader from "../../common/TablePage/TablePageHeader";
-import InventoryModal from "./addInventoryModal";
+
+import InventoryTable from "./InventoryTable";
+import InventoryHeaderWrapper from "./InventoryHeaderWrapper";
+import { useAppSelector } from "@/lib/hooks";
+import { loading } from "@/lib/features/global";
+import { Spin } from "antd";
 
 const AllInventories = () => {
-  const [open, setOpen] = React.useState(false);
+  const _loading = useAppSelector(loading);
   return (
     <div className="p-4">
-      <TablePageHeader
-        heading={"Inventory Modules"}
-        strapLine={
-          " Manage and track your marketing campaigns effortlessly. View campaign details, performance, and settings at a glance."
-        }
-        isOpen={open}
-        setIsOpen={setOpen}
-        enableModal={true}
-      />
+      <InventoryHeaderWrapper />
       <div className="py-3">
-        <CampaignsTable />
+        {_loading.GET_INVENTORIES ? (
+          <div className="flex justify-center items-center">
+            <Spin />
+          </div>
+        ) : (
+          <InventoryTable />
+        )}
       </div>
-      <InventoryModal isOpen={open} onClose={() => setOpen(false)} />
     </div>
   );
 };

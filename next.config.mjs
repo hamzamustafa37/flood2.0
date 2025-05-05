@@ -1,8 +1,16 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: false, // Keep if needed
+  reactStrictMode: false,
+
+  theme: {
+    extend: {
+      fontFamily: {
+        nunito: ["var(--font-nunito-sans)", "sans-serif"],
+      },
+    },
+  },
   images: {
-    domains: [], // Add actual domains if needed
+    domains: [],
   },
 };
 

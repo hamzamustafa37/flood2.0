@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import { Radio } from "antd";
 import { Input, Checkbox, Typography, Form } from "antd";
 import { StepHeader } from "./common/stepHeader";
 import { ButtonVariant } from "@/utils";
@@ -21,6 +22,7 @@ const StepThree: React.FC<StepThreeProps> = ({
   onPrev,
 }) => {
   const [form] = Form.useForm();
+  const [propertyType, setPropertyType] = React.useState<string>("");
 
   const handleSubmit = () => {
     form.validateFields().then(() => {
@@ -44,34 +46,56 @@ const StepThree: React.FC<StepThreeProps> = ({
         className="mt-6"
         initialValues={formData}
       >
-        {/* Zip Code Input */}
-        <Form.Item
-          label={<Text className="text-gray-700">ZIP CODE</Text>}
-          name="zipCode"
-          rules={[
-            { required: true, message: "ZIP Code is required" },
-            {
-              pattern: /^[0-9]{5}$/,
-              message: "Enter a valid 5-digit ZIP Code",
-            },
-          ]}
-        >
-          <div className="flex gap-2">
-            <Input
-              placeholder="Enter your Zip Code"
-              value={formData.zipCode}
-              onChange={(e) => setFormData({ zipCode: e.target.value })}
-              className="p-3 rounded-md bg-gray-100"
-            />
-            <Button
-              variant={ButtonVariant.Primary}
-              className="h-[50px] w-[180px] px-4 bg-[#31374A]"
-            >
-              Use my Location
-            </Button>
-          </div>
-        </Form.Item>
+        <div className="flex flex-col sm:flex-row gap-2 items-stretch sm:items-center">
+          <div className="flex items-center border border-[#9ea3b1] rounded-xl px-4 py-2 w-full">
+            <div className="flex flex-col justify-center w-full sm:w-[50%]">
+              <Text className="text-xs text-[#9ea3b1] font-semibold">
+                ZIP CODE
+              </Text>
+              <strong>Enter Zip code here</strong>
+            </div>
 
+            <Form.Item
+              name="zipCode"
+              rules={[
+                { required: true, message: "ZIP Code is required" },
+                {
+                  pattern: /^[0-9]{5}$/,
+                  message: "Enter a valid 5-digit ZIP Code",
+                },
+              ]}
+              className="mb-0 w-full sm:w-[50%] border-none"
+            >
+              <Input
+                placeholder="Enter ZIP Code"
+                value={formData.zipCode}
+                onChange={(e) => setFormData({ zipCode: e.target.value })}
+                className="p-3 border-none rounded-md bg-gray-100 w-full"
+              />
+            </Form.Item>
+          </div>
+
+          <Button
+            variant={ButtonVariant.ThemeColor}
+            className="h-[50px] w-full sm:w-auto px-4 rounded-md"
+          >
+            Use my Location
+          </Button>
+        </div>
+
+        <div className="mt-4">
+          <Title level={5} className="mt-6">
+            What type of property is this service for?
+          </Title>
+          <Radio.Group
+            onChange={(e) => setPropertyType(e.target.value)}
+            value={propertyType}
+            className="grid grid-cols-1 gap-2"
+          >
+            <Radio value="residential">Residential</Radio>
+            <Radio value="commercial">Commercial</Radio>
+          </Radio.Group>
+        </div>
         {/* Affected Areas */}
         <Title level={5} className="mt-6">
           Which areas are affected?
@@ -128,7 +152,7 @@ const StepThree: React.FC<StepThreeProps> = ({
           </Button>
           <Button
             className="h-[40px] w-[140px]"
-            variant={ButtonVariant.Primary}
+            variant={ButtonVariant.ThemeColor}
             onClick={handleSubmit}
           >
             Submit
@@ -138,5 +162,4 @@ const StepThree: React.FC<StepThreeProps> = ({
     </div>
   );
 };
-
 export default StepThree;

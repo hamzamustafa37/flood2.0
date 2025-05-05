@@ -7,7 +7,7 @@ import {
   type IUserToBeRegister,
   type ISignInResponse,
   type IResetPasswordResponse,
-  type IUser,
+  type IUserOld,
   type IUserResponse,
   type IUpdatePassword,
   type ISocialProviderData,
@@ -158,8 +158,8 @@ export const forgotPassword = async (email: string): Promise<boolean | Error> =>
         reject(error);
       });
   });
-export const getCurrentUser = async (): Promise<IUser> =>
-  await new Promise<IUser>((resolve, reject) => {
+export const getCurrentUser = async (): Promise<IUserOld> =>
+  await new Promise<IUserOld>((resolve, reject) => {
     const config = {
       method: "get",
       maxBodyLength: Infinity,
@@ -168,7 +168,7 @@ export const getCurrentUser = async (): Promise<IUser> =>
     api
       .request(config)
       .then((response) => {
-        resolve(response.data.data as IUser);
+        resolve(response.data.data as IUserOld);
       })
       .catch((error) => {
         reject(error);
@@ -176,7 +176,7 @@ export const getCurrentUser = async (): Promise<IUser> =>
   });
 // eslint-disable-next-line prettier/prettier
 export const updateUserInfo = async (
-  data: Partial<IUser>
+  data: Partial<IUserOld>
 ): Promise<IUserResponse> => {
   try {
     const response: AxiosResponse<IUserResponse> = await api.request({

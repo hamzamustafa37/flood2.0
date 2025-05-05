@@ -1,3 +1,5 @@
+import { invert } from "lodash";
+
 export const apiRoutes = {
   default: {
     name: "/",
@@ -18,5 +20,17 @@ export const apiRoutes = {
   users: {
     name: "/",
     read: "user",
+  },
+  locations: {
+    name: "/",
+    read: "locations",
+  },
+  inventory: {
+    name: "/",
+    read: "inventories",
+  },
+  payment: {
+    name: "/",
+    read: "payment",
   },
 };
