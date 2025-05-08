@@ -202,3 +202,43 @@ export const sideBarMenu = [
     ],
   },
 ];
+
+export const contractorSideBarMenu = [
+  {
+    group: "Dashboard",
+    option: [
+      {
+        title: "Dashboard",
+        icon: imagesPath.home,
+        link: "/contractor/dashboard",
+        active: true,
+      },
+      {
+        title: "Services",
+        icon: imagesPath.briefcase,
+        link: "/contractor/dashboard",
+        active: true,
+      },
+      {
+        title: "Teams",
+        icon: imagesPath.alertIcon,
+        link: "/contractor/weather",
+        active: true,
+      },
+
+      {
+        title: "Schedules",
+        icon: imagesPath.atmosphere,
+        link: "/contractor/atmospheric-readings",
+        active: true,
+        tag: "New",
+      },
+      {
+        title: "Settings",
+        icon: imagesPath.exhaustloader,
+        link: "/contractor/exhaust-readings",
+        active: true,
+      },
+    ],
+  },
+];

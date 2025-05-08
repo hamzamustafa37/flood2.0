@@ -1,7 +1,6 @@
 "use client";
-import React from "react";
-import { Radio } from "antd";
-import { Input, Checkbox, Typography, Form } from "antd";
+import React, { useEffect } from "react";
+import { Form, Input, Checkbox, Typography, Radio } from "antd";
 import { StepHeader } from "./common/stepHeader";
 import { ButtonVariant } from "@/utils";
 import { Button } from "../../common";
@@ -9,7 +8,12 @@ import { Button } from "../../common";
 const { Title, Text } = Typography;
 
 interface StepThreeProps {
-  formData: { zipCode: string; affectedAreas: string[]; affectedSize: string };
+  formData: {
+    zipCode: string;
+    propertyType: string;
+    affectedAreas: string[];
+    affectedSize: string;
+  };
   setFormData: (data: Partial<StepThreeProps["formData"]>) => void;
   onPrev: () => void;
   onNext: () => void;
@@ -22,30 +26,35 @@ const StepThree: React.FC<StepThreeProps> = ({
   onPrev,
 }) => {
   const [form] = Form.useForm();
-  const [propertyType, setPropertyType] = React.useState<string>("");
 
   const handleSubmit = () => {
     form.validateFields().then(() => {
       onNext();
     });
   };
-  React.useEffect(() => {
+
+  useEffect(() => {
     form.setFieldsValue(formData);
   }, [formData, form]);
+
   return (
-    <div className="w-full max-w-2xl ">
+    <div className="w-full max-w-2xl">
       <StepHeader
         label={
-          "  Tell us where the issue is happening so we can send the right help."
+          "Tell us where the issue is happening so we can send the right help."
         }
-        heading={"  Where is the Problem?"}
+        heading={"Where is the Problem?"}
       />
       <Form
         layout="vertical"
         form={form}
         className="mt-6"
         initialValues={formData}
+        onValuesChange={(changedValues, allValues) => {
+          setFormData(allValues);
+        }}
       >
+        {/* ZIP Code + Use My Location */}
         <div className="flex flex-col sm:flex-row gap-2 items-stretch sm:items-center">
           <div className="flex items-center border border-[#9ea3b1] rounded-xl px-4 py-2 w-full">
             <div className="flex flex-col justify-center w-full sm:w-[50%]">
@@ -64,12 +73,10 @@ const StepThree: React.FC<StepThreeProps> = ({
                   message: "Enter a valid 5-digit ZIP Code",
                 },
               ]}
-              className="mb-0 w-full sm:w-[50%] border-none"
+              className="mb-0 w-full sm:w-[50%]"
             >
               <Input
                 placeholder="Enter ZIP Code"
-                value={formData.zipCode}
-                onChange={(e) => setFormData({ zipCode: e.target.value })}
                 className="p-3 border-none rounded-md bg-gray-100 w-full"
               />
             </Form.Item>
@@ -77,25 +84,27 @@ const StepThree: React.FC<StepThreeProps> = ({
 
           <Button
             variant={ButtonVariant.ThemeColor}
-            className="h-[50px] w-full sm:w-auto px-4 rounded-md"
+            className=" w-full sm:w-auto px-4 rounded-md "
           >
             Use my Location
           </Button>
         </div>
 
+        {/* Property Type */}
         <div className="mt-4">
           <Title level={5} className="mt-6">
             What type of property is this service for?
           </Title>
           <Radio.Group
-            onChange={(e) => setPropertyType(e.target.value)}
-            value={propertyType}
+            onChange={(e) => setFormData({ propertyType: e.target.value })}
+            value={formData.propertyType}
             className="grid grid-cols-1 gap-2"
           >
             <Radio value="residential">Residential</Radio>
             <Radio value="commercial">Commercial</Radio>
           </Radio.Group>
         </div>
+
         {/* Affected Areas */}
         <Title level={5} className="mt-6">
           Which areas are affected?
@@ -104,13 +113,7 @@ const StepThree: React.FC<StepThreeProps> = ({
           name="affectedAreas"
           rules={[{ required: true, message: "Select at least one area" }]}
         >
-          <Checkbox.Group
-            onChange={(checkedValues) =>
-              setFormData({ affectedAreas: checkedValues as string[] })
-            }
-            value={formData.affectedAreas}
-            className="grid grid-cols-1 gap-2"
-          >
+          <Checkbox.Group className="grid grid-cols-1 gap-2">
             <Checkbox value="Basement">Basement</Checkbox>
             <Checkbox value="Main Floor">Main Floor</Checkbox>
             <Checkbox value="Upstairs">Upstairs</Checkbox>
@@ -118,7 +121,7 @@ const StepThree: React.FC<StepThreeProps> = ({
           </Checkbox.Group>
         </Form.Item>
 
-        {/* Affected Area Input */}
+        {/* Affected Area Size */}
         <Title level={5} className="mt-6">
           How much space is affected?
         </Title>
@@ -131,14 +134,12 @@ const StepThree: React.FC<StepThreeProps> = ({
         >
           <Input
             placeholder="Enter square footage"
-            value={formData.affectedSize}
-            onChange={(e) => setFormData({ affectedSize: e.target.value })}
             className="p-3 rounded-md bg-gray-100"
           />
         </Form.Item>
 
         <Text className="block text-gray-500 text-sm italic">
-          ℹ️ A typical room is about 250 sq ft if you’re unsure.
+          ℹ️ A typical room is about 250 sq f t if you’re unsure.
         </Text>
 
         {/* Navigation Buttons */}
@@ -162,4 +163,5 @@ const StepThree: React.FC<StepThreeProps> = ({
     </div>
   );
 };
+
 export default StepThree;

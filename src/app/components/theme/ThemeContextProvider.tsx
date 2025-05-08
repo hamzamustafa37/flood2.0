@@ -18,7 +18,6 @@ export default function ThemeProvider({ children }: ThemeProviderProps) {
   const applyTheme = (companyName: string) => {
     const theme = companyThemes[companyName as keyof typeof companyThemes];
     if (!theme) return;
-
     document.documentElement.style.setProperty(
       "--color-primary",
       theme.primary

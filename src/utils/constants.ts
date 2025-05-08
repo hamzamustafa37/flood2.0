@@ -82,6 +82,16 @@ export const imagesPath = {
   userBuilding: "/icons/user-icons/userBuilding.svg",
   userAlert: "/icons/user-icons/userAlert.svg",
   userGroup: "/icons/user-icons/userGroup.svg",
+  folderTab: "/icons/collection-icons/folder.svg",
+  waves: "/icons/collection-icons/waves.svg",
+  timerTab: "/icons/collection-icons/timer.svg",
+  calenderTab: "/icons/collection-icons/calender.svg",
+  remarksTab: "/icons/collection-icons/remarks.svg",
+  userTab: "/icons/collection-icons/contacts.svg",
+  communityTab: "/icons/collection-icons/community.svg",
+  dropTab: "/icons/collection-icons/drop.svg",
+  locationTab: "/icons/collection-icons/locations.svg",
+  completed: "/icons/completed.svg",
 };
 
 export const MAX_FILE_SIZE = 5 * 1024 * 1024;
@@ -143,4 +153,80 @@ export const flooringMaterials = [
   "Vinyl Plank",
   "Concrete",
   "Solid Hardwood",
+];
+
+export const cDashboardTab = [
+  {
+    strapLine: "Jobs in the last 24 hours (emergency + scheduled)",
+    title: "Total Jobs",
+    value: "42",
+    icon: imagesPath.totalJobs,
+    tag: "",
+  },
+  {
+    strapLine: "Jobs needing immediate dispatch within 1–3 hours",
+    title: "",
+    value: "9",
+    icon: imagesPath.waves,
+    tag: "21%",
+  },
+  {
+    strapLine: "Bookings planned during business hours (9 AM–5 PM)",
+    title: "Scheduled Jobs",
+    value: "33",
+    icon: imagesPath.calenderTab,
+    tag: "79%",
+  },
+  {
+    strapLine: "Bookings waiting to be assigned to a contractor",
+    title: "",
+    value: "4",
+    icon: imagesPath.timerTab,
+    tag: "",
+  },
+  {
+    strapLine: "Average time from booking to contractor dispatch",
+    title: "Average Response Time",
+    value: "1h 4m",
+    icon: imagesPath.folderTab,
+
+    tag: "",
+  },
+  {
+    strapLine: "Based on customer feedback collected after job completion",
+    title: "Avg. Customer Rating",
+    value: "4.6",
+    icon: imagesPath.remarksTab,
+    tag: "",
+  },
+  {
+    strapLine:
+      "Percentage of customers who booked again within the last 60 days",
+    title: "Repeat Customer Rate",
+    value: "18%",
+    icon: imagesPath.userTab,
+    tag: "",
+  },
+  {
+    strapLine: "Number of unique ZIP code areas with active job requests",
+    title: "Active ZIP Codes Today",
+    value: "17",
+    icon: imagesPath.locationTab,
+    tag: "",
+  },
+  {
+    strapLine: "Contractors who have accepted at least one job today",
+    title: "Active Contractors",
+    value: "4",
+    icon: imagesPath.communityTab,
+
+    tag: "",
+  },
+  {
+    strapLine: "Most requested service today",
+    title: "Water Damage",
+    value: "",
+    icon: imagesPath.dropTab,
+    tag: "",
+  },
 ];

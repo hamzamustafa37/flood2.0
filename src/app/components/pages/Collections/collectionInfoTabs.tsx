@@ -42,7 +42,10 @@ const CollectionInfoTabs = () => {
     <div className="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 xs:grid-cols-1 gap-2">
       {tilesData.map((tile, index) => {
         return (
-          <div className=" bg-[var(--color-tilesColor)] rounded-md" key={index}>
+          <div
+            className=" bg-[var(--color-tilesColor)] border border-textMuted rounded-md"
+            key={index}
+          >
             <div className="py-3 px-6">
               <div className="flex items-center justify-start py-4">
                 <Image src={tile.icon} alt="icon" height={35} width={35} />

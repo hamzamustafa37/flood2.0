@@ -4,19 +4,12 @@ import { Form, Input, Select, Typography, message } from "antd";
 import { StepHeader } from "./common/stepHeader";
 import { Button } from "../../common";
 import { ButtonVariant } from "@/utils";
+import { saveNonScheduledBooking } from "@/lib/features/bookService";
 
-const { Title, Text } = Typography;
 const { Option } = Select;
 
 interface StepFiveProps {
-  formData: {
-    name: string;
-    phone: string;
-    address: string;
-    city: string;
-    state: string;
-    zipCode: string;
-  };
+  formData: IFormData;
   setFormData: (data: Partial<StepFiveProps["formData"]>) => void;
   onPrev: () => void;
   onNext: () => void;
@@ -53,7 +46,26 @@ const StepFive: React.FC<StepFiveProps> = ({
   const handleSubmit = async () => {
     try {
       await form.validateFields();
-      onNext();
+      const res = await saveNonScheduledBooking({
+        issues: formData.issues,
+        zipCode: formData.zipCode,
+        affectedAreas: formData.affectedAreas,
+        affectedSize: formData.affectedSize,
+        urgency: formData.urgency,
+        propertyType: formData.propertyType,
+        additionalInfo: formData.additionalInfo,
+        causes: formData.causes,
+        name: formData.name,
+        phone: formData.phone,
+        address: formData.address,
+        city: formData.city,
+        state: formData.state,
+        email: formData.email,
+      });
+      if (res) {
+        message.success("Booking saved successfully!");
+        onNext();
+      }
     } catch (error) {
       message.error("Please complete all required fields.");
     }
@@ -124,7 +136,21 @@ const StepFive: React.FC<StepFiveProps> = ({
             className="p-3 rounded-md bg-gray-100"
           />
         </Form.Item>
-
+        <Form.Item
+          label="Email"
+          name="email"
+          rules={[
+            { required: true, message: "Please enter your email address" },
+          ]}
+        >
+          <Input
+            placeholder="Enter the Email (abc@)"
+            value={formData.email}
+            onChange={(e) => setFormData({ email: e.target.value })}
+            size="large"
+            className="p-3 rounded-md bg-gray-100"
+          />
+        </Form.Item>
         {/* City */}
         <Form.Item
           label="City"

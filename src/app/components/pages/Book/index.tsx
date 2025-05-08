@@ -8,6 +8,7 @@ import StepTwo from "./stepTwo";
 import StepThree from "./stepThree";
 import StepFour from "./stepFour";
 import StepFive from "./stepeFive";
+import StepSix from "./stepSix";
 
 export const Book: React.FC = () => {
   const [currentStep, setCurrentStep] = React.useState(0);
@@ -17,6 +18,7 @@ export const Book: React.FC = () => {
     affectedAreas: [] as string[],
     affectedSize: "",
     urgency: "",
+    propertyType: "",
     additionalInfo: "",
     causes: [] as string[],
     uploadedImage: null as File | null,
@@ -25,12 +27,13 @@ export const Book: React.FC = () => {
     address: "",
     city: "",
     state: "",
+    email: "",
   });
 
   const updateFormData = (data: Partial<typeof formData>) => {
     setFormData((prev) => ({ ...prev, ...data }));
   };
-
+  console.log("Form Data", formData);
   const steps = [
     {
       title: "Step 1",
@@ -81,10 +84,14 @@ export const Book: React.FC = () => {
         <StepFive
           formData={formData}
           setFormData={updateFormData}
-          onNext={() => console.log("Form submission logic here!")}
-          onPrev={() => setCurrentStep(3)}
+          onNext={() => setCurrentStep(5)}
+          onPrev={() => setCurrentStep(4)}
         />
       ),
+    },
+    {
+      title: "Step 6",
+      content: <StepSix name={formData.name} />,
     },
   ];
 

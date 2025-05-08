@@ -2,7 +2,7 @@ export const companyThemes = {
   companyA: {
     primary: "#1E3955",
     secondary: "#00467B",
-    background: "white",
+    background: "#EFF2F6",
     componentBackground: "#a6b8ea26",
     text: "black",
     border: "#475467",

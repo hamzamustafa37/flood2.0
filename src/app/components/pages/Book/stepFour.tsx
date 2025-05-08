@@ -1,14 +1,13 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { PlusOutlined } from "@ant-design/icons";
 import {
-  Typography,
+  // Typography,
   Checkbox,
   Image,
   Upload,
   Form,
   message,
-  type GetProp,
   type UploadFile,
   type UploadProps,
 } from "antd";
@@ -16,7 +15,8 @@ import { StepHeader } from "./common/stepHeader";
 import { ButtonVariant } from "@/utils";
 import { Button } from "../../common";
 
-const { Title, Text } = Typography;
+// const { Title, Text } = Typography;
+const { Dragger } = Upload;
 
 interface StepFourProps {
   formData: { causes: string[]; uploadedImage: File | null };
@@ -25,85 +25,66 @@ interface StepFourProps {
   onNext: () => void;
 }
 
-type FileType = Parameters<GetProp<UploadProps, "beforeUpload">>[0];
-
-const getBase64 = (file: FileType): Promise<string> =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result as string);
-    reader.onerror = (error) => reject(error);
-  });
-
 const StepFour: React.FC<StepFourProps> = ({
   formData,
   setFormData,
   onPrev,
   onNext,
 }) => {
-  const [fileList, setFileList] = React.useState<UploadFile[]>([]);
-  const [previewImage, setPreviewImage] = React.useState("");
-  const [previewOpen, setPreviewOpen] = React.useState(false);
+  const [fileList, setFileList] = useState<UploadFile[]>([]);
   const [form] = Form.useForm();
 
-  React.useEffect(() => {
+  useEffect(() => {
     form.setFieldsValue({ causes: formData.causes });
   }, [formData.causes]);
 
-  const handleCauseChange = (checkedValues: Array<string>) => {
+  useEffect(() => {
+    if (formData.uploadedImage) {
+      const previewURL = URL.createObjectURL(formData.uploadedImage);
+      setFileList([
+        {
+          uid: "-1",
+          name: formData.uploadedImage.name,
+          status: "done",
+          url: previewURL,
+          preview: previewURL,
+        },
+      ]);
+    }
+  }, [formData.uploadedImage]);
+
+  const handleCauseChange = (checkedValues: string[]) => {
     setFormData({ causes: checkedValues });
-    form.setFieldsValue({ causes: checkedValues }); // Update form state
+    form.setFieldsValue({ causes: checkedValues });
   };
 
   const handleChange: UploadProps["onChange"] = ({ fileList: newFileList }) => {
-    setFileList(newFileList);
     const uploadedFile =
       newFileList.length > 0 ? newFileList[0].originFileObj : null;
-    setFormData({ uploadedImage: uploadedFile });
-    form.setFieldsValue({ uploadedImage: uploadedFile });
-  };
 
-  const handlePreview = async (file: UploadFile) => {
-    if (!file.url && !file.preview) {
-      file.preview = await getBase64(file.originFileObj as FileType);
+    if (uploadedFile) {
+      const previewURL = URL.createObjectURL(uploadedFile);
+      newFileList[0].preview = previewURL;
+      setFileList([newFileList[0]]);
+      setFormData({ uploadedImage: uploadedFile });
+      form.setFieldsValue({ uploadedImage: uploadedFile });
     }
-    setPreviewImage(file.url || (file.preview as string));
-    setPreviewOpen(true);
   };
 
   const handleSubmit = async () => {
     try {
       await form.validateFields();
       onNext();
-    } catch (error) {
+    } catch {
       message.error("Please complete the required fields.");
     }
   };
 
-  const uploadButton = (
-    <button style={{ border: 0, background: "none" }} type="button">
-      <PlusOutlined />
-      <div style={{ marginTop: 8 }}>Upload</div>
-    </button>
-  );
-  React.useEffect(() => {
-    if (formData.uploadedImage) {
-      setFileList([
-        {
-          uid: "-1",
-          name: formData.uploadedImage.name,
-          status: "done",
-          url: URL.createObjectURL(formData.uploadedImage),
-        },
-      ]);
-    }
-  }, [formData.uploadedImage]);
-
   return (
     <div className="w-full max-w-xl p-6">
       <StepHeader
-        label={"    Understanding the cause helps us prepare better."}
-        heading={"What Caused the Problem?"}
+        label="Understanding the cause helps us prepare better."
+        heading="What Caused the Problem?"
       />
       <Form
         form={form}
@@ -111,7 +92,6 @@ const StepFour: React.FC<StepFourProps> = ({
         layout="vertical"
         className="mt-6"
       >
-        {/* Checkbox Group Validation */}
         <Form.Item
           label="Do you know what caused the issue?"
           name="causes"
@@ -137,34 +117,39 @@ const StepFour: React.FC<StepFourProps> = ({
         <Form.Item
           label="Upload a photo for a better assessment!"
           name="uploadedImage"
-          rules={[
-            { required: true, message: "Please upload at least one image" },
-          ]}
+          rules={[{ required: true, message: "Please upload one image" }]}
         >
-          <Upload
-            listType="picture-card"
+          <Dragger
             fileList={fileList}
-            onPreview={handlePreview}
+            maxCount={1}
+            beforeUpload={(file) => {
+              const isImage = file.type.startsWith("image/");
+              if (!isImage) {
+                message.error("You can only upload image files!");
+                return Upload.LIST_IGNORE;
+              }
+              return isImage;
+            }}
             onChange={handleChange}
-            className=""
+            className="mt-2"
           >
-            {fileList.length >= 8 ? null : uploadButton}
-          </Upload>
+            <p className="ant-upload-drag-icon">
+              <PlusOutlined />
+            </p>
+            <p>Click or drag an image file to this area to upload</p>
+          </Dragger>
         </Form.Item>
 
-        {previewImage && (
+        {fileList.length > 0 && (
           <Image
-            wrapperStyle={{ display: "none" }}
-            preview={{
-              visible: previewOpen,
-              onVisibleChange: (visible) => setPreviewOpen(visible),
-              afterOpenChange: (visible) => !visible && setPreviewImage(""),
-            }}
-            src={previewImage}
+            src={fileList[0].preview || fileList[0].url}
+            alt="Preview"
+            width={200}
+            height={200}
+            style={{ marginTop: "10px", borderRadius: "8px" }}
           />
         )}
 
-        {/* Navigation Buttons */}
         <div className="flex justify-between mt-6">
           <Button
             onClick={onPrev}

@@ -19,7 +19,8 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@firebase": ["./config/firebaseConfig.ts"]
     }
   },
   "include": [
