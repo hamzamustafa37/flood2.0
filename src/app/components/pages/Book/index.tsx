@@ -21,7 +21,7 @@ export const Book: React.FC = () => {
     propertyType: "",
     additionalInfo: "",
     causes: [] as string[],
-    uploadedImage: null as File | null,
+    ImageURL: "",
     name: "",
     phone: "",
     address: "",

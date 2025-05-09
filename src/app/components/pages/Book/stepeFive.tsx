@@ -62,6 +62,7 @@ const StepFive: React.FC<StepFiveProps> = ({
         city: formData.city,
         state: formData.state,
         email: formData.email,
+        ImageURL: formData.ImageURL,
       });
       if (res) {
         setLoading(false);

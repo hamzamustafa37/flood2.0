@@ -21,8 +21,8 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 const { Dragger } = Upload;
 
 interface StepFourProps {
-  formData: { causes: string[]; ImageURL: string | null };
-  setFormData: (data: Partial<StepFourProps["formData"]>) => void;
+  formData: Partial<IFormData>;
+  setFormData: (data: Partial<IFormData>) => void;
   onPrev: () => void;
   onNext: () => void;
 }
