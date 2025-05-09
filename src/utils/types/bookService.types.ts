@@ -7,7 +7,8 @@ interface IFormData {
   propertyType: string;
   additionalInfo: string;
   causes: string[];
-  uploadedImage?: File | null;
+  // uploadedImage?: File | null;
+  ImageURL?: string;
   name: string;
   phone: string;
   address: string;

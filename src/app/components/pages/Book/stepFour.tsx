@@ -14,12 +14,14 @@ import {
 import { StepHeader } from "./common/stepHeader";
 import { ButtonVariant } from "@/utils";
 import { Button } from "../../common";
+import { storage } from "@firebase";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 // const { Title, Text } = Typography;
 const { Dragger } = Upload;
 
 interface StepFourProps {
-  formData: { causes: string[]; uploadedImage: File | null };
+  formData: { causes: string[]; ImageURL: string | null };
   setFormData: (data: Partial<StepFourProps["formData"]>) => void;
   onPrev: () => void;
   onNext: () => void;
@@ -33,25 +35,25 @@ const StepFour: React.FC<StepFourProps> = ({
 }) => {
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const [form] = Form.useForm();
-
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     form.setFieldsValue({ causes: formData.causes });
   }, [formData.causes]);
 
   useEffect(() => {
-    if (formData.uploadedImage) {
-      const previewURL = URL.createObjectURL(formData.uploadedImage);
+    if (formData.ImageURL) {
+      const previewURL = formData.ImageURL;
       setFileList([
         {
           uid: "-1",
-          name: formData.uploadedImage.name,
+          name: formData.ImageURL,
           status: "done",
           url: previewURL,
           preview: previewURL,
         },
       ]);
     }
-  }, [formData.uploadedImage]);
+  }, [formData.ImageURL]);
 
   const handleCauseChange = (checkedValues: string[]) => {
     setFormData({ causes: checkedValues });
@@ -66,17 +68,30 @@ const StepFour: React.FC<StepFourProps> = ({
       const previewURL = URL.createObjectURL(uploadedFile);
       newFileList[0].preview = previewURL;
       setFileList([newFileList[0]]);
-      setFormData({ uploadedImage: uploadedFile });
-      form.setFieldsValue({ uploadedImage: uploadedFile });
+      // setFormData({ uploadedImage: uploadedFile });
+      // form.setFieldsValue({ uploadedImage: uploadedFile });
     }
   };
-
   const handleSubmit = async () => {
     try {
+      setLoading(true);
       await form.validateFields();
+      if (fileList.length === 0 || !fileList[0].originFileObj) {
+        message.error("Please upload an image file.");
+        return;
+      }
+
+      const file = fileList[0].originFileObj as File;
+      const fileRef = ref(storage, `uploads/${file.name}`);
+      await uploadBytes(fileRef, file);
+      const url = await getDownloadURL(fileRef);
+
+      setFormData({ ImageURL: url });
       onNext();
-    } catch {
+      setLoading(false);
+    } catch (error) {
       message.error("Please complete the required fields.");
+      setLoading(false);
     }
   };
 
@@ -152,19 +167,21 @@ const StepFour: React.FC<StepFourProps> = ({
           </div>
         )}
 
-        <div className="flex flex-col sm:flex-row justify-between gap-4 mt-6">
+        <div className="flex flex-wrap sm:justify-between justify-center mt-6">
           {" "}
           <Button
             onClick={onPrev}
             variant={ButtonVariant.Light}
-            className="bg-gray-200 text-gray-700 hover:bg-gray-300 h-[40px] w-[140px]"
+            className="bg-gray-200 text-gray-700 hover:bg-gray-300 h-[40px] w-full m-2"
           >
             Previous
           </Button>
           <Button
-            className="h-[40px] w-[140px]"
+            className="h-[40px] w-full m-2"
             variant={ButtonVariant.ThemeColor}
             onClick={handleSubmit}
+            loading={loading}
+            disabled={loading}
           >
             Continue
           </Button>

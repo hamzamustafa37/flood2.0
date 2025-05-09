@@ -39,10 +39,8 @@ export const sendSms = async (
   try {
     const result = await smsFn({ to, message });
     const response = result.data as ISmsResponse;
-    console.log("SMS sent to:", to, "Response:", response);
     return response;
   } catch (error) {
-    console.error("SMS Error:", error);
     return {
       success: false,
       message: "Failed to send SMS",

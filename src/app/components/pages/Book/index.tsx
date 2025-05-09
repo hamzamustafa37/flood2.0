@@ -33,7 +33,6 @@ export const Book: React.FC = () => {
   const updateFormData = (data: Partial<typeof formData>) => {
     setFormData((prev) => ({ ...prev, ...data }));
   };
-  console.log("Form Data", formData);
   const steps = [
     {
       title: "Step 1",

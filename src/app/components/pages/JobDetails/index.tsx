@@ -28,7 +28,6 @@ const JobDetailsPage: React.FC<JobDetailsPageProps> = ({ id }) => {
       </div>
     );
   }
-  console.log(jobData, "Job Data");
   return (
     <div className="p-4 max-w-5xl mx-auto space-y-6">
       <h1 className="text-3xl font-bold text-center">Job Details</h1>

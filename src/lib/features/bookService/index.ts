@@ -5,13 +5,16 @@ import { sentMailAgainstNonscheduleBooking } from "../meessageService";
 export const saveNonScheduledBooking = async (bookingData: IFormData) => {
   try {
     const bookingsCollection = collection(db, "ft-nonScheduledBookings");
-    const docRef = await addDoc(bookingsCollection, bookingData);
-    console.log("Document written with ID: ", docRef.id);
+    const docRef = await addDoc(bookingsCollection, {
+      id: "12345678910",
+      ...bookingData,
+    });
     sentMailAgainstNonscheduleBooking(
       bookingData.name,
       bookingData.email,
       bookingData?.phone
     );
+
     return { id: docRef.id, status: "success" };
   } catch (error: any) {
     console.error("Error saving non-scheduled booking: ", error);

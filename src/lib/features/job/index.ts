@@ -232,7 +232,6 @@ export const _getJobs =
     dispatch(startLoading({ key: ApiActions.GET_JOBS }));
     getJobs(page, limit)
       .then((response) => {
-        console.log(response, "Yje");
         dispatch(setAllJobs(response.data));
         dispatch(endLoading({ key: ApiActions.GET_JOBS }));
       })
@@ -249,7 +248,6 @@ export const _getJobDetails =
     dispatch(startLoading({ key: ApiActions.GET_JOB_DETAILS }));
     getJobDetails(id)
       .then((response) => {
-        console.log(response, "The response");
         dispatch(setAllJobs(response.data));
         dispatch(endLoading({ key: ApiActions.GET_JOB_DETAILS }));
       })

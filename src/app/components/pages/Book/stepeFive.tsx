@@ -199,25 +199,23 @@ const StepFive: React.FC<StepFiveProps> = ({
           </Form.Item>
         </div>
 
-        <div className="mt-6 flex justify-center sm:justify-between">
-          <div className="flex flex-col sm:flex-row gap-4 w-full">
-            <Button
-              onClick={onPrev}
-              variant={ButtonVariant.Light}
-              className="bg-gray-200 text-gray-700 hover:bg-gray-300 h-[40px] w-full sm:w-[140px]"
-            >
-              Previous
-            </Button>
-            <Button
-              className="h-[40px] w-full sm:w-[140px]"
-              onClick={handleSubmit}
-              variant={ButtonVariant.ThemeColor}
-              loading={loading}
-              disabled={loading}
-            >
-              Continue
-            </Button>
-          </div>
+        <div className="flex flex-wrap sm:justify-between justify-center mt-6">
+          <Button
+            onClick={onPrev}
+            variant={ButtonVariant.Light}
+            className="bg-gray-200 text-gray-700 hover:bg-gray-300 h-[40px] w-full sm:w-[140px] m-2"
+          >
+            Previous
+          </Button>
+          <Button
+            className="h-[40px] w-full sm:w-[140px] m-2"
+            onClick={handleSubmit}
+            variant={ButtonVariant.ThemeColor}
+            loading={loading}
+            disabled={loading}
+          >
+            Continue
+          </Button>
         </div>
       </Form>
     </div>
