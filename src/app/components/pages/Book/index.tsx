@@ -85,7 +85,7 @@ export const Book: React.FC = () => {
           formData={formData}
           setFormData={updateFormData}
           onNext={() => setCurrentStep(5)}
-          onPrev={() => setCurrentStep(4)}
+          onPrev={() => setCurrentStep(3)}
         />
       ),
     },

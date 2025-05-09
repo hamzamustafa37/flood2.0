@@ -82,7 +82,8 @@ const StepTwo: React.FC<StepTwoProps> = ({
           </div>
         )}
 
-      <div className="flex justify-between mt-4">
+      <div className="flex flex-col sm:flex-row justify-between gap-4 mt-6">
+        {" "}
         <Button
           variant={ButtonVariant.Light}
           className="h-[40px] w-[140px]"
@@ -92,7 +93,7 @@ const StepTwo: React.FC<StepTwoProps> = ({
         </Button>
         <Button
           className="h-[40px] w-[140px]"
-          variant={ButtonVariant.Primary}
+          variant={ButtonVariant.ThemeColor}
           onClick={handleNext}
         >
           Continue

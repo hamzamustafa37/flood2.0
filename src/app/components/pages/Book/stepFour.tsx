@@ -141,16 +141,19 @@ const StepFour: React.FC<StepFourProps> = ({
         </Form.Item>
 
         {fileList.length > 0 && (
-          <Image
-            src={fileList[0].preview || fileList[0].url}
-            alt="Preview"
-            width={200}
-            height={200}
-            style={{ marginTop: "10px", borderRadius: "8px" }}
-          />
+          <div className="flex justify-center">
+            <Image
+              src={fileList[0].preview || fileList[0].url}
+              alt="Preview"
+              width={200}
+              height={200}
+              style={{ marginTop: "10px", borderRadius: "8px" }}
+            />
+          </div>
         )}
 
-        <div className="flex justify-between mt-6">
+        <div className="flex flex-col sm:flex-row justify-between gap-4 mt-6">
+          {" "}
           <Button
             onClick={onPrev}
             variant={ButtonVariant.Light}
@@ -159,8 +162,8 @@ const StepFour: React.FC<StepFourProps> = ({
             Previous
           </Button>
           <Button
-            className="h-[40px] w-[140px] bg-blue-600 text-white hover:bg-blue-700"
-            variant={ButtonVariant.Primary}
+            className="h-[40px] w-[140px]"
+            variant={ButtonVariant.ThemeColor}
             onClick={handleSubmit}
           >
             Continue

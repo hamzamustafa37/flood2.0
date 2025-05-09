@@ -143,7 +143,7 @@ const StepThree: React.FC<StepThreeProps> = ({
         </Text>
 
         {/* Navigation Buttons */}
-        <div className="flex justify-between mt-6">
+        <div className="flex flex-col sm:flex-row justify-between gap-4 mt-6">
           <Button
             variant={ButtonVariant.Light}
             onClick={onPrev}

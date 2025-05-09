@@ -65,7 +65,7 @@ const StepOne: React.FC<StepOneProps> = ({ formData, setFormData, onNext }) => {
       <hr className="mt-4 text-[#EFF2F6]" />
       <div className="flex justify-end mt-6">
         <Button
-          variant={ButtonVariant.Primary}
+          variant={ButtonVariant.ThemeColor}
           className="h-[40px] w-[140px]"
           onClick={handleNext}
         >

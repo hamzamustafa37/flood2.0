@@ -34,23 +34,25 @@ const StepSix: React.FC<StepSixProps> = ({ name }) => {
         <Text>Thank you, {name}! Our team is on it.</Text>
       </div>
 
-      <div className="flex justify-center mt-6">
-        <Button
-          onClick={() => {
-            router.push("/");
-          }}
-          variant={ButtonVariant.Light}
-          className="bg-gray-200 text-gray-700 hover:bg-gray-300 h-[40px] w-[140px]"
-        >
-          Back To home
-        </Button>
-        <Button
-          className="h-[40px] w-[140px] bg-blue-600 text-white hover:bg-blue-700 mx-2"
-          onClick={handleSubmit}
-          variant={ButtonVariant.Primary}
-        >
-          Login
-        </Button>
+      <div className="mt-6 flex justify-center sm:justify-between">
+        <div className="flex flex-col sm:flex-row gap-4 w-full">
+          <Button
+            onClick={() => {
+              router.push("/");
+            }}
+            variant={ButtonVariant.Light}
+            className="bg-gray-200 text-gray-700 hover:bg-gray-300 h-[40px] w-[140px]"
+          >
+            Back To home
+          </Button>
+          <Button
+            className="h-[40px] w-[140px]"
+            onClick={handleSubmit}
+            variant={ButtonVariant.ThemeColor}
+          >
+            Login
+          </Button>
+        </div>
       </div>
     </div>
   );

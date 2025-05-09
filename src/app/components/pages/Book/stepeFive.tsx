@@ -29,7 +29,7 @@ const StepFive: React.FC<StepFiveProps> = ({
   onNext,
 }) => {
   const [form] = Form.useForm();
-
+  const [loading, setLoading] = useState(false);
   const handleCityChange = (city: string) => {
     const selectedCity = cityData[city] || { state: "", zipCode: "" };
     setFormData({
@@ -45,6 +45,7 @@ const StepFive: React.FC<StepFiveProps> = ({
 
   const handleSubmit = async () => {
     try {
+      setLoading(true);
       await form.validateFields();
       const res = await saveNonScheduledBooking({
         issues: formData.issues,
@@ -63,11 +64,17 @@ const StepFive: React.FC<StepFiveProps> = ({
         email: formData.email,
       });
       if (res) {
+        setLoading(false);
         message.success("Booking saved successfully!");
         onNext();
       }
-    } catch (error) {
-      message.error("Please complete all required fields.");
+    } catch (error: any) {
+      console.error("Submission Error:", error);
+      message.error(
+        error?.message || "Something went wrong. Please try again."
+      );
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -172,7 +179,7 @@ const StepFive: React.FC<StepFiveProps> = ({
         </Form.Item>
 
         {/* State & Zip Code */}
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <Form.Item label="State" name="state">
             <Input
               value={formData.state}
@@ -192,22 +199,25 @@ const StepFive: React.FC<StepFiveProps> = ({
           </Form.Item>
         </div>
 
-        {/* Navigation Buttons */}
-        <div className="flex justify-between mt-6">
-          <Button
-            onClick={onPrev}
-            variant={ButtonVariant.Light}
-            className="bg-gray-200 text-gray-700 hover:bg-gray-300 h-[40px] w-[140px]"
-          >
-            Previous
-          </Button>
-          <Button
-            className="h-[40px] w-[140px] bg-blue-600 text-white hover:bg-blue-700"
-            onClick={handleSubmit}
-            variant={ButtonVariant.Primary}
-          >
-            Continue
-          </Button>
+        <div className="mt-6 flex justify-center sm:justify-between">
+          <div className="flex flex-col sm:flex-row gap-4 w-full">
+            <Button
+              onClick={onPrev}
+              variant={ButtonVariant.Light}
+              className="bg-gray-200 text-gray-700 hover:bg-gray-300 h-[40px] w-full sm:w-[140px]"
+            >
+              Previous
+            </Button>
+            <Button
+              className="h-[40px] w-full sm:w-[140px]"
+              onClick={handleSubmit}
+              variant={ButtonVariant.ThemeColor}
+              loading={loading}
+              disabled={loading}
+            >
+              Continue
+            </Button>
+          </div>
         </div>
       </Form>
     </div>
