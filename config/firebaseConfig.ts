@@ -5,7 +5,7 @@ import { getStorage } from "firebase/storage";
 import { getFunctions } from "firebase/functions";
 
 // Your web app's Firebase configuration
-const firebaseConfig = {
+export const firebaseConfig = {
   apiKey: "AIzaSyD5dzUNlXR1b7oFj523utB_eZymWX3X0wY",
   authDomain: "ftms-ca85b.firebaseapp.com",
   databaseURL: "https://ftms-ca85b.firebaseio.com",

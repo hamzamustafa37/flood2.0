@@ -33,6 +33,7 @@ export const imagesPath = {
   appointment: "/icons/message-square.svg",
   calender: "/icons/calendar.svg",
   briefcase: "/icons/briefcase.svg",
+  briefCaseWhite: "/icons/briefcase-white.svg",
   location: "/icons/map-pin.svg",
   disc: "/icons/disc.svg",
   exhaustloader: "/icons/loader.svg",
@@ -92,6 +93,8 @@ export const imagesPath = {
   dropTab: "/icons/collection-icons/drop.svg",
   locationTab: "/icons/collection-icons/locations.svg",
   completed: "/icons/completed.svg",
+  spark: "/icons/spark.svg",
+  zipLocation: "/icons/zip-location.svg",
 };
 
 export const MAX_FILE_SIZE = 5 * 1024 * 1024;

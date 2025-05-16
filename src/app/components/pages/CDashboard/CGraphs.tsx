@@ -10,7 +10,9 @@ const CDashOverview = () => {
       <Col xs={24} md={8}>
         <JobsByDay />
       </Col>
-      <Col xs={24} md={8}></Col>
+      <Col xs={24} md={8}>
+        <AvgResponseTime />
+      </Col>
       <Col xs={24} md={8}>
         <HeatmapByZip />
       </Col>

@@ -4,6 +4,10 @@ import { Form, Input, Checkbox, Typography, Radio } from "antd";
 import { StepHeader } from "./common/stepHeader";
 import { ButtonVariant } from "@/utils";
 import { Button } from "../../common";
+import {
+  fetchLocalityAndPinCodeFromCoordinates,
+  getUserLocation,
+} from "@/lib/features/bookService";
 
 const { Title, Text } = Typography;
 
@@ -26,6 +30,7 @@ const StepThree: React.FC<StepThreeProps> = ({
   onPrev,
 }) => {
   const [form] = Form.useForm();
+  const [locality, setLocality] = React.useState<string | null>(null);
 
   const handleSubmit = () => {
     form.validateFields().then(() => {
@@ -36,6 +41,23 @@ const StepThree: React.FC<StepThreeProps> = ({
   useEffect(() => {
     form.setFieldsValue(formData);
   }, [formData, form]);
+  const handleUseMyLocation = async () => {
+    try {
+      const location = await getUserLocation();
+      const { pinCode, locality } =
+        await fetchLocalityAndPinCodeFromCoordinates(
+          location.lat,
+          location.lng
+        );
+
+      form.setFieldsValue({ zipCode: pinCode });
+      setFormData({ zipCode: pinCode });
+      setLocality(locality);
+    } catch (error: any) {
+      setLocality(null);
+      console.error("Error getting location:", error);
+    }
+  };
 
   return (
     <div className="w-full max-w-2xl">
@@ -78,6 +100,7 @@ const StepThree: React.FC<StepThreeProps> = ({
               <Input
                 placeholder="Enter ZIP Code"
                 className="p-3 border-none rounded-md bg-gray-100 w-full"
+                value={formData.zipCode}
               />
             </Form.Item>
           </div>
@@ -85,10 +108,12 @@ const StepThree: React.FC<StepThreeProps> = ({
           <Button
             variant={ButtonVariant.ThemeColor}
             className=" w-full sm:w-auto px-4 rounded-md "
+            onClick={handleUseMyLocation}
           >
             Use my Location
           </Button>
         </div>
+        {locality && <label className="text-[green]">{locality}</label>}
 
         {/* Property Type */}
         <div className="mt-4">

@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3000",
+    "dev": "next dev -p 1234",
     "gcp-predeploy": "find ./build -name '\\[...*' -exec bash -c 'mv \"$1\" \"${1/.../@@@}\"' -- {} \\;",
     "gcp-build": "find ./build -name '\\[@@@*' -exec bash -c 'mv \"$1\" \"${1/@@@/...}\"' -- {} \\;",
     "google-build": "rm -rf ./build &&  NODE_ENV=production && next build",
@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.7.18",
+    "@mobiscroll/react": "npm:@mobiscroll/react-next-trial@^5.34.2",
     "@reduxjs/toolkit": "^2.2.1",
     "@stripe/react-stripe-js": "^2.8.0",
     "@stripe/stripe-js": "^4.5.0",
@@ -35,6 +36,7 @@
     "i18next-resources-to-backend": "^1.2.0",
     "jsonwebtoken": "^9.0.2",
     "lodash": "^4.17.21",
+    "mobiscroll": "^3.0.0-beta6",
     "next": "^14.2.26",
     "next-auth": "^4.24.11",
     "nextjs-toploader": "^1.6.6",

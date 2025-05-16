@@ -210,7 +210,7 @@ export const contractorSideBarMenu = [
       {
         title: "Dashboard",
         icon: imagesPath.home,
-        link: "/contractor/dashboard",
+        link: "/contractor-dashboard",
         active: true,
       },
       {
@@ -222,14 +222,14 @@ export const contractorSideBarMenu = [
       {
         title: "Teams",
         icon: imagesPath.alertIcon,
-        link: "/contractor/weather",
+        link: "/contractor-teams",
         active: true,
       },
 
       {
         title: "Schedules",
         icon: imagesPath.atmosphere,
-        link: "/contractor/atmospheric-readings",
+        link: "/contractor-schedule",
         active: true,
         tag: "New",
       },

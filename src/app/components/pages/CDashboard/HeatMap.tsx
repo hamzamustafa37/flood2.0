@@ -10,7 +10,7 @@ const HeatmapByZip = () => {
         Visual map showing job density & urgency across service areas
       </Text>
       <Image
-        src="/heatmap-placeholder.png"
+        src="/backgrounds/Map.svg"
         alt="Heatmap"
         width={500}
         height={250}
