@@ -10,6 +10,9 @@ export default function HomePage() {
       <Link href={"/book-a-service"}>
         <Button>Book A Service</Button>
       </Link>
+      <Link href={"/contractor-schedule"}>
+        <Button>Contractor Service</Button>
+      </Link>
     </div>
   );
 }
