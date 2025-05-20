@@ -18,7 +18,7 @@
     },
     "dependencies": {
         "@headlessui/react": "^1.7.18",
-        "@mobiscroll/react": "npm:@mobiscroll/react-next-trial@^5.34.2",
+        "@mobiscroll/react": "npm:@mobiscroll/react-next@^5.34.2",
         "@reduxjs/toolkit": "^2.2.1",
         "@stripe/react-stripe-js": "^2.8.0",
         "@stripe/stripe-js": "^4.5.0",
