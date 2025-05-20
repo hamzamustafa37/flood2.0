@@ -8,10 +8,10 @@ export default function HomePage() {
       <h1>Home Page</h1>
 
       <Link href={"/book-a-service"}>
-        <Button>Book A Service</Button>
+        <Button className="my-2">Book A Service</Button>
       </Link>
       <Link href={"/contractor-schedule"}>
-        <Button>Contractor Service</Button>
+        <Button className="my-2">Contractor Service</Button>
       </Link>
     </div>
   );
