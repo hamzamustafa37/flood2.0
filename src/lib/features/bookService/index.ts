@@ -26,6 +26,10 @@ import {
   updateEmployeePriority,
 } from "../employee";
 import { doIntervalsOverlap } from "@/utils/time-date";
+import {
+  ICustomerBooking,
+  INonScheduledBooking,
+} from "@/utils/types/customerBooking.types";
 
 type Coordinates = {
   lat: number;
@@ -36,7 +40,8 @@ type LocationResponse = {
   locality: string;
   pinCode: string;
 };
-const role = localStorage.getItem("role");
+// const role = window.localStorage.getItem("role");
+const role = "";
 
 export const saveNonScheduledBooking = async (bookingData: IFormData) => {
   try {
@@ -164,13 +169,16 @@ export const getBookingsBetweenDates = async (startDate: any, endDate: any) => {
   }
 };
 
-export const getEmergencyBookingById = async (id: any) => {
+export const getEmergencyBookingById = async (
+  id: string
+): Promise<ICustomerBooking> => {
   try {
     const bookingDoc = doc(db, "ft-emergencyBookings", id);
     const docSnapshot = await getDoc(bookingDoc);
 
     if (docSnapshot.exists()) {
-      return { ...docSnapshot.data(), id: docSnapshot.id };
+      const data = docSnapshot.data();
+      return { ...data, id: docSnapshot.id } as ICustomerBooking;
     } else {
       throw new Error(`No booking found with id: ${id}`);
     }
@@ -180,13 +188,19 @@ export const getEmergencyBookingById = async (id: any) => {
   }
 };
 
-export const getNonScheduledBookingById = async (bookingId: any) => {
+export const getNonScheduledBookingById = async (
+  bookingId: string
+): Promise<INonScheduledBooking> => {
   try {
     const bookingDocRef = doc(db, "ft-nonScheduledBookings", bookingId);
     const bookingDoc = await getDoc(bookingDocRef);
 
     if (bookingDoc.exists()) {
-      return { id: bookingDoc.id, ...bookingDoc.data(), status: "success" };
+      return {
+        id: bookingDoc.id,
+        ...bookingDoc.data(),
+        status: "success",
+      } as INonScheduledBooking;
     } else {
       console.error("No such booking found!");
       throw new Error(`No booking found with the given ID`);
@@ -397,20 +411,20 @@ export const deleteEmergencyBookingById = async (id: any) => {
     throw new Error("Error deleting booking: " + error.message);
   }
 };
-
-export const getBookingById = async (id: any) => {
+export const getBookingById = async (id: any): Promise<ICustomerBooking> => {
   try {
     const docRef = doc(db, "appBookings", id);
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
-      console.log("Booking Data:", docSnap.data());
-      return { id: docSnap.id, ...docSnap.data() };
+      const data = docSnap.data() as Omit<ICustomerBooking, "id"> &
+        Partial<{ id: string }>;
+      const { id: _ignore, ...rest } = data;
+      return { id: docSnap.id, ...rest };
     } else {
-      console.log("No such document!");
-      return null;
+      throw new Error(`Booking with ID ${id} not found`);
     }
-  } catch (error) {
-    console.error("Error fetching document:", error);
+  } catch (error: any) {
+    throw new Error(`Failed to fetch booking: ${error.message || error}`);
   }
 };

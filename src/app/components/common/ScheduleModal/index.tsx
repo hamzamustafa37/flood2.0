@@ -41,8 +41,7 @@ const SchedulerPopup: React.FC<SchedulerPopupProps> = ({
   const [endError, setEndError] = useState<string>("");
   const [employeeError, setEmployeeError] = useState<string>("");
   const { role } = useAuth();
-  const empId: string = localStorage.getItem("empId") ?? "";
-
+  const empId = "";
   useEffect(() => {
     const fetchData = async () => {
       const res = await getTeams();

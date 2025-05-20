@@ -37,10 +37,11 @@ export const AuthProvider = ({ children }: any) => {
       }
       console.log(user);
       setLoading(false);
-      const role = localStorage.getItem("role");
-      if (role) {
-        setRole(role);
-      }
+      // const role = window.localStorage.getItem("role");
+      // if (role) {
+      //   setRole(role);
+      // }
+      setRole("");
     });
     return () => unsubscribe();
   }, []);

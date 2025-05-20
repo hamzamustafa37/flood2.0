@@ -216,7 +216,7 @@ export const contractorSideBarMenu = [
       {
         title: "Services",
         icon: imagesPath.briefcase,
-        link: "/contractor/dashboard",
+        link: "/contractor-service",
         active: true,
       },
       {

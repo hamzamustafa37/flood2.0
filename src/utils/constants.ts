@@ -233,3 +233,41 @@ export const cDashboardTab = [
     tag: "",
   },
 ];
+
+export const tabsData = [
+  {
+    strapLine: "All active team members in the system",
+    title: "Total Contractors",
+    value: "28",
+    icon: imagesPath.totalJobs,
+    tag: "",
+  },
+  {
+    strapLine: "Logged in or accepted at least one job",
+    title: "Active Todays",
+    value: "9",
+    icon: imagesPath.spark,
+    tag: "",
+  },
+  {
+    strapLine: "Available and willing to take urgent jobs",
+    title: "Active Todays",
+    value: "9",
+    icon: imagesPath.timerTab,
+    tag: "",
+  },
+  {
+    strapLine: "Based on last 30 completed job",
+    title: "Active Todays",
+    value: "9",
+    icon: imagesPath.remarksTab,
+    tag: "",
+  },
+  {
+    strapLine: "Unique ZIP codes currently covered",
+    title: "Coverage ZIPs",
+    value: "34",
+    icon: imagesPath.zipLocation,
+    tag: "",
+  },
+];

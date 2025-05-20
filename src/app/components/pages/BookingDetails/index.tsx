@@ -1,5 +1,5 @@
+"use client";
 import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
 import {
   Modal,
   Button as AntButton,
@@ -7,6 +7,11 @@ import {
   Spin,
   Typography,
   message,
+  Tabs,
+  TabsProps,
+  Descriptions,
+  Row,
+  Col,
 } from "antd";
 
 import {
@@ -18,29 +23,43 @@ import {
 } from "@/lib/features/bookService";
 import { formatTo12Hour } from "@/utils/time-date";
 import SchedulerPopup from "../../common/ScheduleModal";
+import {
+  ICustomerBooking,
+  INonScheduledBooking,
+} from "@/utils/types/customerBooking.types";
+import { Timestamp } from "firebase/firestore";
 
 const { Title, Text } = Typography;
 
-const BookingDetails = ({
+interface BookingDetailsProps {
+  type: "emergency" | "nonSchedule" | "normal";
+  id: string;
+  onClose: () => void;
+}
+
+const BookingDetails: React.FC<BookingDetailsProps> = ({
   type,
   id,
   onClose,
-}: {
-  type: any;
-  id: any;
-  onClose: any;
 }) => {
   const [imgPreviewVisible, setImgPreviewVisible] = useState(false);
-  const [bookingData, setBookingData] = useState<any | null>(null);
+  const [bookingData, setBookingData] = useState<
+    ICustomerBooking | INonScheduledBooking
+  >();
   const [loading, setLoading] = useState(false);
   const [isSchedule, setIsSchedule] = useState(false);
-  const role = localStorage.getItem("role");
+  const [role, setRole] = useState<string | null>(null);
+
+  useEffect(() => {
+    setRole(localStorage.getItem("role"));
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
+      console.log(type, "The type");
       setLoading(true);
       try {
-        let response;
+        let response: ICustomerBooking | INonScheduledBooking;
         if (type === "emergency") {
           response = await getEmergencyBookingById(id);
         } else if (type === "nonSchedule") {
@@ -48,6 +67,7 @@ const BookingDetails = ({
         } else {
           response = await getBookingById(id);
         }
+        console.log(response, "the response");
         setBookingData(response);
       } catch (error) {
         message.error("This booking is not available now.");
@@ -60,19 +80,36 @@ const BookingDetails = ({
     fetchData();
   }, [id, type, onClose]);
 
-  const handleStatusUpdate = async (newStatus: any) => {
-    if (!id) return;
+  const handleStatusUpdate = async (newStatus: string) => {
+    if (!id || !bookingData) return;
     setLoading(true);
     try {
+      const start =
+        bookingData.schedule?.slot?.start instanceof Timestamp
+          ? bookingData.schedule.slot.start.toDate()
+          : null;
+
+      const end =
+        bookingData.schedule?.slot?.end instanceof Timestamp
+          ? bookingData.schedule.slot.end.toDate()
+          : null;
+
+      const date =
+        bookingData.schedule?.date instanceof Timestamp
+          ? bookingData.schedule.date.toDate()
+          : null;
+
+      const scheduleString = date
+        ? `${date.toLocaleDateString()} -- ${formatTo12Hour(start)} - ${formatTo12Hour(end)}`
+        : "";
+
       await updateBookingStatus(
         id,
         newStatus,
-        bookingData?.customerDetails,
-        bookingData?.empId,
+        bookingData.customerDetails,
+        bookingData.empId,
         role,
-        `${bookingData?.schedule?.date.toDate().toLocaleDateString()} -- ${formatTo12Hour(
-          bookingData?.schedule?.slot.start.toDate()
-        )} - ${formatTo12Hour(bookingData?.schedule?.slot.end.toDate())}`
+        scheduleString
       );
       onClose();
     } catch (error) {
@@ -94,13 +131,153 @@ const BookingDetails = ({
     }
   };
 
-  if (!bookingData) {
-    return (
-      <Modal open centered footer={null} onCancel={onClose}>
-        <Spin spinning={true} />
-      </Modal>
-    );
-  }
+  const tabItems: TabsProps["items"] = [
+    {
+      key: "1",
+      label: "Basic Info",
+      children: (
+        <Descriptions
+          column={2}
+          labelStyle={{ fontWeight: 600 }}
+          contentStyle={{ color: "#555" }}
+        >
+          <Descriptions.Item>
+            <Text strong>Name: </Text>
+            <span className="mx-2">
+              {" "}
+              {bookingData?.customerDetails?.name || "N/A"}
+            </span>
+          </Descriptions.Item>
+          <Descriptions.Item>
+            <Text strong>Address: </Text>
+            <span className="mx-2">
+              {bookingData?.customerDetails?.address || "N/A"}
+            </span>
+          </Descriptions.Item>
+          <Descriptions.Item>
+            <Text strong>Zip Code: </Text>
+            <span className="mx-2">
+              {bookingData?.customerDetails?.zipCode ||
+                bookingData?.zipCode ||
+                "N/A"}
+            </span>
+          </Descriptions.Item>
+          <Descriptions.Item>
+            <Text strong>Phone No: </Text>
+            <span className="mx-2">
+              {bookingData?.customerDetails?.phone || "N/A"}
+            </span>
+          </Descriptions.Item>
+          <Descriptions.Item>
+            <Text strong>Email: </Text>
+            <span className="mx-2">
+              {bookingData?.customerDetails?.email || "N/A"}
+            </span>
+          </Descriptions.Item>
+        </Descriptions>
+      ),
+    },
+    {
+      key: "2",
+      label: "Schedule & Actions",
+      children: (
+        <div>
+          <Title level={4}>Booking Information</Title>
+
+          <Row gutter={[16, 8]}>
+            <Col span={12}>
+              <Text strong>Service:</Text> {bookingData?.service || "N/A"}
+            </Col>
+            <Col span={12}>
+              {bookingData?.schedule && (
+                <>
+                  <Text strong>Schedule:</Text>{" "}
+                  {type === "emergency"
+                    ? "Emergency"
+                    : bookingData?.schedule?.date instanceof Timestamp &&
+                        bookingData?.schedule?.slot?.start instanceof
+                          Timestamp &&
+                        bookingData?.schedule?.slot?.end instanceof Timestamp
+                      ? `${bookingData.schedule.date.toDate().toLocaleDateString()} -- ${formatTo12Hour(
+                          bookingData.schedule.slot.start.toDate()
+                        )} - ${formatTo12Hour(bookingData.schedule.slot.end.toDate())}`
+                      : "N/A"}
+                </>
+              )}
+            </Col>
+            {typeof bookingData?.plumbingIssue?.plumbingIssue === "string" &&
+              bookingData.plumbingIssue.plumbingIssue.trim() !== "" && (
+                <Col span={12}>
+                  <Text strong>Plumbing Issue:</Text>{" "}
+                  {bookingData.plumbingIssue.plumbingIssue}
+                </Col>
+              )}
+          </Row>
+
+          {(type === "nonSchedule" || type === "emergency") && (
+            <div style={{ marginTop: 20 }}>
+              <AntButton
+                type="primary"
+                danger
+                onClick={() => setIsSchedule(true)}
+              >
+                Schedule Booking
+              </AntButton>
+            </div>
+          )}
+
+          {bookingData?.bookingStatus === "pending" &&
+          type !== "nonSchedule" ? (
+            <div style={{ marginTop: 20 }}>
+              <AntButton
+                danger
+                onClick={handleDecline}
+                style={{ marginRight: 10 }}
+              >
+                Decline
+              </AntButton>
+              <AntButton
+                type="primary"
+                onClick={() => handleStatusUpdate("approved")}
+              >
+                Approve
+              </AntButton>
+            </div>
+          ) : (
+            <div style={{ marginTop: 20 }}>
+              <Text strong>Status: </Text>
+              <Text type="secondary">{bookingData?.bookingStatus}</Text>
+            </div>
+          )}
+          <div className="">
+            <Text strong>Images:</Text>
+
+            {bookingData &&
+              bookingData?.causeOfDamage?.fileURLs?.length > 0 && (
+                <div style={{ marginTop: 24 }}>
+                  <Image.PreviewGroup
+                    preview={{
+                      visible: imgPreviewVisible,
+                      onVisibleChange: setImgPreviewVisible,
+                    }}
+                  >
+                    {bookingData.causeOfDamage.fileURLs.map((url, index) => (
+                      <Image
+                        key={index}
+                        width={300}
+                        height={200}
+                        src={url}
+                        alt={`img-${index}`}
+                      />
+                    ))}
+                  </Image.PreviewGroup>
+                </div>
+              )}
+          </div>
+        </div>
+      ),
+    },
+  ];
 
   return (
     <>
@@ -111,105 +288,16 @@ const BookingDetails = ({
         footer={null}
         width={700}
       >
-        <Title level={4}>Basic Information</Title>
-        <Text strong>Name: </Text> {bookingData?.customerDetails?.name}
-        <br />
-        <Text strong>Address: </Text>
-        <div>
-          {bookingData?.customerDetails?.address}
-          <br />
-          {bookingData?.customerDetails?.zipCode}
-          <br />
-          {bookingData?.customerDetails?.phone}
-          <br />
-          {bookingData?.customerDetails?.email}
-        </div>
-        <br />
-        <Title level={4}>Booking Information</Title>
-        <div>
-          <Text strong>Service:</Text> {bookingData?.service}
-        </div>
-        {bookingData?.schedule && (
-          <div>
-            <Text strong>Schedule: </Text>
-            {type === "emergency" ? (
-              "Emergency"
-            ) : (
-              <>
-                {bookingData?.schedule?.date.toDate().toLocaleDateString()} --
-                {formatTo12Hour(
-                  bookingData?.schedule?.slot.start.toDate()
-                )} - {formatTo12Hour(bookingData?.schedule?.slot.end.toDate())}
-              </>
-            )}
-          </div>
-        )}
-        {bookingData?.plumbingIssue?.plumbingIssue && (
-          <div>
-            <Text strong>Plumbing Issue:</Text>{" "}
-            {bookingData?.plumbingIssue?.plumbingIssue}
-          </div>
-        )}
-        {bookingData?.causeOfDamage?.fileURLs?.length > 0 && (
-          <div style={{ marginTop: 16 }}>
-            <Text strong>Images:</Text>
-            <Image.PreviewGroup
-              preview={{
-                visible: imgPreviewVisible,
-                onVisibleChange: (vis) => setImgPreviewVisible(vis),
-              }}
-            >
-              {bookingData?.causeOfDamage?.fileURLs.map(
-                (url: any, index: any) => (
-                  <Image
-                    key={index}
-                    width={100}
-                    height={100}
-                    src={url}
-                    style={{ marginRight: 8 }}
-                    alt={`img-${index}`}
-                  />
-                )
-              )}
-            </Image.PreviewGroup>
-          </div>
-        )}
-        {(type === "nonSchedule" || type === "emergency") && (
-          <div style={{ marginTop: 20 }}>
-            <AntButton
-              type="primary"
-              danger
-              onClick={() => setIsSchedule(true)}
-            >
-              Schedule Booking
-            </AntButton>
-          </div>
-        )}
-        {bookingData?.bookingStatus === "pending" && type !== "nonSchedule" ? (
-          <div style={{ marginTop: 20 }}>
-            <AntButton
-              danger
-              onClick={handleDecline}
-              style={{ marginRight: 10 }}
-            >
-              Decline
-            </AntButton>
-            <AntButton
-              type="primary"
-              onClick={() => handleStatusUpdate("approved")}
-            >
-              Approve
-            </AntButton>
+        {loading || !bookingData ? (
+          <div className="flex justify-center items-center">
+            <Spin spinning={true} />
           </div>
         ) : (
-          <div style={{ marginTop: 20 }}>
-            <Text strong>Status: </Text>
-            <Text type="secondary">{bookingData?.bookingStatus}</Text>
-          </div>
+          <Tabs items={tabItems} />
         )}
       </Modal>
 
-      {isSchedule && (
+      {isSchedule && bookingData && (
         <SchedulerPopup
           onClose={() => setIsSchedule(false)}
           type={type}
@@ -217,20 +305,8 @@ const BookingDetails = ({
           bookingData={bookingData}
         />
       )}
-
-      {loading && (
-        <Modal open centered footer={null} closable={false}>
-          <Spin spinning={true} />
-        </Modal>
-      )}
     </>
   );
-};
-
-BookingDetails.propTypes = {
-  type: PropTypes.string.isRequired,
-  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-  onClose: PropTypes.func.isRequired,
 };
 
 export default BookingDetails;
