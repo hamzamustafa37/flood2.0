@@ -97,7 +97,8 @@ export default function CSchedules() {
       timeline: {
         type: "week",
         eventList: true,
-        columnWidth: "large",
+        columnWidth: window.innerWidth < 640 ? "small" : "medium",
+        scroll: "none",
       },
     }),
     []
@@ -124,20 +125,24 @@ export default function CSchedules() {
 
   return (
     <>
-      <Eventcalendar
-        clickToCreate={false}
-        dragToCreate={false}
-        dragToMove={false}
-        dragToResize={true}
-        eventDelete={false}
-        view={myView}
-        data={bookingData}
-        resources={resourceData}
-        onEventClick={handleEventClick}
-        onPageChange={handlePageChange}
-        onPageLoaded={handlePageLoaded}
-      />
-
+      <div className="schedule-wrapper px-2 sm:px-4 md:px-8 lg:px-16 py-4 max-w-screen-xl mx-auto overflow-auto">
+        <div className="min-w-[800px]">
+          <Eventcalendar
+            clickToCreate={false}
+            dragToCreate={false}
+            dragToMove={false}
+            dragToResize={true}
+            eventDelete={false}
+            view={myView}
+            data={bookingData}
+            resources={resourceData}
+            onEventClick={handleEventClick}
+            onPageChange={handlePageChange}
+            onPageLoaded={handlePageLoaded}
+            cssClass="no-horizontal-scroll"
+          />
+        </div>
+      </div>
       {isPopupOpen && (
         <BookingDetails
           id={selectedId}

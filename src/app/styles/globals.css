@@ -550,3 +550,9 @@ body {
     width: 100% !important;
   }
 }
+.mbsc-timeline-resources {
+  min-width: 150px;
+  max-width: 200px;
+  word-break: break-word;
+  white-space: normal;
+}
