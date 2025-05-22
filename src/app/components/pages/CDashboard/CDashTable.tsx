@@ -1,6 +1,7 @@
 "use client";
 import { Table, Tag, Rate, Typography, Space, Tooltip } from "antd";
 import { EditOutlined, LinkOutlined, MoreOutlined } from "@ant-design/icons";
+import { ColumnsType } from "antd/es/table";
 
 const { Text, Title } = Typography;
 
@@ -51,12 +52,13 @@ const statusColorMap = {
 };
 
 const CDashTable = () => {
-  const columns = [
+  const columns: ColumnsType<any> = [
     {
       title: "ZIP COVERAGE",
       dataIndex: "zip",
       key: "zip",
       sorter: (a: Contractor, b: Contractor) => a.zip.localeCompare(b.zip),
+      align: "left",
     },
     {
       title: "NAME",

@@ -5,7 +5,7 @@ import CDashOverview from "./CGraphs";
 
 const ContractorDashboard = () => {
   return (
-    <div className="flex flex-col p-4">
+    <div className="flex flex-col gap-4 py-4 px-2 md:px-4 mb-2">
       <div>
         <h1 className=" m-0 text-4xl font-normal">
           Admin Control Panel – The Flood Team

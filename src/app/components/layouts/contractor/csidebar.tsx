@@ -61,7 +61,7 @@ export const CSidebar: React.FC<ISidebar> = ({
       )}
 
       <aside
-        className={`h-screen overflow-y-scroll fixed top-0 left-0 bg-white z-30 pb-6 pl-4 border-r border-[#d9d9d9]
+        className={`h-screen  fixed top-0 left-0 bg-white z-30 pb-6 pl-4 border-r border-[#d9d9d9]
           transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] 
           ${collapsed ? "w-[80px]" : "w-[268px]"}
           ${mobileSidebarOpen ? "translate-x-0" : "-translate-x-full"} 

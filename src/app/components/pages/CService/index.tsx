@@ -1,12 +1,14 @@
 "use client";
 import { getServices } from "@/lib/features/services";
-import { Table, Select, Button, Space } from "antd";
+import { Table, Select, Space } from "antd";
+import { Button } from "../../common";
+
 import React from "react";
 import ContractorTabs from "../../common/ContractorTabs";
 import { Button as CustomButton } from "../../common";
 import { ButtonVariant, imagesPath, tabsData } from "@/utils";
 import Image from "next/image";
-
+import type { ColumnsType } from "antd/es/table";
 const { Option } = Select;
 
 const CService = () => {
@@ -53,11 +55,12 @@ const CService = () => {
     new Set(listData.map((item) => item.bufferTime))
   );
 
-  const columns = [
+  const columns: ColumnsType<any> = [
     {
       title: "Name",
       dataIndex: "name",
       key: "name",
+      align: "left",
     },
     {
       title: "Buffer Time",
@@ -80,21 +83,21 @@ const CService = () => {
   ];
 
   return (
-    <div className="flex flex-col gap-4 p-4">
-      <div className="flex justify-between">
+    <div className="flex flex-col gap-4 py-4 px-2 md:px-4  mb-2">
+      <div className="flex flex-col md:flex-row justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-semibold mb-4">
+          <h1 className="text-xl md:text-2xl font-semibold mb-2 md:mb-4">
             Contractor TeamBoard & Availability Tracker
           </h1>
-          <p className="mt-2 text-light">
+          <p className="text-sm md:text-base text-light">
             Live visibility into contractor activity, skill coverage, job loads,
             performance, and emergency readiness to ensure quick and effective
             job assignments.
           </p>
         </div>
-        <div className="flex items-center h-full">
-          <CustomButton
-            className="flex h-[55px] items-center"
+        <div className="flex items-center justify-start md:justify-end">
+          <Button
+            className="flex h-[50px] md:h-[70px] items-center text-sm md:text-base"
             variant={ButtonVariant.ThemeColor}
           >
             <Image
@@ -104,14 +107,14 @@ const CService = () => {
               width={24}
             />
             <span className="ms-2">Add New</span>
-          </CustomButton>
+          </Button>
         </div>
       </div>
 
       {/* Filter dropdowns */}
 
       {/* Tabs and Table */}
-      <div className="p-4">
+      <div className="py-4 px-2 md:px-4 ">
         <ContractorTabs tabOption={tabsData} />
         <div className="flex flex-wrap py-2 gap-2 items-center">
           <Select
@@ -131,12 +134,14 @@ const CService = () => {
             Clear All
           </CustomButton>
         </div>
-        <Table
-          columns={columns}
-          dataSource={filteredData}
-          rowKey="id"
-          loading={loading}
-        />
+        <div className="w-full overflow-x-auto">
+          <Table
+            columns={columns}
+            dataSource={filteredData}
+            rowKey="id"
+            loading={loading}
+          />
+        </div>
       </div>
     </div>
   );
