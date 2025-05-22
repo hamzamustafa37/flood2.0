@@ -24,19 +24,6 @@ export default function CSchedules() {
   const [columnWidth, setColumnWidth] = useState<"small" | "medium">("medium");
   const isPageLoaded = useRef(false);
 
-  // Set initial columnWidth based on screen size
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const handleResize = () => {
-        setColumnWidth(window.innerWidth < 640 ? "small" : "medium");
-      };
-
-      handleResize(); // Set on mount
-      window.addEventListener("resize", handleResize);
-      return () => window.removeEventListener("resize", handleResize);
-    }
-  }, []);
-
   useEffect(() => {
     const fetchTeams = async () => {
       const res = await getTeams();
@@ -100,11 +87,11 @@ export default function CSchedules() {
       timeline: {
         type: "week",
         eventList: true,
-        columnWidth,
+        columnWidth: "small",
         scroll: "none",
       },
     }),
-    [columnWidth]
+    []
   );
 
   const handleEventClick = (event: any) => {
