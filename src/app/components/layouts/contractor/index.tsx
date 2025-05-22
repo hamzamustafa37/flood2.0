@@ -23,7 +23,7 @@ export const ContractorLayout = ({
         onToggle={handleToggle}
         onMobileToggle={() => setMobileSidebarOpen((prev) => !prev)}
       />
-      <div className="flex flex-1 overflow-hidden pt-[79px]">
+      <div className="flex flex-1 overflow-hidden pt-[79px] ">
         <CSidebar
           collapsed={collapsed}
           setCollapsed={setCollapsed}
@@ -42,6 +42,8 @@ export const ContractorLayout = ({
             scroll-smooth
             mb-20
             pb-[60px]
+            mt-[20px]
+            md:mt-[0px]
           `}
         >
           {children}

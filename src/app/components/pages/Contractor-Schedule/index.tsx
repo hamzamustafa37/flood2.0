@@ -3,7 +3,6 @@
 import React, { useRef, useEffect, useMemo, useState } from "react";
 import { Eventcalendar, setOptions } from "@mobiscroll/react";
 import "@mobiscroll/react/dist/css/mobiscroll.min.css";
-// import { useSearchParams } from "next/navigation";
 
 import { getTeams } from "@/lib/features/team";
 import { getBookingsBetweenDates } from "@/lib/features/bookService";
@@ -22,12 +21,22 @@ export default function CSchedules() {
   const [selectedId, setSelectedId] = useState<string>("");
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
+  const [columnWidth, setColumnWidth] = useState<"small" | "medium">("medium");
   const isPageLoaded = useRef(false);
 
-  // const searchParams = useSearchParams();
-  // const bookingId = searchParams.get("id");
+  // Set initial columnWidth based on screen size
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const handleResize = () => {
+        setColumnWidth(window.innerWidth < 640 ? "small" : "medium");
+      };
 
-  // Load Teams as Resources
+      handleResize(); // Set on mount
+      window.addEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
+    }
+  }, []);
+
   useEffect(() => {
     const fetchTeams = async () => {
       const res = await getTeams();
@@ -41,14 +50,6 @@ export default function CSchedules() {
     fetchTeams();
   }, []);
 
-  // useEffect(() => {
-  //   if (bookingId) {
-  //     setSelectedId(bookingId);
-  //     setIsPopupOpen(true);
-  //   }
-  // }, [bookingId]);
-
-  // // Fetch Bookings Between Dates
   useEffect(() => {
     const fetchBookings = async (
       firstDay: Date | null,
@@ -75,7 +76,9 @@ export default function CSchedules() {
 
             return {
               id,
-              title: `${customerDetails?.name} ${formatTo12Hour(start.toDate())}-${formatTo12Hour(end.toDate())}`,
+              title: `${customerDetails?.name} ${formatTo12Hour(
+                start.toDate()
+              )}-${formatTo12Hour(end.toDate())}`,
               resource: empId,
               start: start.toDate(),
               end: end.toDate(),
@@ -97,11 +100,11 @@ export default function CSchedules() {
       timeline: {
         type: "week",
         eventList: true,
-        columnWidth: window.innerWidth < 640 ? "small" : "medium",
+        columnWidth,
         scroll: "none",
       },
     }),
-    []
+    [columnWidth]
   );
 
   const handleEventClick = (event: any) => {
