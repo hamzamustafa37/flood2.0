@@ -21,6 +21,7 @@ export const apiRoutes = {
   },
   auth: {
     name: "/auth",
+    googleLogin: "/google",
     create: "/register",
     otp: "/otp-verification",
     login: "/login",
@@ -30,7 +31,12 @@ export const apiRoutes = {
     resetPassword: "/reset-password",
     me: "/me",
     socialAuth: "/social-auth",
+    signup: {
+      name: "/signup",
+      contractor: "/contractor",
+    },
   },
+
   role: {
     name: "/role",
     create: "/role",

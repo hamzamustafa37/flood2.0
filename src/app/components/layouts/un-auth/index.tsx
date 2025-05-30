@@ -20,8 +20,8 @@ export const UnAuthLayout = ({
     <div className="relative w-full min-h-screen bg-cover bg-[url('/backgrounds/login-bg.jpeg')]">
       <div className="absolute w-full min-h-screen bg-black opacity-50 z-10" />
       <div className="relative z-20 flex items-center justify-center min-h-screen">
-        <div className="bg-white rounded-xl shadow-lg flex flex-col md:flex-row overflow-hidden h-[66vh] w-full max-w-4xl">
-          <div className="bg-[#eff2f6] p-8 flex-1 flex flex-col items-center justify-center">
+        <div className="bg-white rounded-xl shadow-lg flex flex-col md:flex-row overflow-hidden h-[80vh] md:h-[66vh] w-full max-w-4xl">
+          <div className="hidden md:flex bg-[#eff2f6] p-8 flex-1 flex-col items-center justify-center">
             <Image
               src={imagesPath.loginSideImage}
               alt="Flood Team Logo"

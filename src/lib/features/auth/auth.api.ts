@@ -17,6 +17,97 @@ import { errorPopup } from "@/app/components/common";
 import { handleError } from "@/utils/helpers/errorHandler";
 import { msgResponse } from "@/utils/messagesType";
 
+import { signInWithPopup } from "firebase/auth";
+import { auth, provider } from "@firebase";
+import { IErrorResponse } from "@/utils/types/error.types";
+import { setCookie } from "cookies-next";
+import {
+  IGoogleLoginResponse,
+  IGoogleUserData,
+} from "@/utils/types/auth.types";
+
+export const UserInfoViaGoogle = async (): Promise<
+  IGoogleUserData | undefined
+> => {
+  try {
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
+    const token = await user.getIdToken();
+
+    if (token) {
+      setCookie("token", token);
+    }
+    return {
+      token,
+      uid: user.uid,
+      phone: user.phoneNumber,
+      email: user.email ?? "",
+      name: user.displayName ?? "",
+    };
+  } catch (error) {
+    return undefined;
+  }
+};
+export const googleLink = async (): Promise<
+  AxiosResponse<IGoogleLoginResponse["data"]> | undefined
+> => {
+  try {
+    const userData = await UserInfoViaGoogle();
+
+    if (!userData) {
+      throw new Error("User data not available.");
+    }
+
+    const config = {
+      method: "get",
+      maxBodyLength: Infinity,
+      url: `${getBaseUrl()}/api${apiRoutes.auth.name}${apiRoutes.auth.googleLogin}`,
+      headers: {
+        Authorization: `Bearer ${userData.token}`,
+      },
+    };
+    const res = await axios.request<IGoogleLoginResponse["data"]>(config);
+    return res;
+  } catch (error) {
+    console.error("Google sign-in failed:", error);
+  }
+};
+
+export const signupContractor = async (
+  user: IGoogleUserData
+): Promise<{ data: IUserResponseToBeRegister }> =>
+  await new Promise((resolve, reject) => {
+    const data = JSON.stringify(user);
+    const config = {
+      method: "post",
+      maxBodyLength: Infinity,
+      url: `${getBaseUrl()}/api${apiRoutes.auth.name}${apiRoutes.auth.signup.name}${apiRoutes.auth.signup.contractor}`,
+      headers: {
+        accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      data,
+    };
+    axios
+      .request(config)
+      .then((response) => {
+        resolve({ data: response.data });
+      })
+      .catch((error: AxiosError) => {
+        if (axios.isAxiosError(error)) {
+          if (error.response?.data) {
+            const errorData = error.response.data as IErrorResponse;
+            if (errorData.error) {
+              errorPopup(errorData.error);
+            } else {
+              errorPopup("An unexpected error occurred");
+            }
+          }
+        }
+        reject(error);
+      });
+  });
+
 export const signUpUser = async (
   user: IUserToBeRegister
 ): Promise<{ data: IUserResponseToBeRegister }> =>

@@ -236,7 +236,7 @@ export const contractorSideBarMenu = [
       {
         title: "Settings",
         icon: imagesPath.exhaustloader,
-        link: "/contractor/exhaust-readings",
+        link: "/contractor-settings",
         active: true,
       },
     ],

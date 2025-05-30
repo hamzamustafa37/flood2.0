@@ -43,6 +43,15 @@
 //   user: IUser;
 // }
 
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import { googleLink, signupContractor, UserInfoViaGoogle } from "./auth.api";
+import { AppThunk } from "@/lib/store";
+import { setCookie } from "cookies-next";
+import {
+  IGoogleLoginResponse,
+  IGoogleUserData,
+} from "@/utils/types/auth.types";
+
 // const initialState: IAuthSlice = {
 //   userToBeRegister: {},
 //   userToBeSignIn: {
@@ -98,6 +107,45 @@
 // export const { userToBeRegistered, user } = authSlice.selectors;
 // export const { updateUserToBeRegister, updateUserToBeSignIn, userProfile } =
 //   authSlice.actions;
+
+export const _googleLogin =
+  (router: AppRouterInstance, pathName: string): AppThunk =>
+  async (dispatch) => {
+    try {
+      const res = await googleLink();
+
+      console.log("Response from Google Link:", res);
+      if (res?.status === 200 && res.data?.user) {
+        setCookie("user", res.data.user.name);
+        setCookie("email", res.data.user.email);
+
+        router.push(pathName);
+      } else {
+        console.error("Google Link failed:", res);
+      }
+    } catch (error) {
+      console.error("Error during Google login thunk:", error);
+    }
+  };
+
+export const _signupContractor =
+  (
+    router: AppRouterInstance,
+    pathName: string,
+    userInfo: IGoogleUserData
+  ): AppThunk =>
+  async () => {
+    try {
+      const res = await signupContractor(userInfo);
+      console.log("Response from Google Link:", res);
+      router.push(pathName);
+    } catch (error: any) {
+      if (error.status === 500) {
+        console.log("Server error during signup with Google:", error);
+      }
+      console.error("Error during signup with Google:", error);
+    }
+  };
 
 // export const _signUp =
 //   (router: AppRouterInstance, pathName: string): AppThunk =>

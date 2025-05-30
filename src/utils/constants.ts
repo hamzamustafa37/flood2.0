@@ -1,12 +1,21 @@
 export const appRoute = {
   default: "/",
   book: "/book",
+  contractorDashboard: "/contractor-dashboard",
   job: "/jobs",
+  signup: "/signup",
+  contractorSettings: "/contractor-settings",
 };
 
-export const protectedRoutes = [""];
-export const unProtectedRoutes = [appRoute.default, appRoute.book];
-
+export const protectedRoutes = [
+  appRoute.contractorDashboard,
+  appRoute.contractorSettings,
+];
+export const unProtectedRoutes = [
+  appRoute.default,
+  appRoute.book,
+  appRoute.signup,
+];
 export const imagesPath = {
   loginSideImage: "/backgrounds/flood-login-img.svg",
   lock: "/images/lock.svg",
