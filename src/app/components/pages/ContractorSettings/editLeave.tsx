@@ -1,23 +1,61 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Modal, Form, Input, DatePicker, Button } from "antd";
 import dayjs from "dayjs";
+import { addLeaveDay, updateLeaveDay } from "@/lib/features/leave";
 
 interface EditHolidayModalProps {
   visible: boolean;
   onClose: () => void;
-  onSubmit: (values: { name: string; date: string }) => void;
-  initialValues?: { name: string; date: string };
+  initialValues?: { name: string; date: string; key?: string };
   isEditMode: boolean;
+  onSuccess?: () => void;
 }
 
 const EditHolidayModal: React.FC<EditHolidayModalProps> = ({
   visible,
   onClose,
-  onSubmit,
   initialValues,
   isEditMode,
+  onSuccess,
 }) => {
   const [form] = Form.useForm();
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (visible) {
+      form.setFieldsValue({
+        name: initialValues?.name || "",
+        date: initialValues?.date ? dayjs(initialValues.date) : null,
+      });
+    }
+  }, [visible, initialValues, form]);
+
+  const handleSubmit = async (values: { name: string; date: any }) => {
+    setLoading(true);
+    try {
+      const name = values.name;
+      const date = values.date ? values.date.format("YYYY-MM-DD") : "";
+
+      if (!name || !date) return;
+
+      let res;
+      if (isEditMode && initialValues?.key) {
+        res = await updateLeaveDay(initialValues.key, { name, date });
+      } else {
+        res = await addLeaveDay({ name, date });
+      }
+
+      if (res) {
+        form.resetFields();
+        onClose();
+        onSuccess?.();
+      }
+    } catch (error) {
+      console.error("Submit error:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <Modal
@@ -31,20 +69,7 @@ const EditHolidayModal: React.FC<EditHolidayModalProps> = ({
         {isEditMode ? "Update Leave" : "Add Leave"}
       </h2>
 
-      <Form
-        form={form}
-        layout="vertical"
-        initialValues={{
-          name: initialValues?.name || "",
-          date: initialValues?.date ? dayjs(initialValues.date) : null,
-        }}
-        onFinish={(values) => {
-          onSubmit({
-            name: values.name,
-            date: values.date ? values.date.format("YYYY-MM-DD") : "",
-          });
-        }}
-      >
+      <Form form={form} layout="vertical" onFinish={handleSubmit}>
         <Form.Item
           name="name"
           rules={[{ required: true, message: "Please enter holiday name" }]}
@@ -64,6 +89,7 @@ const EditHolidayModal: React.FC<EditHolidayModalProps> = ({
             type="primary"
             htmlType="submit"
             className="bg-green-500 hover:bg-green-600"
+            loading={loading}
           >
             Submit
           </Button>

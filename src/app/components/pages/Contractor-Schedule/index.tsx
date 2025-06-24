@@ -5,7 +5,10 @@ import { Eventcalendar, setOptions } from "@mobiscroll/react";
 import "@mobiscroll/react/dist/css/mobiscroll.min.css";
 
 import { getTeams } from "@/lib/features/team";
-import { getBookingsBetweenDates } from "@/lib/features/bookService";
+import {
+  getBookingsBetweenDates,
+  getPaginatedNonScheduledBooking,
+} from "@/lib/features/bookService";
 import { formatTo12Hour } from "@/utils/time-date";
 import BookingDetails from "@/app/components/pages/BookingDetails";
 
@@ -46,6 +49,8 @@ export default function CSchedules() {
 
       try {
         const response = await getBookingsBetweenDates(firstDay, lastDay);
+        const nonSchedule = await getPaginatedNonScheduledBooking(1);
+        console.log(nonSchedule, "nonSchedule");
         const bookings = response
           ?.filter((item: any) => item.schedule)
           .map((item: any) => {

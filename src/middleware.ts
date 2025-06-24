@@ -12,24 +12,30 @@ export function middleware(req: NextRequest) {
   const isProtected = protectedRoutes.includes(url);
   const isUnprotected = unProtectedRoutes.includes(url);
 
-  if (isProtected && !token) {
-    return NextResponse.redirect(new URL(appRoute.default, req.url));
-  }
-
-  if (isUnprotected && token) {
+  if (token && isUnprotected) {
     return NextResponse.redirect(
       new URL(appRoute.contractorDashboard, req.url)
     );
   }
 
+  if (!token && isProtected) {
+    return NextResponse.redirect(new URL(appRoute.default, req.url));
+  }
+
+  // Otherwise allow the request
   return NextResponse.next();
 }
+
 export const config = {
   matcher: [
     "/",
     "/book",
     "/contractor-dashboard",
     "/contractor-settings",
+    "/contractor-schedule",
     "/signup",
+    "/login",
+    "/book-a-service",
+    "/contractor-teams"
   ],
 };

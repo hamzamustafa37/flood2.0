@@ -18,11 +18,13 @@
         "name": "next"
       }
     ],
+
     "paths": {
       "@/*": ["./src/*"],
       "@firebase": ["./config/firebaseConfig.ts"]
     }
   },
+  "types": ["google.maps"],
   "include": [
     "next-env.d.ts",
     "**/*.ts",

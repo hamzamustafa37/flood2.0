@@ -11,11 +11,15 @@ import {
   where,
 } from "firebase/firestore";
 
-export const getEmployeesForBooking = async (zipCode: any, services: any) => {
+export const getEmployeesForBooking = async (
+  zipCode: any,
+  services: string[]
+) => {
   try {
+    console.log(services, "services in getEmployeesForBooking");
     const teamCollection = collection(db, "ft_employees");
     let teamQuery = query(
-      teamCollection,
+      collection(db, "ft_employees"),
       where("zipCodes", "array-contains", zipCode),
       where("available", "==", true),
       where("isDisable", "==", false),

@@ -378,3 +378,15 @@ export const sentEmailAgainstBooking = async (
     }
   }
 };
+export const emailAgainstEmployeeAdded = async (email: string) => {
+  let employeeTemplate = emailTemplate(
+    "Account Activation Required",
+    "You have been added as an employee by the administrator. Please log in:",
+    {},
+    false,
+    "",
+    "",
+    false
+  );
+  await sendEmail({ to: email, message: employeeTemplate });
+};

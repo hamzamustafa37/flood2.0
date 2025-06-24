@@ -10,7 +10,6 @@ export const Header = (): React.ReactElement => {
     <header className="bg-blueThemeColor shadow-md">
       <div className="max-w-screen-xl mx-auto px-4">
         <div className="flex items-center justify-between py-3">
-          {/* Logo */}
           <Link href="/">
             <Image
               width={142}
@@ -42,7 +41,7 @@ export const Header = (): React.ReactElement => {
               <span className="ml-2 text-lg font-semibold">(833) 424-0044</span>
             </Link>
 
-            <Link href={appRoute.book}>
+            <Link href={appRoute.signup}>
               <Button
                 className="!px-5 !py-2.5 text-[12px] w-[107px] font-bold h-[42px] !bg-[var(--color-secondary)] !text-[var(--color-text-dark)]"
                 type={ButtonType.Button}

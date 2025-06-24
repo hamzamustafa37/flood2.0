@@ -1,20 +1,32 @@
+import bookService from "@/app/(global)/book-a-service/page";
+
 export const appRoute = {
   default: "/",
   book: "/book",
   contractorDashboard: "/contractor-dashboard",
   job: "/jobs",
   signup: "/signup",
+  login: "/login",
   contractorSettings: "/contractor-settings",
+  contractorSchedule: "/contractor-schedule",
+  contractorTeams: "/contractor-teams",
+  bookService: "/book-a-service",
+  contractorService: "/contractor-service",
 };
 
 export const protectedRoutes = [
   appRoute.contractorDashboard,
+  appRoute.contractorService,
+  appRoute.contractorSchedule,
+  appRoute.contractorTeams,
   appRoute.contractorSettings,
 ];
 export const unProtectedRoutes = [
   appRoute.default,
   appRoute.book,
   appRoute.signup,
+  appRoute.login,
+  appRoute.bookService,
 ];
 export const imagesPath = {
   loginSideImage: "/backgrounds/flood-login-img.svg",

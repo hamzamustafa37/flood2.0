@@ -13,7 +13,7 @@ const SignupWithEmail = ({ setShowEmailInput }: ISignupWithEmailProps) => {
   const [form] = Form.useForm();
 
   const handleSubmit = (values: any) => {
-    dispatch(_signupContractor(router, "/contractor-dashboard", values));
+    dispatch(_signupContractor(router, "/verify-email", values));
   };
 
   return (
@@ -41,6 +41,16 @@ const SignupWithEmail = ({ setShowEmailInput }: ISignupWithEmailProps) => {
           ]}
         >
           <Input size="large" placeholder="Enter Email Address" />
+        </Form.Item>
+        <Form.Item
+          label="phone"
+          name="phone"
+          rules={[
+            { required: true, message: "Please enter your phone number" },
+            { min: 6, message: "Password must be at least 6 characters" },
+          ]}
+        >
+          <Input size="large" placeholder="Enter Phone No" />
         </Form.Item>
 
         <Form.Item

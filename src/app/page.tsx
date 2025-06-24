@@ -1,18 +1,12 @@
 import { Button } from "antd";
 import Link from "next/link";
+import { Book } from "./components/pages/Book";
+import { GlobalLayout } from "./components/layouts/global";
 
 export default function HomePage() {
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
-      <h1 className="text-2xl font-bold mb-4">Welcome to the Flood2.0</h1>
-      <h1>Home Page</h1>
-
-      <Link href={"/book-a-service"}>
-        <Button className="my-2">Book A Service</Button>
-      </Link>
-      <Link href={"/contractor-schedule"}>
-        <Button className="my-2">Contractor Service</Button>
-      </Link>
-    </div>
+    <GlobalLayout>
+      <Book />
+    </GlobalLayout>
   );
 }

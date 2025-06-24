@@ -76,27 +76,23 @@ const StepFour: React.FC<StepFourProps> = ({
     try {
       setLoading(true);
       await form.validateFields();
-      if (fileList.length === 0 || !fileList[0].originFileObj) {
-        message.error("Please upload an image file.");
-        return;
+      if (fileList.length > 0 && fileList[0].originFileObj) {
+        const file = fileList[0].originFileObj as File;
+        const fileRef = ref(storage, `uploads/${file.name}`);
+        await uploadBytes(fileRef, file);
+        const url = await getDownloadURL(fileRef);
+        setFormData({ ImageURL: url });
       }
-
-      const file = fileList[0].originFileObj as File;
-      const fileRef = ref(storage, `uploads/${file.name}`);
-      await uploadBytes(fileRef, file);
-      const url = await getDownloadURL(fileRef);
-
-      setFormData({ ImageURL: url });
       onNext();
-      setLoading(false);
     } catch (error) {
       message.error("Please complete the required fields.");
+    } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="w-full max-w-xl p-6">
+    <div className="w-full max-w-xl py-6 px-1">
       <StepHeader
         label="Understanding the cause helps us prepare better."
         heading="What Caused the Problem?"
@@ -132,7 +128,6 @@ const StepFour: React.FC<StepFourProps> = ({
         <Form.Item
           label="Upload a photo for a better assessment!"
           name="uploadedImage"
-          rules={[{ required: true, message: "Please upload one image" }]}
         >
           <Dragger
             fileList={fileList}

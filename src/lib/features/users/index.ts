@@ -6,6 +6,8 @@ import { endLoading, startLoading } from "../global";
 import { getUsers } from "./userApi";
 import { AxiosError } from "axios";
 import { errorPopup } from "@/app/components/common";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "@firebase";
 
 export interface IUserSlice {
   allUsers: Array<IUser>;
@@ -47,3 +49,20 @@ export const _getUsers =
         errorPopup(error.message);
       });
   };
+
+export const getUserById = async (userId: string) => {
+  try {
+    const userDocRef = doc(db, "users", userId);
+    const userDoc = await getDoc(userDocRef);
+
+    if (userDoc.exists()) {
+      console.log("User Data:", userDoc.data());
+      return { success: true, data: { id: userDoc.id, ...userDoc.data() } };
+    } else {
+      return { success: false, message: "No user found with this ID" };
+    }
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    return { success: false, message: "Error fetching user", error };
+  }
+};

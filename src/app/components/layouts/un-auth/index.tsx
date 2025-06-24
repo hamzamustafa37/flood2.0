@@ -14,6 +14,7 @@ export const UnAuthLayout = ({
 }: IUnAuthLayout): React.ReactElement => {
   const pathname = usePathname();
   const isSignup = pathname.includes("signup");
+  const verifyEmail = pathname.includes("verify-email");
   // const isLogin = pathname.includes("login");
 
   return (
@@ -36,7 +37,11 @@ export const UnAuthLayout = ({
           <div className="flex-1 p-8 flex flex-col items-center justify-center text-center gap-4">
             <p className="text-[24px] font-semibold">Flood Team</p>
             <h3 className="text-[25px] font-extrabold mb-0">
-              {isSignup ? "Sign Up" : "Sign In"}
+              {isSignup
+                ? "Sign Up"
+                : verifyEmail
+                  ? "Verify Your Email"
+                  : "Sign In"}
             </h3>
             <p className="text-[#525b75] text-base font-normal">
               {isSignup

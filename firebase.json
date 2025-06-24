@@ -1,10 +1,13 @@
 {
   "hosting": {
-    "source": "./",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
+    "site": "disaster-logic-test",
+    "source": ".",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "rewrites": [
+      {
+        "source": "**",
+        "function": "ssrdisasterlogictest"
+      }
     ],
     "frameworksBackend": {
       "region": "us-central1"

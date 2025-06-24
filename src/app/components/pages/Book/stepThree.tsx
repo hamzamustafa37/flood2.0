@@ -8,19 +8,24 @@ import {
   fetchLocalityAndPinCodeFromCoordinates,
   getUserLocation,
 } from "@/lib/features/bookService";
+import { getEmployeesForBooking } from "@/lib/features/employee";
 
 const { Title, Text } = Typography;
 
 interface StepThreeProps {
   formData: {
+    issues: string[];
     zipCode: string;
     propertyType: string;
     affectedAreas: string[];
     affectedSize: string;
+    urgency: string;
   };
   setFormData: (data: Partial<StepThreeProps["formData"]>) => void;
   onPrev: () => void;
   onNext: () => void;
+  setEmployees: any;
+  setUseStep4B: (val: boolean) => void;
 }
 
 const StepThree: React.FC<StepThreeProps> = ({
@@ -28,14 +33,36 @@ const StepThree: React.FC<StepThreeProps> = ({
   setFormData,
   onNext,
   onPrev,
+  setEmployees,
+  setUseStep4B,
 }) => {
   const [form] = Form.useForm();
   const [locality, setLocality] = React.useState<string | null>(null);
 
-  const handleSubmit = () => {
-    form.validateFields().then(() => {
-      onNext();
-    });
+  const handleSubmit = async () => {
+    console.log(formData, "the employees");
+    try {
+      await form.validateFields();
+      if (formData.urgency === "scheduled") {
+        const res = await getEmployeesForBooking(
+          formData.zipCode,
+          formData.issues
+        );
+        console.log(res, "The response");
+        if (res.length === 0) {
+          setUseStep4B(false);
+        } else {
+          setEmployees(res);
+          setUseStep4B(true);
+        }
+        console.log(res, "the employees");
+        onNext();
+      } else {
+        onNext();
+      }
+    } catch (error) {
+      console.error("Validation failed:", error);
+    }
   };
 
   useEffect(() => {

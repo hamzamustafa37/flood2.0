@@ -5,9 +5,13 @@ import {
   collection,
   deleteDoc,
   doc,
+  getCountFromServer,
   getDoc,
   getDocs,
+  limit,
+  orderBy,
   query,
+  startAfter,
   Timestamp,
   updateDoc,
   where,
@@ -55,7 +59,7 @@ export const saveNonScheduledBooking = async (bookingData: IFormData) => {
       bookingData.email,
       bookingData?.phone
     );
-
+    console.log(docRef, "The ref");
     return { id: docRef.id, status: "success" };
   } catch (error: any) {
     console.error("Error saving non-scheduled booking: ", error);
@@ -136,6 +140,90 @@ export const fetchLocalityAndPinCodeFromCoordinates = async (
     }
   } catch (error) {
     throw new Error("Error fetching locality and pinCode.");
+  }
+};
+
+const getLastVisibleDocForBookings = async (
+  currentPage: any,
+  pageSize: any
+) => {
+  if (currentPage <= 1) return null;
+
+  const collectionRef = collection(db, "ft-nonScheduledBookings");
+  const bookingQuery = query(
+    collectionRef,
+    orderBy("customerDetails.name"),
+    limit((currentPage - 1) * pageSize)
+  );
+
+  const querySnapshot = await getDocs(bookingQuery);
+  // console.log("Query snapshot size for previous pages:", querySnapshot.size);
+
+  if (querySnapshot.empty) {
+    // console.log("No documents found for previous pages.");
+    return null;
+  }
+
+  const lastVisibleDoc = querySnapshot.docs[querySnapshot.docs.length - 1];
+  // console.log("Last visible document for pagination:", lastVisibleDoc);
+  return lastVisibleDoc;
+};
+
+export const getPaginatedNonScheduledBooking = async (currentPage: any) => {
+  const pageSize = 10;
+  try {
+    const collectionRef = collection(db, "ft-nonScheduledBookings");
+
+    const snapshot = await getCountFromServer(collectionRef);
+    // console.log("Total documents in collection:", snapshot.data().count);
+
+    // const querySnapshotss = await getDocs(
+    //   query(collectionRef, orderBy("customerDetails.name"))
+    // );
+    // console.log("Query snapshot size (without pagination):",
+    //  querySnapshotss.size);
+    const totalDocs = snapshot.data().count;
+    const totalPages = Math.ceil(totalDocs / pageSize);
+    // console.log("Total pages:", totalPages);
+
+    let bookingQuery = query(
+      collectionRef,
+      // orderBy("customerDetails.name"),
+      limit(100)
+    );
+
+    if (currentPage > 1) {
+      const lastVisibleDoc = await getLastVisibleDocForBookings(
+        currentPage,
+        pageSize
+      );
+      // console.log("Last visible document:", lastVisibleDoc);
+      if (lastVisibleDoc) {
+        bookingQuery = query(
+          collectionRef,
+          orderBy("customerDetails.name"),
+          startAfter(lastVisibleDoc),
+          limit(pageSize)
+        );
+      } else {
+        console.log("No last visible document found, skipping pagination.");
+      }
+    }
+
+    const querySnapshot = await getDocs(bookingQuery);
+    // console.log("Query snapshot size:", querySnapshot.size);
+
+    const bookings: any = [];
+    querySnapshot.forEach((doc) => {
+      // console.log("Document data:", doc.data());
+      bookings.push({ ...doc.data(), id: doc.id });
+    });
+
+    // console.log("Bookings:", bookings);
+    return { bookings, totalPages, currentPage };
+  } catch (error) {
+    console.error("Error fetching paginated bookings:", error);
+    throw new Error("Error fetching paginated bookings");
   }
 };
 

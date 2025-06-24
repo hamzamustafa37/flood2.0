@@ -4,6 +4,12 @@ export const apiRoutes = {
   default: {
     name: "/",
   },
+
+  contractor: {
+    name: "/",
+    dashboard: "contractor-dashboard",
+    service: "contractor-service",
+  },
   jobs: {
     name: "/",
     read: "jobs",

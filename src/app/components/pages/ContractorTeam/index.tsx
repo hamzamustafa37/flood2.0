@@ -14,6 +14,7 @@ import {
   SearchOutlined,
 } from "@ant-design/icons";
 import Image from "next/image";
+import AddNewTeam from "./addNewTeamModal";
 
 const { Option } = Select;
 
@@ -31,9 +32,9 @@ const ContractorTeam = () => {
   const [listData, setListData] = useState<Array<ITeamMember>>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
-
+  const [addTeam, setAddTeam] = useState(false);
   const zipOptions = Array.from(new Set(listData.flatMap((d) => d.zipCodes)));
-
+  const [selectId, setSelectedId] = useState<string>("");
   const statusOptions = ["Active", "Inactive", "Disabled"];
 
   const filteredData = useMemo(() => {
@@ -115,7 +116,13 @@ const ContractorTeam = () => {
           <Button variant={ButtonVariant.Primary}>
             <DeleteOutlined />
           </Button>
-          <Button variant={ButtonVariant.Primary}>
+          <Button
+            variant={ButtonVariant.Primary}
+            onClick={() => {
+              setSelectedId(record.id);
+              setAddTeam(true);
+            }}
+          >
             <MoreOutlined />
           </Button>
         </Space>
@@ -139,36 +146,10 @@ const ContractorTeam = () => {
     };
     fetchData(currentPage);
   }, [currentPage]);
-  // const tabsData = [
-  //   {
-  //     icon: imagesPath.someIcon,        // Replace with your actual icon path
-  //     strapLine: "Currently Active",
-  //     value: filteredData.filter(item => !item.isDisable && item.available).length.toString(),
-  //     title: "Active Contractors",
-  //     tag: "",
-  //   },
-  //   {
-  //     icon: imagesPath.someIcon,
-  //     strapLine: "Currently Inactive",
-  //     value: filteredData.filter(item => !item.isDisable && !item.available).length.toString(),
-  //     title: "Inactive Contractors",
-  //     tag: "",
-  //   },
-  //   {
-  //     icon: imagesPath.someIcon,
-  //     strapLine: "Currently Disabled",
-  //     value: filteredData.filter(item => item.isDisable).length.toString(),
-  //     title: "Disabled Contractors",
-  //     tag: "",
-  //   },
-  //   {
-  //     icon: imagesPath.someIcon,
-  //     strapLine: "Total Count",
-  //     value: filteredData.length.toString(),
-  //     title: "Total Contractors",
-  //     tag: "",
-  //   },
-  // ];
+
+  const handleModalClose = (visible: boolean) => {
+    setAddTeam(visible);
+  };
 
   return (
     <div className="flex flex-col gap-4 py-4 px-2 md:px-4  mb-2">
@@ -193,8 +174,12 @@ const ContractorTeam = () => {
               alt="bag-pack-icon"
               height={80}
               width={24}
+              onClick={() => {
+                setAddTeam(true);
+                setSelectedId("");
+              }}
             />
-            <span className="ms-2">Add New</span>
+            <span className="ms-2">Add New Team</span>
           </Button>
         </div>
       </div>
@@ -265,6 +250,7 @@ const ContractorTeam = () => {
           />
         </div>
       </div>
+      <AddNewTeam id={selectId} visible={addTeam} onClose={handleModalClose} />
     </div>
   );
 };

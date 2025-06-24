@@ -1,8 +1,9 @@
 "use client";
-import React, { useState } from "react";
-import { Table, Button } from "antd";
+import React, { useState, useEffect } from "react";
+import { Table, Button, Spin } from "antd";
 import { EditOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import EditHolidayModal from "./editLeave";
+import { deleteLeaveDay, getAllLeaveDays } from "@/lib/features/leave";
 
 interface Holiday {
   key: string;
@@ -10,16 +11,30 @@ interface Holiday {
   date: string;
 }
 
-const initialData: Array<Holiday> = [
-  { key: "1", name: "New holiday", date: "2025-02-18" },
-  { key: "2", name: "July4", date: "2025-07-04" },
-];
-
 const HolidayTable: React.FC = () => {
-  const [data, setData] = useState<Array<Holiday>>(initialData);
+  const [data, setData] = useState<Array<Holiday>>([]);
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [selectedHoliday, setSelectedHoliday] = useState<Holiday | null>(null);
   const [isEditMode, setIsEditMode] = useState(false);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+
+  const fetchData = async () => {
+    try {
+      const response = await getAllLeaveDays();
+      const formattedData = response.map((item: any) => ({
+        key: item.id,
+        name: item.name,
+        date: item.date,
+      }));
+      setData(formattedData);
+    } catch (err) {
+      console.error("Failed to fetch holidays:", err);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const handleEdit = (record: Holiday) => {
     setIsEditMode(true);
@@ -33,24 +48,16 @@ const HolidayTable: React.FC = () => {
     setEditModalVisible(true);
   };
 
-  const handleUpdate = (updated: { name: string; date: string }) => {
-    if (isEditMode && selectedHoliday) {
-      // Update existing holiday
-      setData((prev) =>
-        prev.map((item) =>
-          item.key === selectedHoliday.key ? { ...item, ...updated } : item
-        )
-      );
-    } else {
-      // Add new holiday
-      const newKey = Date.now().toString();
-      setData((prev) => [...prev, { key: newKey, ...updated }]);
+  const handleDelete = async (key: string) => {
+    setDeletingId(key);
+    try {
+      await deleteLeaveDay(key);
+      setData((prev) => prev.filter((item) => item.key !== key));
+    } catch (err) {
+      console.error("Delete failed:", err);
+    } finally {
+      setDeletingId(null);
     }
-    setEditModalVisible(false);
-  };
-
-  const handleDelete = (key: string) => {
-    setData((prev) => prev.filter((item) => item.key !== key));
   };
 
   const columns = [
@@ -77,10 +84,14 @@ const HolidayTable: React.FC = () => {
             className="text-gray-500 cursor-pointer"
             onClick={() => handleEdit(record)}
           />
-          <DeleteOutlined
-            className="text-red-500 cursor-pointer"
-            onClick={() => handleDelete(record.key)}
-          />
+          {deletingId === record.key ? (
+            <Spin size="small" />
+          ) : (
+            <DeleteOutlined
+              className="text-red-500 cursor-pointer"
+              onClick={() => handleDelete(record.key)}
+            />
+          )}
         </div>
       ),
     },
@@ -110,7 +121,11 @@ const HolidayTable: React.FC = () => {
       <EditHolidayModal
         visible={editModalVisible}
         onClose={() => setEditModalVisible(false)}
-        onSubmit={handleUpdate}
+        onSuccess={() => {
+          fetchData();
+          setEditModalVisible(false);
+          setSelectedHoliday(null);
+        }}
         initialValues={selectedHoliday ?? { name: "", date: "" }}
         isEditMode={isEditMode}
       />

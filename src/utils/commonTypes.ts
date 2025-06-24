@@ -115,15 +115,9 @@ export interface ICard {
 }
 
 export interface IUserOld {
-  imgUrl: string;
-  fullName: string;
+  imgUrl?: string;
+  name: string;
   email: string;
-  country: string;
-  state: string;
-  stripeCustomerId?: string;
-  authType?: string;
-  subscriptionStart?: string;
-  subscriptionEnd?: string;
 }
 export interface ISocialProviderData {
   fullName: string;
@@ -138,7 +132,7 @@ export interface IUserSignIn {
 }
 
 export interface ISignInResponseData {
-  accessToken: string;
+  token: string;
   refreshToken: string;
   user: IUserOld;
 }
@@ -146,7 +140,6 @@ export interface ISignInResponseData {
 export interface ISignResponseMeta {
   status: number;
   message: string;
-  response: string;
 }
 
 export interface ISignInResponse {

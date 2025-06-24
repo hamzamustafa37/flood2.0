@@ -556,3 +556,9 @@ body {
   word-break: break-word;
   white-space: normal;
 }
+
+@media only screen and (max-width: 576px) {
+  .ant-card-body {
+    padding: 0 !important;
+  }
+}

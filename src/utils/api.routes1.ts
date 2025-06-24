@@ -28,6 +28,7 @@ export const apiRoutes = {
     loginOtpVerification: "/login-otp-verification",
     resentOtp: "/resent-otp",
     forgotPassword: "/forgot-password",
+    verifyEmail: "/verify-email",
     resetPassword: "/reset-password",
     me: "/me",
     socialAuth: "/social-auth",

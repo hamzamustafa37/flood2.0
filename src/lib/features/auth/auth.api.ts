@@ -25,6 +25,7 @@ import {
   IGoogleLoginResponse,
   IGoogleUserData,
 } from "@/utils/types/auth.types";
+import { message } from "antd";
 
 export const UserInfoViaGoogle = async (): Promise<
   IGoogleUserData | undefined
@@ -53,11 +54,9 @@ export const googleLink = async (): Promise<
 > => {
   try {
     const userData = await UserInfoViaGoogle();
-
     if (!userData) {
       throw new Error("User data not available.");
     }
-
     const config = {
       method: "get",
       maxBodyLength: Infinity,
@@ -133,24 +132,19 @@ export const signUpUser = async (
       });
   });
 
-export const verifyOtp = async (
-  email: string,
-  otpCode: string
-): Promise<{ data: IEmailOtpVerify }> =>
-  await new Promise((resolve, reject) => {
-    const data = JSON.stringify({
-      email,
-      otpCode,
-    });
+export const verifyEmail = async (
+  oobCode: string,
+  uid: string
+): Promise<{ data: any }> => {
+  return await new Promise((resolve, reject) => {
     const config = {
       method: "post",
       maxBodyLength: Infinity,
-      url: `${getBaseUrl()}${apiRoutes.auth.name}${apiRoutes.auth.otp}`,
+      url: `${getBaseUrl()}/api${apiRoutes.auth.name}${apiRoutes.auth.verifyEmail}?ooCode=${oobCode}&uid=${uid}`,
       headers: {
-        accept: "*/*",
+        accept: "application/json",
         "Content-Type": "application/json",
       },
-      data,
     };
     axios
       .request(config)
@@ -158,17 +152,10 @@ export const verifyOtp = async (
         resolve({ data: response.data });
       })
       .catch((error) => {
-        if (axios.isAxiosError(error)) {
-          const message = error.response?.data?.meta?.message?.message;
-          if (typeof message === "string") {
-            errorPopup(message);
-          } else {
-            errorPopup("An unexpected error occurred");
-          }
-        }
         reject(error);
       });
   });
+};
 
 export const resendOtp = async (
   email: string
@@ -225,6 +212,50 @@ export const signIn = async (
         reject(error);
       });
   });
+
+export const loginWithEmail = async (
+  email: string,
+  password: string
+): Promise<ISignInResponse> => {
+  try {
+    const data = { email, password };
+
+    const config = {
+      method: "post",
+      url: `${getBaseUrl()}/api${apiRoutes.auth.name}${apiRoutes.auth.login}`,
+      data,
+    };
+
+    const response = await axios.request<ISignInResponse>(config);
+    console.log("Response from loginWithEmail:", response);
+    return {
+      data: {
+        token: response?.data?.data.token,
+        refreshToken: response?.data?.data.refreshToken,
+        user: {
+          email: response?.data?.data?.user.email,
+          name: response?.data?.data.user.name,
+        },
+      },
+      meta: {
+        status: 200,
+        message: "login successfully",
+      },
+    };
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const message =
+        error.response?.data?.error ||
+        error.response?.data?.meta?.message ||
+        "Invalid credentials";
+
+      throw new Error(message);
+    }
+
+    throw new Error(msgResponse.unKnowError || "Unknown error occurred");
+  }
+};
+
 export const forgotPassword = async (email: string): Promise<boolean | Error> =>
   await new Promise<boolean | Error>((resolve, reject) => {
     const data = JSON.stringify({

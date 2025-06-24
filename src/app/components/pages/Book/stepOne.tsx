@@ -51,7 +51,7 @@ const StepOne: React.FC<StepOneProps> = ({ formData, setFormData, onNext }) => {
               <Checkbox value="waterDamage">
                 Water damage (leaks, flooding, etc.)
               </Checkbox>
-              <Checkbox value="plumbingRepair">
+              <Checkbox value="plumbing">
                 Plumbing repair (pipes, fixtures, etc.)
               </Checkbox>
               <Checkbox value="expertGuidance">

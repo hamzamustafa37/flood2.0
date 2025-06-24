@@ -1,11 +1,11 @@
 "use client";
 import { appRoute, ButtonVariant } from "@/utils";
-import { Input } from "antd";
 import React, { useState } from "react";
 import { Button } from "../../common";
 import { useAppDispatch } from "@/lib/hooks";
 import { useRouter } from "next/navigation";
 import { _googleLogin } from "@/lib/features/auth";
+import LoginWithEmail from "./loginWithEmail";
 
 export default function LoginPage() {
   const [showPhoneInput, setShowPhoneInput] = useState(false);
@@ -14,27 +14,7 @@ export default function LoginPage() {
   return (
     <>
       {showPhoneInput ? (
-        <div className="flex flex-col items-center gap-2 mt-4 w-full max-w-[400px]">
-          <Input
-            type="text"
-            placeholder="Sign in via phone "
-            className="w-full px-4 py-5 border border-gray-300 rounded"
-          />
-          <Button
-            onClick={() => console.log("Phone submitted")}
-            className="w-full py-4"
-            variant={ButtonVariant.Outline}
-          >
-            Submit
-          </Button>
-          <Button
-            onClick={() => setShowPhoneInput(false)}
-            className="py-4 w-full"
-            variant={ButtonVariant.OutlineSecondary}
-          >
-            Back
-          </Button>
-        </div>
+        <LoginWithEmail setShowPhoneInput={setShowPhoneInput} />
       ) : (
         <div className="w-full max-w-[400px] flex flex-col gap-3 mt-4">
           <Button

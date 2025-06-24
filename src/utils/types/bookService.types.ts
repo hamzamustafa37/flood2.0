@@ -15,4 +15,13 @@ interface IFormData {
   city: string;
   state: string;
   email: string;
+
+  empId?: string;
+  schedule?: {
+    date: string;
+    slot: {
+      start: string;
+      end: string;
+    };
+  };
 }

@@ -1,53 +1,100 @@
 "use client";
-import React, { useState } from "react";
-import { TimePicker, Button } from "antd";
+import React, { useEffect, useState } from "react";
+import { TimePicker, Button, Spin, message } from "antd";
 import { EditOutlined, CheckOutlined, DeleteOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
+import { fetchWorkingDays, updateWorkingDay } from "@/lib/features/time";
 
-const weekdays = [
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-  "Sunday",
-];
-
-type TimeRange = {
+interface DaySchedule {
+  id: string;
   start: string | null;
   end: string | null;
-};
-
-const defaultHours: Record<string, TimeRange> = weekdays.reduce(
-  (acc, day) => {
-    acc[day] = { start: "09:00", end: "21:00" };
-    return acc;
-  },
-  {} as Record<string, TimeRange>
-);
+  day: string;
+}
 
 const WeeklyHours: React.FC = () => {
-  const [hours, setHours] = useState(defaultHours);
+  const [schedule, setSchedule] = useState<Record<string, DaySchedule>>({});
   const [editDay, setEditDay] = useState<string | null>(null);
   const [tempTimes, setTempTimes] = useState<
-    Partial<Record<string, TimeRange>>
+    Partial<Record<string, { start: string | null; end: string | null }>>
   >({});
+  const [loading, setLoading] = useState<boolean>(true);
 
-  const onSave = (day: string) => {
-    setHours((prev) => ({
-      ...prev,
-      [day]: tempTimes[day] || prev[day],
-    }));
-    setEditDay(null);
+  useEffect(() => {
+    const loadSchedule = async () => {
+      try {
+        setLoading(true);
+        const response = await fetchWorkingDays();
+        const formatted = response.reduce(
+          (acc: Record<string, DaySchedule>, curr: any) => {
+            acc[curr.day] = {
+              id: curr.id,
+              start: curr.start || null,
+              end: curr.end || null,
+              day: curr.day,
+            };
+            return acc;
+          },
+          {}
+        );
+        setSchedule(formatted);
+      } catch (err) {
+        console.error("Failed to fetch schedule:", err);
+        message.error("Could not load working hours.");
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadSchedule();
+  }, []);
+
+  const onSave = async (day: string) => {
+    const temp = tempTimes[day];
+    if (!temp) return;
+
+    if (temp.start && temp.end && temp.start >= temp.end) {
+      return message.warning("Start time must be before End time.");
+    }
+
+    try {
+      await updateWorkingDay(schedule[day].id, {
+        start: temp.start,
+        end: temp.end,
+      });
+
+      setSchedule((prev) => ({
+        ...prev,
+        [day]: {
+          ...prev[day],
+          start: temp.start,
+          end: temp.end,
+        },
+      }));
+      setEditDay(null);
+      message.success(`${day} updated.`);
+    } catch (err) {
+      console.error(`Error saving ${day}:`, err);
+      message.error(`Failed to save ${day}.`);
+    }
   };
 
-  const onDelete = (day: string) => {
-    setHours((prev) => ({
-      ...prev,
-      [day]: { start: null, end: null },
-    }));
-    setEditDay(null);
+  const onDelete = async (day: string) => {
+    try {
+      await updateWorkingDay(schedule[day].id, {
+        start: "",
+        end: "",
+      });
+
+      setSchedule((prev) => ({
+        ...prev,
+        [day]: { ...prev[day], start: null, end: null },
+      }));
+      setEditDay(null);
+      message.success(`${day} cleared.`);
+    } catch (err) {
+      console.error(`Error deleting ${day}:`, err);
+      message.error(`Failed to clear ${day}.`);
+    }
   };
 
   const renderTime = (value: string | null) =>
@@ -61,11 +108,19 @@ const WeeklyHours: React.FC = () => {
       </div>
     );
 
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-48">
+        <Spin tip="Loading schedule..." size="large" />
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-4">
-      {weekdays.map((day) => {
+      {Object.keys(schedule).map((day) => {
         const isEditing = editDay === day;
-        const current = hours[day];
+        const current = schedule[day];
         const temp = tempTimes[day] || {
           start: current.start,
           end: current.end,
@@ -129,16 +184,21 @@ const WeeklyHours: React.FC = () => {
                     setEditDay(day);
                     setTempTimes((prev) => ({
                       ...prev,
-                      [day]: { start: current.start, end: current.end },
+                      [day]: {
+                        start: current.start,
+                        end: current.end,
+                      },
                     }));
                   }}
                 />
               )}
-              <Button
-                type="text"
-                icon={<DeleteOutlined style={{ color: "red" }} />}
-                onClick={() => onDelete(day)}
-              />
+              {(current.start || current.end) && (
+                <Button
+                  type="text"
+                  icon={<DeleteOutlined style={{ color: "red" }} />}
+                  onClick={() => onDelete(day)}
+                />
+              )}
             </div>
           </div>
         );

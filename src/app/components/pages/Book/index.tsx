@@ -9,9 +9,12 @@ import StepThree from "./stepThree";
 import StepFour from "./stepFour";
 import StepFive from "./stepeFive";
 import StepSix from "./stepSix";
+import StepFourB from "./stepFourB";
 
 export const Book: React.FC = () => {
   const [currentStep, setCurrentStep] = React.useState(0);
+  const [useStep4B, setUseStep4B] = React.useState(false);
+  const [employees, setEmployees] = React.useState<any>();
   const [formData, setFormData] = React.useState({
     issues: [] as string[],
     zipCode: "",
@@ -28,11 +31,21 @@ export const Book: React.FC = () => {
     city: "",
     state: "",
     email: "",
+    schedule: {
+      date: "",
+      slot: {
+        start: "",
+        end: "",
+      },
+    },
+    empId: "",
   });
 
   const updateFormData = (data: Partial<typeof formData>) => {
     setFormData((prev) => ({ ...prev, ...data }));
   };
+
+  console.log(employees, "the formData");
   const steps = [
     {
       title: "Step 1",
@@ -61,6 +74,8 @@ export const Book: React.FC = () => {
         <StepThree
           formData={formData}
           setFormData={updateFormData}
+          setEmployees={setEmployees}
+          setUseStep4B={setUseStep4B}
           onNext={() => setCurrentStep(3)}
           onPrev={() => setCurrentStep(1)}
         />
@@ -72,8 +87,22 @@ export const Book: React.FC = () => {
         <StepFour
           formData={formData}
           setFormData={updateFormData}
-          onNext={() => setCurrentStep(4)}
+          onNext={() => (useStep4B ? setCurrentStep(4) : setCurrentStep(5))}
           onPrev={() => setCurrentStep(2)}
+        />
+      ),
+    },
+    {
+      title: "Step 4-B",
+      content: (
+        <StepFourB
+          formData={formData}
+          setFormData={updateFormData}
+          onNext={() => setCurrentStep(5)}
+          onPrev={() => setCurrentStep(3)}
+          employees={employees}
+          duration={60}
+          bufferTime={30}
         />
       ),
     },
@@ -83,8 +112,8 @@ export const Book: React.FC = () => {
         <StepFive
           formData={formData}
           setFormData={updateFormData}
-          onNext={() => setCurrentStep(5)}
-          onPrev={() => setCurrentStep(3)}
+          onNext={() => setCurrentStep(6)}
+          onPrev={() => setCurrentStep(useStep4B ? 4 : 3)}
         />
       ),
     },

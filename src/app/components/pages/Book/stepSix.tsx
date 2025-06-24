@@ -13,7 +13,7 @@ const StepSix: React.FC<StepSixProps> = ({ name }) => {
   const { Title, Text } = Typography;
   const router = useRouter();
   const handleSubmit = () => {
-    // Handle the form submission logic here
+    router.push("/login");
     console.log("Form submitted");
   };
   return (
